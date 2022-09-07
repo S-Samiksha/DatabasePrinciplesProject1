@@ -1,8 +1,13 @@
-#include "node.h"
 #include <iostream>
+#include "include/node.h"
+#include "include/bptree.h"
 
+int main()
+{
+    BPTree* testBPTree = new BPTree(3);
+    testBPTree->makeTestTree();
 
-int main () {
+    std::cout << testBPTree->rootNode->keys.at(1) << std::endl;
 
     return 0;
 }

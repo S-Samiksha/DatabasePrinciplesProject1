@@ -5,25 +5,23 @@
 
 class BPTree
 {
-    Node *rootNode{NULL};
-    int nodeSize;
 
 public:
-    BPTree(int nodeSize)
-    {
-        this->nodeSize = nodeSize;
-    }
+    Node *rootNode{NULL};
+    int nodeSize;
+    BPTree(int nodeSize);
 
     // inserting a key
-    void insert(int key){
-
-    };
+    void insert(int key);
 
     // deleting a key
     void remove(int key);
 
     // displaying the tree
     void display();
+
+    // make a test BPTree
+    void makeTestTree();
 
 private:
     // helper function for when the node size is exceeded and requires splitting

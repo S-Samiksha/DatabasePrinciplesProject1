@@ -1,10 +1,18 @@
 #include "node.h"
 #include <cmath>
+#include <vector>
+
+// Node constructor
+Node::Node (int nodeSize){
+    // instantiate a vector with all -1s
+    this->keys = std::vector<int>(nodeSize,-1);
+    // instantiate a vector with all Nulls
+    this->childrenNodes = std::vector<Node*> (nodeSize+1,NULL);
+};
 
 // insertion of key into a Node
 void Node::insert(int key)
 {
-
     if (this->currentSize == this->keys.size())
     {
         throw 1;
