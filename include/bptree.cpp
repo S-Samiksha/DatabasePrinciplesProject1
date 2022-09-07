@@ -12,6 +12,7 @@ BPTree::BPTree(int nodeSize)
 
 // inserting a key
 void BPTree::insert(int key){
+   
 
 };
 
@@ -31,26 +32,29 @@ void BPTree::makeTestTree()
     // second layer keys
 
     // 1st subtree
-    leafNode1->insert(10);
     leafNode1->insert(20);
+    leafNode1->insert(10);
 
     // 2nd subtree
-    leafNode2->insert(30);
     leafNode2->insert(40);
+    leafNode2->insert(30);
 
     // 3rd subtree
-    leafNode3->insert(50);
-    leafNode3->insert(60);
     leafNode3->insert(70);
+    leafNode3->insert(60);
+    leafNode3->insert(50);
 
     // linking layers together
-    rootNode->childrenNodes.at(0) = leafNode1;
-    rootNode->childrenNodes.at(1) = leafNode2;
-    rootNode->childrenNodes.at(2) = leafNode3;
+    rootNode->insertChildNode(0, leafNode1);
+    rootNode->insertChildNode(1,leafNode2);
+    rootNode->insertChildNode(2, leafNode3);
 };
 
 // deleting a key
-void BPTree::remove(int key){};
+void BPTree::remove(int key){
+
+
+};
 
 // displaying the tree
 // do a BFS of the B+tree
@@ -95,6 +99,7 @@ void BPTree::display()
                 }
             }
             std::cout << "]" << std::endl;
+            std::cout << std::endl;
 
             // add the rightmost Node pointer if it exists
             if (currentNode->childrenNodes.at(j) != NULL)
@@ -110,7 +115,10 @@ void BPTree::display()
 };
 
 // helper function for when the node size is exceeded and requires splitting
-void BPTree::split(Node *currentNode, int incomingKey){};
+void BPTree::split(Node *currentNode, int incomingKey){
+    
+
+};
 
 // helper function for when the node size is unbalanced and requires merging
 void BPTree::merge(Node *currentNode, int deletedKey){};

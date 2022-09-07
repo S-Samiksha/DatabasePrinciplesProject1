@@ -9,7 +9,10 @@ class Node
 
 public:
     int currentSize{0};
+    int currentPointerSize{0};
     // n
+    int maxKeys = 0 , maxPointers = 0; 
+
     std::vector<int> keys;
     
     std::vector<Node *> childrenNodes;
@@ -20,8 +23,12 @@ public:
 
     void insert(int key);
 
-    void remove(int index);
+    void remove(int value);
 
     int binarySearch(int key);
+
+    void insertChildNode(int Index, Node* child);
+
+    int returnSize();
 };
 #endif
