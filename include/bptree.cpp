@@ -17,38 +17,36 @@ void BPTree::insert(int key){
 
 void BPTree::makeTestTree()
 {
-    Node rootNode = Node(3);
-    Node leafNode1 = Node(3);
-    Node leafNode2 = Node(3);
-    Node leafNode3 = Node(3);
+    Node *rootNode = new Node(3);
+    Node *leafNode1 = new Node(3);
+    Node *leafNode2 = new Node(3);
+    Node *leafNode3 = new Node(3);
 
-    this->rootNode = &rootNode;
+    this->rootNode = rootNode;
 
     // first layer keys
-    rootNode.insert(30);
-    rootNode.insert(50);
+    rootNode->insert(30);
+    rootNode->insert(50);
 
     // second layer keys
 
     // 1st subtree
-    leafNode1.insert(10);
-    leafNode1.insert(20);
+    leafNode1->insert(10);
+    leafNode1->insert(20);
 
     // 2nd subtree
-    leafNode2.insert(30);
-    leafNode2.insert(40);
+    leafNode2->insert(30);
+    leafNode2->insert(40);
 
     // 3rd subtree
-    leafNode3.insert(50);
-    leafNode3.insert(60);
-    leafNode3.insert(70);
+    leafNode3->insert(50);
+    leafNode3->insert(60);
+    leafNode3->insert(70);
 
     // linking layers together
-    rootNode.childrenNodes.at(0) = &leafNode1;
-    rootNode.childrenNodes.at(1) = &leafNode2;
-    rootNode.childrenNodes.at(2) = &leafNode3;
-
-    // std::cout << this->rootNode->keys.at(1) <<std::endl;
+    rootNode->childrenNodes.at(0) = leafNode1;
+    rootNode->childrenNodes.at(1) = leafNode2;
+    rootNode->childrenNodes.at(2) = leafNode3;
 };
 
 // deleting a key
@@ -63,7 +61,7 @@ void BPTree::display()
     std::vector<Node *> rootLevel = std::vector<Node *>{this->rootNode};
     pq.push(rootLevel);
     int level = 0;
-    while (!pq.empty())
+    while (!pq.top().empty())
     {
         // gets current top Node and removes the top Node from the queue
         std::vector<Node *> currentLevel = (pq.top());
@@ -71,6 +69,7 @@ void BPTree::display()
 
         // display keys in each node in each level
         std::cout << "level: " << level << std::endl;
+        std::cout << "********************"<<std::endl;
 
         // to store nodes in next level
         std::vector<Node *> nextLevel;
@@ -80,29 +79,34 @@ void BPTree::display()
 
             Node *currentNode = currentLevel.at(i);
 
-            std::cout << "Node: " << i << std::endl;
-            std::cout << "here" <<currentNode->keys.at(0)<< std::endl;
+            std::cout << "Node " << i <<": ";
 
-            for (int j = 0; j < currentNode->currentSize; j++)
+            int j;
+            std::cout << "[";
+            for (j = 0; j < currentNode->currentSize; j++)
             {
-                std::cout << currentNode->keys.at(i) << std::endl;
+
+                std::cout << currentNode->keys.at(j)<<",";
 
                 // add children nodes to nextLevel nodes if it is not NULL
-                if (currentNode->childrenNodes.at(i) != NULL)
+                if (currentNode->childrenNodes.at(j) != NULL)
                 {
-                    nextLevel.push_back(currentNode->childrenNodes.at(i));
+                    nextLevel.push_back(currentNode->childrenNodes.at(j));
                 }
             }
+            std::cout << "]" << std::endl;
+
             // add the rightmost Node pointer if it exists
-            if (currentNode->childrenNodes.at(-1) != NULL)
+            if (currentNode->childrenNodes.at(j) != NULL)
             {
-                nextLevel.push_back(currentNode->childrenNodes.at(-1));
+                nextLevel.push_back(currentNode->childrenNodes.at(j));
             }
         }
 
         pq.push(nextLevel);
+        level++;
     }
-    std::cout << "Finished traversal" << std::endl;
+    std::cout << "**** <Finished traversal> ****" << std::endl;
 };
 
 // helper function for when the node size is exceeded and requires splitting
