@@ -10,8 +10,9 @@ class Node
 public:
     int currentSize{0};
     int currentPointerSize{0};
-    // n
-    int maxKeys = 0 , maxPointers = 0; 
+
+    // maximum Number of keys and Pointers a Node can hold
+    int maxKeys{0} , maxPointers{0}; 
 
     std::vector<int> keys;
     
@@ -30,5 +31,9 @@ public:
     void insertChildNode(int Index, Node* child);
 
     int returnSize();
+    
+    // binary search the index to slot in the incoming key
+    int binarySearchInsertIndex(int key);
+
 };
 #endif

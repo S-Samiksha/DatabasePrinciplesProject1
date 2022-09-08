@@ -25,10 +25,13 @@ public:
 
 private:
     // helper function for when the node size is exceeded and requires splitting
-    void split(Node *currentNode, int incomingKey);
+    int split(Node *currentNode, int incomingKey);
 
     // helper function for when the node size is unbalanced and requires merging
     void merge(Node *currentNode, int deletedKey);
+
+    // function to recursively search the subtree for the node to insert key
+    int BPTree::insertInternal(Node *currentSubTreeRootNode, int key);
 };
 
 #endif

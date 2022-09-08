@@ -4,14 +4,15 @@
 #include <bits/stdc++.h>
 
 // Node constructor
-Node::Node (int nodeSize){
+Node::Node(int nodeSize)
+{
     // instantiate a vector with all -1s
     this->maxKeys = nodeSize;
     // instantiate a vector with all Nulls
     //nodeSize + 1 because it can maintain n+1 pointers if there are n keys 
-    this->maxPointers = nodeSize + 1;// instantiate a vector with all -1s
-    this->childrenNodes = std::vector<Node*> (nodeSize+1,NULL);
-
+    this->maxPointers = nodeSize + 1;
+    this->childrenNodes = std::vector<Node*>();
+    this->keys = std::vector<int>(nodeSize, -1);
 };
 
 // insertion of key into a Node
@@ -62,14 +63,14 @@ int Node::binarySearch(int key)
     while (l <= r)
     {
 
-        m = (r - l) / 2;
+        m = (r + l) / 2;
         if (this->keys.at(m) > key)
         {
-            l = m + 1;
+            r = m - 1;
         }
         if (this->keys.at(m) < key)
         {
-            r = m - 1;
+            l = m + 1;
         }
         if (this->keys.at(m) == key)
         {
@@ -95,3 +96,32 @@ void Node::insertChildNode(int Index, Node* child){
 int Node::returnSize(){
     return this->currentSize;
 };
+
+// returns -1 if duplicate key is found in the node
+// returns the index to insert the value at
+int Node::binarySearchInsertIndex(int key)
+{
+    int l = 0;
+    int r = this->currentSize - 1;
+    int m;
+
+    while (l <= r)
+    {
+
+        m = (r + l) / 2;
+        if (this->keys.at(m) > key)
+        {
+            r = m - 1;
+        }
+        if (this->keys.at(m) < key)
+        {
+            l = m + 1;
+        }
+        if (this->keys.at(m) == key)
+        {
+            return -1;
+        }
+    }
+
+    return l;
+}

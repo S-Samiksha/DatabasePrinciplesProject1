@@ -11,10 +11,54 @@ BPTree::BPTree(int nodeSize)
 }
 
 // inserting a key
-void BPTree::insert(int key){
-   
-
+void BPTree::insert(int key)
+{
+    if (this->rootNode == NULL)
+    {
+        this->rootNode = new Node(this->nodeSize);
+        rootNode->insert(key);
+        rootNode->isLeaf = true;
+    }
+    else
+    {
+        Node* currentSubTreeRoot = this->rootNode; 
+        while(!currentSubTreeRoot->isLeaf){
+            int insertionIndex = currentSubTreeRoot->binarySearchInsertIndex(key);
+            currentSubTreeRoot = currentSubTreeRoot->childrenNodes.at(insertionIndex);
+        }
+        // search to the leaf node
+        // TODO: handle duplicates
+    }
 };
+
+int BPTree::insertInternal(Node *currentSubTreeRootNode, int key)
+{
+    if (currentSubTreeRootNode->isLeaf)
+    {
+        // full need to split
+        if(currentSubTreeRootNode->currentSize == this->nodeSize){
+            return split(currentSubTreeRootNode,key);
+        }else{
+            currentSubTreeRootNode->insert(key);
+            return -1;
+        }
+    }
+    else
+    {
+        int insertionIndex = currentSubTreeRootNode->binarySearchInsertIndex(key);
+        Node *nextSubTree = currentSubTreeRootNode->childrenNodes.at(insertionIndex);
+        int insertionKey = insertInternal(nextSubTree, key);
+        if(currentSubTreeRootNode->currentSize == this->nodeSize){
+            return split(currentSubTreeRootNode,insertionKey);
+        }else{
+            if(insertionKey!= -1){
+                currentSubTreeRootNode->insert(insertionKey);
+            }
+            return -1;
+        }
+        
+    }
+}
 
 void BPTree::makeTestTree()
 {
@@ -73,7 +117,7 @@ void BPTree::display()
 
         // display keys in each node in each level
         std::cout << "level: " << level << std::endl;
-        std::cout << "********************"<<std::endl;
+        std::cout << "********************" << std::endl;
 
         // to store nodes in next level
         std::vector<Node *> nextLevel;
@@ -83,17 +127,17 @@ void BPTree::display()
 
             Node *currentNode = currentLevel.at(i);
 
-            std::cout << "Node " << i <<": ";
+            std::cout << "Node " << i << ": ";
 
             int j;
             std::cout << "[";
             for (j = 0; j < currentNode->currentSize; j++)
             {
 
-                std::cout << currentNode->keys.at(j)<<",";
+                std::cout << currentNode->keys.at(j) << ",";
 
                 // add children nodes to nextLevel nodes if it is not NULL
-                if (currentNode->childrenNodes.at(j) != NULL)
+                if (currentNode->childrenNodes.at(j) != NULL && !currentNode->isLeaf)
                 {
                     nextLevel.push_back(currentNode->childrenNodes.at(j));
                 }
@@ -102,7 +146,7 @@ void BPTree::display()
             std::cout << std::endl;
 
             // add the rightmost Node pointer if it exists
-            if (currentNode->childrenNodes.at(j) != NULL)
+            if (currentNode->childrenNodes.at(j) != NULL && !currentNode->isLeaf)
             {
                 nextLevel.push_back(currentNode->childrenNodes.at(j));
             }
@@ -115,8 +159,30 @@ void BPTree::display()
 };
 
 // helper function for when the node size is exceeded and requires splitting
-void BPTree::split(Node *currentNode, int incomingKey){
+// returns -1 if no need to insert
+int BPTree::split(Node *currentNode, int incomingKey){
+    int insertionIndex = currentNode->binarySearchInsertIndex(incomingKey);
+    Node* leftNode = new Node(this->nodeSize);
+    Node* rightNode = new Node(this->nodeSize);
     
+    int minimumLeftKeys;
+    int minimumRightKeys;
+
+    // calculate the minimum number of keys on the left and right Node
+    if(currentNode->isLeaf){
+        minimumLeftKeys = (this->nodeSize+1)/2;
+        minimumRightKeys = this->nodeSize - minimumLeftKeys;
+    }else{
+        minimumLeftKeys = (this->nodeSize)/2;
+        minimumRightKeys = this->nodeSize - minimumLeftKeys;
+    };
+
+    // while(leftNode->currentSize < minimumLeftKeys){
+    //     leftNode.insert()
+    // }
+
+   return 0;
+
 
 };
 
