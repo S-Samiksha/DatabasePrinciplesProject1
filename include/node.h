@@ -4,36 +4,49 @@
 #include <vector>
 #include <iostream>
 
+// 200B block size
 class Node
 {
-
+    friend class BPTree;
 public:
-    int currentSize{0};
+    // current number of keys and pointers a Node is holding
+    int currentKeySize{0};
     int currentPointerSize{0};
+    int maxKeySize{0};
+    int maxPointerSize{0};
+    // switch all vectors to arrays
+    // keys instantiated to 0 initially
+    int *keys;
 
-    // maximum Number of keys and Pointers a Node can hold
-    int maxKeys{0} , maxPointers{0}; 
+    // childrenNodes can either be &Record &Node or nullptr(initially)
+    void *childrenNodes;
 
-    std::vector<int> keys;
-    
-    std::vector<Node *> childrenNodes;
-    
     bool isLeaf;
 
-    Node(int nodeSize);
+    Node();
 
-    void insert(int key);
+    Node(int nodeSize, bool isLeaf);
 
-    void remove(int value);
+    void insertInitialInNonLeafNode(int key, Node *leftPointer, Node *rightPointer);
 
-    int binarySearch(int key);
+    void insertInitialInLeafNode(int key, void *recordPointer, Node *neighbourNode);
 
-    void insertChildNode(int Index, Node* child);
+    void insertSubsequentPair(int key, void *NodeOrRecordPointer);
+
+    void insertKeyInKeyArray(int key, int index);
+
+    void remove(int remove);
+
+    int binarySearch(int remove);
+
+    void insertChildInPointerArray(void *child, int index);
+    
 
     int returnSize();
-    
+
+    bool isFull();
+
     // binary search the index to slot in the incoming key
     int binarySearchInsertIndex(int key);
-
 };
 #endif

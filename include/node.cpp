@@ -2,77 +2,197 @@
 #include <cmath>
 #include <vector>
 #include <bits/stdc++.h>
+#include "dummyRecord.h"
 
 // Node constructor
-Node::Node(int nodeSize)
-{
-    // instantiate a vector with all -1s
-    this->maxKeys = nodeSize;
-    // instantiate a vector with all Nulls
-    //nodeSize + 1 because it can maintain n+1 pointers if there are n keys 
-    this->maxPointers = nodeSize + 1;
-    this->childrenNodes = std::vector<Node*>();
-    this->keys = std::vector<int>(nodeSize, -1);
-};
+Node::Node(){};
 
-// insertion of key into a Node
-void Node::insert(int key)
+Node::Node(int nodeSize, bool isLeaf)
 {
-    if (this->currentSize == this->maxKeys)
+    this->isLeaf = isLeaf;
+    this->maxKeySize = nodeSize;
+    this->maxPointerSize = nodeSize + 1;
+    this->keys = new int[this->maxKeySize]{0};
+
+    // if node is leaf, points to dummy record
+    if (this->isLeaf)
     {
-        std::cout << "Node filled! Need to split!" << std::endl; 
-        return; 
+        this->childrenNodes = new dummyRecord *[this->maxPointerSize]
+        { nullptr };
     }
-
-    this->keys.push_back(key);
-    sort(keys.begin(), keys.end());
-    this->currentSize++;
-    std::cout << "Inserting " << key << " in Node. Current Node size is " << this->currentSize << std::endl;
+    // if node is an internal node, points to another node
+    else
+    {
+        this->childrenNodes = new Node *[this->maxPointerSize]
+        { nullptr };
+    }
 };
 
-// removal of key from node within the node 
-void Node::remove(int value)
+// if leaf node initial insert state is {key,pointer,...., next neighbour}
+
+// if non-leaf node initial insert state is {pointerL,key,pointerR}
+void Node::insertInitialInNonLeafNode(int key, Node *leftPointer, Node *rightPointer)
 {
-    int index = -1;
-    if (this->currentSize == 0)
+    // check if that the node is indeed a non-leaf node
+    if (this->isLeaf || this->currentKeySize != 0)
     {
+        std::cout << "cannot insertNonLeafNodeInitialPairs with node with size != 0 or NonLeaf" << std::endl;
         throw 1;
     }
-    index = binarySearch(value);
-    if (index == -1){
-        std::cout<<"value not found"<<std::endl;
+
+    // insert the initial nodes
+    this->insertKeyInKeyArray(key, 0);
+    this->insertChildInPointerArray(leftPointer, 0);
+    this->insertChildInPointerArray(rightPointer, 1);
+}
+
+void Node::insertInitialInLeafNode(int key, void *recordPointer, Node *neighbourNode)
+{
+
+    // check if that the node is indeed a non-leaf node
+    if (this->isLeaf || this->currentKeySize != 0)
+    {
+        std::cout << "cannot insertLeafNodeInitialPairs with node with size != 0 or NonLeaf" << std::endl;
+        throw 1;
+    }
+
+    this->insertKeyInKeyArray(key, 0);
+    this->insertChildInPointerArray(recordPointer, 0);
+    // link to neighbour
+    this->insertChildInPointerArray(neighbourNode, this->maxPointerSize - 1);
+}
+
+// binary searches for the insertion slot and inserts a key-pointer pair
+// returns and does nothing if inserted key is a dupe
+void Node::insertSubsequentPair(int key, void *nodeOrRecordPointer)
+{
+
+    // if node is full, throw error
+    if (this->isFull())
+    {
+        std::cout << "Key array is full" << std::endl;
+        throw 1;
+    }
+
+    int insertionIndex = this->binarySearchInsertIndex(key);
+
+    // in the case that the key is a duplicate
+    if (insertionIndex == -1)
+    {
+        std::cout << "duplicate key " << key << " detected and not added into the B+ Tree" << std::endl;
         return;
     }
-    else{
-        keys.erase(keys.begin()+index); //auto adjusted vector
+
+    this->insertKeyInKeyArray(key, insertionIndex);
+    this->insertChildInPointerArray(nodeOrRecordPointer, insertionIndex);
+}
+
+// inserts key,pointer pairs into the B+ tree at index
+void Node::insertKeyInKeyArray(int key, int index)
+{
+    // if pointer node is full
+    if (this->isFull())
+    {
+        std::cout << "Node Key array is filled! Need to split!" << std::endl;
+        throw 1;
+    };
+
+    // in the case that the key is a duplicate
+    if (index == -1)
+    {
+        std::cout << "duplicate key " << key << " detected and not added into the B+ Tree" << std::endl;
+        return;
     }
-    
-    std::cout << "removed key : " << value << std::endl;
-    this->keys.at(index) = 0;
-    this->currentSize--;
+
+    // push all elements to the right of the inserted element
+    int i;
+    // push the elements on the right side of the insertion index 1 slot right
+    for (i = this->currentKeySize - 1; i > index; i--)
+    {
+        (this->keys)[i] = (this->keys)[i - 1];
+    }
+
+    // insert key
+    (this->keys)[index] = key;
+
+    this->currentKeySize++;
+};
+
+// inserts a child pointer(record* or Node*) to the pointer array of the node in the index position
+// pushes every element after the insertion index to the right
+void Node::insertChildInPointerArray(void *child, int index)
+{
+    // if pointer node is full
+    if (this->isFull())
+    {
+        std::cout << "Node pointer array is filled! Need to split!" << std::endl;
+        throw 1;
+    };
+
+    // for insertion need push the rest of the pointers right
+    // if child to be inserted is a Record
+    if (this->isLeaf)
+    {
+        // push all elements to the right of the inserted element
+        int i;
+        // push the elements on the right side of the insertion index 1 slot right
+        for (i = this->currentKeySize - 1; i > index; i--)
+        {
+            ((dummyRecord **)this->childrenNodes)[i] = ((dummyRecord **)this->childrenNodes)[i - 1];
+        }
+
+        // insert dummyRecord
+        ((dummyRecord **)this->childrenNodes)[index] = (dummyRecord *)child;
+    }
+    else
+    {
+        // push all elements to the right of the inserted element
+        int i;
+        // push the elements on the right side of the insertion index 1 slot right
+        for (i = this->currentKeySize - 1; i > index; i--)
+        {
+            ((Node **)this->childrenNodes)[i] = ((Node **)this->childrenNodes)[i - 1];
+        }
+
+        // insert Node
+        ((Node **)this->childrenNodes)[index] = (Node *)child;
+    }
+
+    this->currentPointerSize++;
+};
+
+// check if Node is full
+bool Node::isFull()
+{
+    if (this->currentKeySize == this->maxKeySize)
+    {
+        return true;
+    }
+
+    return false;
 }
 
 // returns -1 if key not found in the node
-//only within the node 
+// only within the node
 int Node::binarySearch(int key)
 {
     int l = 0;
-    int r = this->currentSize - 1;
+    int r = this->currentKeySize - 1;
     int m;
 
     while (l <= r)
     {
 
         m = (r + l) / 2;
-        if (this->keys.at(m) > key)
+        if (this->keys[m] > key)
         {
             r = m - 1;
         }
-        if (this->keys.at(m) < key)
+        if (this->keys[m] < key)
         {
             l = m + 1;
         }
-        if (this->keys.at(m) == key)
+        if (this->keys[m] == key)
         {
             return m;
         }
@@ -81,20 +201,9 @@ int Node::binarySearch(int key)
     return -1;
 }
 
-void Node::insertChildNode(int Index, Node* child){
-
-    if (this->currentPointerSize == this->maxPointers)
-    {
-        std::cout << "Node filled! Need to split!" << std::endl; 
-    }
-    this->childrenNodes.at(Index)=child;
-    this->currentPointerSize++;
-
-
-};
-
-int Node::returnSize(){
-    return this->currentSize;
+int Node::returnSize()
+{
+    return this->currentKeySize;
 };
 
 // returns -1 if duplicate key is found in the node
@@ -102,26 +211,51 @@ int Node::returnSize(){
 int Node::binarySearchInsertIndex(int key)
 {
     int l = 0;
-    int r = this->currentSize - 1;
+    int r = this->currentKeySize - 1;
     int m;
 
     while (l <= r)
     {
 
         m = (r + l) / 2;
-        if (this->keys.at(m) > key)
+        if (this->keys[m] > key)
         {
             r = m - 1;
         }
-        if (this->keys.at(m) < key)
+        if (this->keys[m] < key)
         {
             l = m + 1;
         }
-        if (this->keys.at(m) == key)
+        if (this->keys[m] == key)
         {
             return -1;
         }
     }
+    std::cout << "insertion index is: " << l << std::endl;
 
     return l;
+}
+
+// removal of key from node within the node
+void Node::remove(int value)
+{
+    int index = -1;
+    if (this->currentKeySize == 0)
+    {
+        throw 1;
+    }
+    index = binarySearch(value);
+    if (index == -1)
+    {
+        std::cout << "value not found" << std::endl;
+        return;
+    }
+    else
+    {
+        keys.erase(keys.begin() + index); // auto adjusted vector
+    }
+
+    std::cout << "removed key : " << value << std::endl;
+    this->keys[index] = 0;
+    this->currentKeySize--;
 }

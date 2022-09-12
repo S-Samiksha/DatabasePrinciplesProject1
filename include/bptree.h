@@ -7,12 +7,12 @@ class BPTree
 {
 
 public:
-    Node *rootNode{NULL};
+    Node *rootNode{nullptr};
     int nodeSize;
     BPTree(int nodeSize);
 
     // inserting a key
-    void insert(int key);
+    Node **insert(Node *parentNode, int key);
 
     // deleting a key
     void remove(int key);
@@ -23,15 +23,23 @@ public:
     // make a test BPTree
     void makeTestTree();
 
+    Node **linkParentToNewChildrenNode(Node *parentNode, Node *leftChildNode, Node *rightChildNode);
+
+    Node *findParentNode(Node *cursor, Node *child);
+
 private:
     // helper function for when the node size is exceeded and requires splitting
-    int split(Node *currentNode, int incomingKey);
+    Node **splitNonLeafNode(Node *currentNode, int incomingKey);
+    Node **splitLeafNode(Node *currentNode, int incomingKey, void *incomingRecord);
+
+    Node *linkNonLeafNode(Node *parentNode, Node *leftNode, Node *rightNode);
+    Node *linkLeafNode(Node *parentNode, Node *leftNode, Node *rightNode);
 
     // helper function for when the node size is unbalanced and requires merging
     void merge(Node *currentNode, int deletedKey);
 
     // function to recursively search the subtree for the node to insert key
-    int BPTree::insertInternal(Node *currentSubTreeRootNode, int key);
+    int insertInternal(Node *currentSubTreeRootNode, int key);
 };
 
 #endif
