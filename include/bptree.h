@@ -12,7 +12,7 @@ public:
     BPTree(int nodeSize);
 
     // inserting a key
-    Node **insert(Node *parentNode, int key);
+    Node **insert(Node *parentNode, int key, void* incomingRecord);
 
     // deleting a key
     void remove(int key);
@@ -27,10 +27,9 @@ public:
 
     Node *findParentNode(Node *cursor, Node *child);
 
+    Node **split(Node* nodeToSplit, int keyToInsert, void* recordToInsert);
 private:
     // helper function for when the node size is exceeded and requires splitting
-    Node **splitNonLeafNode(Node *currentNode, int incomingKey);
-    Node **splitLeafNode(Node *currentNode, int incomingKey, void *incomingRecord);
 
     Node *linkNonLeafNode(Node *parentNode, Node *leftNode, Node *rightNode);
     Node *linkLeafNode(Node *parentNode, Node *leftNode, Node *rightNode);

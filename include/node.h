@@ -26,6 +26,7 @@ public:
     Node();
 
     Node(int nodeSize, bool isLeaf);
+    void printNode();
 
     void insertInitialInNonLeafNode(int key, Node *leftPointer, Node *rightPointer);
 

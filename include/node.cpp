@@ -13,20 +13,22 @@ Node::Node(int nodeSize, bool isLeaf)
     this->maxKeySize = nodeSize;
     this->maxPointerSize = nodeSize + 1;
     this->keys = new int[this->maxKeySize]{0};
-
-    // if node is leaf, points to dummy record
-    if (this->isLeaf)
-    {
-        this->childrenNodes = new dummyRecord *[this->maxPointerSize]
-        { nullptr };
-    }
-    // if node is an internal node, points to another node
-    else
-    {
-        this->childrenNodes = new Node *[this->maxPointerSize]
-        { nullptr };
-    }
+    this->childrenNodes = new void *[this->maxPointerSize]
+    { nullptr };
 };
+
+void Node::printNode(){
+    std::cout<<"keyArray: [";
+    for(int i=0;i<this->maxKeySize; i++){
+        std::cout<<this->keys[i]<<",";
+    };
+    std::cout<<"]"<<std::endl;
+    std::cout<<"PointerArray: [";
+    for(int i=0;i<this->maxPointerSize; i++){
+        std::cout<<((Node**)this->childrenNodes)[i]<<",";
+    };
+    std::cout<<"]"<<std::endl;
+}
 
 // if leaf node initial insert state is {key,pointer,...., next neighbour}
 
@@ -44,13 +46,14 @@ void Node::insertInitialInNonLeafNode(int key, Node *leftPointer, Node *rightPoi
     this->insertKeyInKeyArray(key, 0);
     this->insertChildInPointerArray(leftPointer, 0);
     this->insertChildInPointerArray(rightPointer, 1);
+    // std::cout << "left pointer " << ((Node **)this->childrenNodes)[0] << " right pointer " << ((Node **)this->childrenNodes)[1] << std::endl;
 }
 
 void Node::insertInitialInLeafNode(int key, void *recordPointer, Node *neighbourNode)
 {
 
     // check if that the node is indeed a non-leaf node
-    if (this->isLeaf || this->currentKeySize != 0)
+    if (!this->isLeaf || this->currentKeySize != 0)
     {
         std::cout << "cannot insertLeafNodeInitialPairs with node with size != 0 or NonLeaf" << std::endl;
         throw 1;
@@ -73,9 +76,7 @@ void Node::insertSubsequentPair(int key, void *nodeOrRecordPointer)
         std::cout << "Key array is full" << std::endl;
         throw 1;
     }
-
     int insertionIndex = this->binarySearchInsertIndex(key);
-
     // in the case that the key is a duplicate
     if (insertionIndex == -1)
     {
@@ -84,16 +85,17 @@ void Node::insertSubsequentPair(int key, void *nodeOrRecordPointer)
     }
 
     this->insertKeyInKeyArray(key, insertionIndex);
-    this->insertChildInPointerArray(nodeOrRecordPointer, insertionIndex);
+    this->insertChildInPointerArray(nodeOrRecordPointer, insertionIndex + 1);
 }
 
 // inserts key,pointer pairs into the B+ tree at index
 void Node::insertKeyInKeyArray(int key, int index)
 {
-    // if pointer node is full
+    // if node is full
     if (this->isFull())
     {
         std::cout << "Node Key array is filled! Need to split!" << std::endl;
+        std::cout << index << std::endl;
         throw 1;
     };
 
@@ -107,7 +109,7 @@ void Node::insertKeyInKeyArray(int key, int index)
     // push all elements to the right of the inserted element
     int i;
     // push the elements on the right side of the insertion index 1 slot right
-    for (i = this->currentKeySize - 1; i > index; i--)
+    for (int i = this->currentKeySize; i > index; i--)
     {
         (this->keys)[i] = (this->keys)[i - 1];
     }
@@ -123,7 +125,7 @@ void Node::insertKeyInKeyArray(int key, int index)
 void Node::insertChildInPointerArray(void *child, int index)
 {
     // if pointer node is full
-    if (this->isFull())
+    if (this->currentPointerSize == this->maxPointerSize)
     {
         std::cout << "Node pointer array is filled! Need to split!" << std::endl;
         throw 1;
@@ -136,7 +138,7 @@ void Node::insertChildInPointerArray(void *child, int index)
         // push all elements to the right of the inserted element
         int i;
         // push the elements on the right side of the insertion index 1 slot right
-        for (i = this->currentKeySize - 1; i > index; i--)
+        for (i = this->currentPointerSize; i > index; i--)
         {
             ((dummyRecord **)this->childrenNodes)[i] = ((dummyRecord **)this->childrenNodes)[i - 1];
         }
@@ -149,9 +151,9 @@ void Node::insertChildInPointerArray(void *child, int index)
         // push all elements to the right of the inserted element
         int i;
         // push the elements on the right side of the insertion index 1 slot right
-        for (i = this->currentKeySize - 1; i > index; i--)
+        for (i = currentPointerSize; i > index; i--)
         {
-            ((Node **)this->childrenNodes)[i] = ((Node **)this->childrenNodes)[i - 1];
+            ((Node **)this->childrenNodes)[i] = ((Node **)this->childrenNodes)[i + 1];
         }
 
         // insert Node
@@ -231,31 +233,30 @@ int Node::binarySearchInsertIndex(int key)
             return -1;
         }
     }
-    std::cout << "insertion index is: " << l << std::endl;
 
     return l;
 }
 
 // removal of key from node within the node
-void Node::remove(int value)
-{
-    int index = -1;
-    if (this->currentKeySize == 0)
-    {
-        throw 1;
-    }
-    index = binarySearch(value);
-    if (index == -1)
-    {
-        std::cout << "value not found" << std::endl;
-        return;
-    }
-    else
-    {
-        keys.erase(keys.begin() + index); // auto adjusted vector
-    }
+// void Node::remove(int value)
+// {
+//     int index = -1;
+//     if (this->currentKeySize == 0)
+//     {
+//         throw 1;
+//     }
+//     index = binarySearch(value);
+//     if (index == -1)
+//     {
+//         std::cout << "value not found" << std::endl;
+//         return;
+//     }
+//     else
+//     {
+//         keys.erase(keys.begin() + index); // auto adjusted vector
+//     }
 
-    std::cout << "removed key : " << value << std::endl;
-    this->keys[index] = 0;
-    this->currentKeySize--;
-}
+//     std::cout << "removed key : " << value << std::endl;
+//     this->keys[index] = 0;
+//     this->currentKeySize--;
+// }
