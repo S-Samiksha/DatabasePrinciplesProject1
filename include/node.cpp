@@ -17,7 +17,15 @@ Node::Node(int nodeSize, bool isLeaf)
     { nullptr };
 };
 
+// prints a node's info and contents
 void Node::printNode(){
+    std::cout<<"**********************"<<std::endl;
+    std::cout<<"Node's address: "<<this<<std::endl;
+    std::cout<<"currentKeySize :"<<this->currentKeySize<<std::endl;
+    std::cout<<"currentPointerSize :"<<this->currentPointerSize<<std::endl;
+    std::string nodeType = this->isLeaf?"LEAF":"InternalNode";
+    std::cout<<"node type :"<<nodeType<<std::endl;
+
     std::cout<<"keyArray: [";
     for(int i=0;i<this->maxKeySize; i++){
         std::cout<<this->keys[i]<<",";
@@ -28,10 +36,11 @@ void Node::printNode(){
         std::cout<<((Node**)this->childrenNodes)[i]<<",";
     };
     std::cout<<"]"<<std::endl;
+    std::cout<<"**********************"<<std::endl;
+
 }
 
 // if leaf node initial insert state is {key,pointer,...., next neighbour}
-
 // if non-leaf node initial insert state is {pointerL,key,pointerR}
 void Node::insertInitialInNonLeafNode(int key, Node *leftPointer, Node *rightPointer)
 {
@@ -238,25 +247,25 @@ int Node::binarySearchInsertIndex(int key)
 }
 
 // removal of key from node within the node
-// void Node::remove(int value)
-// {
-//     int index = -1;
-//     if (this->currentKeySize == 0)
-//     {
-//         throw 1;
-//     }
-//     index = binarySearch(value);
-//     if (index == -1)
-//     {
-//         std::cout << "value not found" << std::endl;
-//         return;
-//     }
-//     else
-//     {
-//         keys.erase(keys.begin() + index); // auto adjusted vector
-//     }
+void Node::remove(int value)
+{
+    int index = -1;
+    if (this->currentKeySize == 0)
+    {
+        throw 1;
+    }
+    index = binarySearch(value);
+    if (index == -1)
+    {
+        std::cout << "value not found" << std::endl;
+        return;
+    }
+    else
+    {
+        keys.erase(keys.begin() + index); // auto adjusted vector
+    }
 
-//     std::cout << "removed key : " << value << std::endl;
-//     this->keys[index] = 0;
-//     this->currentKeySize--;
-// }
+    std::cout << "removed key : " << value << std::endl;
+    this->keys[index] = 0;
+    this->currentKeySize--;
+}

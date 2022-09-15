@@ -17,7 +17,6 @@ public:
     // switch all vectors to arrays
     // keys instantiated to 0 initially
     int *keys;
-
     // childrenNodes can either be &Record &Node or nullptr(initially)
     void *childrenNodes;
 

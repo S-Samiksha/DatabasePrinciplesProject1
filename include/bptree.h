@@ -27,7 +27,6 @@ public:
 
     Node *findParentNode(Node *cursor, Node *child);
 
-    Node **split(Node* nodeToSplit, int keyToInsert, void* recordToInsert);
 private:
     // helper function for when the node size is exceeded and requires splitting
 
@@ -39,6 +38,10 @@ private:
 
     // function to recursively search the subtree for the node to insert key
     int insertInternal(Node *currentSubTreeRootNode, int key);
+
+    // remove first key-pointer pair from a split right node
+    int removeFirstKeyFromNode(Node* node);
+    
 };
 
 #endif

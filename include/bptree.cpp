@@ -15,7 +15,6 @@ BPTree::BPTree(int nodeSize)
 
 Node **BPTree::insert(Node *parentNode, int key, void *incomingRecord)
 {
-    // terminal condition full
     int insertionIndex = parentNode->binarySearchInsertIndex(key);
     if (insertionIndex == -1)
     {
@@ -23,23 +22,23 @@ Node **BPTree::insert(Node *parentNode, int key, void *incomingRecord)
         throw 1;
     }
 
-    Node *childNode = parentNode;
-
-    // Node *childNode = ((Node **)parentNode->childrenNodes)[insertionIndex];
-    if (childNode->isLeaf)
+    // terminal case for recursion: parentNode is a Leaf
+    if (parentNode->isLeaf)
     {
-        // if leaf Node is full
-        if (childNode->isFull())
+        // if leaf Node is full, split and return left and right leaf node
+        // todo: leaf nodes are unlinked currently
+        if (parentNode->isFull())
         {
+            // left And right nodes are leafs
             Node *leftNode = new Node(this->nodeSize, true);
             Node *rightNode = new Node(this->nodeSize, true);
 
             int minimumKeySizeLeft = ceil((this->nodeSize + 1) / 2);
             int minimumKeySizeRight = floor((this->nodeSize + 1) / 2);
 
-            int leftCounter = 0;
-
             // fill the left and right subtrees
+
+            // filling left subtree
             int nodeToSplitCounter = 0;
             int newNodesCounter = 0;
             int tempInsertionIndex = insertionIndex;
@@ -49,15 +48,13 @@ Node **BPTree::insert(Node *parentNode, int key, void *incomingRecord)
                 {
                     leftNode->keys[newNodesCounter] = key;
                     ((dummyRecord **)leftNode->childrenNodes)[newNodesCounter] = (dummyRecord *)incomingRecord;
-                    std::cout << "here1: " << leftNode->keys[newNodesCounter] << std::endl;
 
                     tempInsertionIndex = -1;
                     newNodesCounter++;
                 }
                 else
                 {
-                    leftNode->keys[newNodesCounter] = childNode->keys[nodeToSplitCounter];
-                    std::cout << "here2: " << leftNode->keys[newNodesCounter] << std::endl;
+                    leftNode->keys[newNodesCounter] = parentNode->keys[nodeToSplitCounter];
 
                     newNodesCounter++;
                     nodeToSplitCounter++;
@@ -66,7 +63,7 @@ Node **BPTree::insert(Node *parentNode, int key, void *incomingRecord)
                 leftNode->currentPointerSize++;
             }
 
-            // fill the right subtree
+            // filling the right subtree
             newNodesCounter = 0;
             while (newNodesCounter < minimumKeySizeRight)
             {
@@ -74,14 +71,12 @@ Node **BPTree::insert(Node *parentNode, int key, void *incomingRecord)
                 {
                     rightNode->keys[newNodesCounter] = key;
                     ((dummyRecord **)rightNode->childrenNodes)[newNodesCounter] = (dummyRecord *)incomingRecord;
-                    std::cout << "here3: " << rightNode->keys[newNodesCounter] << std::endl;
                     tempInsertionIndex = -1;
                     newNodesCounter++;
                 }
                 else
                 {
-                    rightNode->keys[newNodesCounter] = childNode->keys[nodeToSplitCounter];
-                    std::cout << "here4: " << rightNode->isLeaf << std::endl;
+                    rightNode->keys[newNodesCounter] = parentNode->keys[nodeToSplitCounter];
 
                     newNodesCounter++;
 
@@ -91,11 +86,13 @@ Node **BPTree::insert(Node *parentNode, int key, void *incomingRecord)
                 rightNode->currentPointerSize++;
             }
 
-            // if it is initial case of root node, create new parent
-            if (childNode == this->rootNode)
+            // terminal case where the parent is full, a leaf and a root node
+            // we just create a new parent and set that as the new root Node
+            if (parentNode == this->rootNode)
             {
                 Node *newParentNode = new Node(3, false);
                 newParentNode->insertInitialInNonLeafNode(rightNode->keys[0], leftNode, rightNode);
+                delete this->rootNode;
                 this->rootNode = newParentNode;
                 return nullptr;
             }
@@ -103,159 +100,163 @@ Node **BPTree::insert(Node *parentNode, int key, void *incomingRecord)
             return new Node *[2]
             { leftNode, rightNode };
         }
-        // leaf node is not full
+        // or if leaf node is not full we can just insert a key pointer pair
         else
         {
-            childNode->insertSubsequentPair(key, incomingRecord);
+            parentNode->insertSubsequentPair(key, incomingRecord);
             return nullptr;
         }
     }
-    // if childNode is not a leaf
+    // if parentNode is not a leaf
+    // this is the recursive call, we recursively find the index to insert on the node according to the key with binary search
+    // then we recursively call that child using insert()
+    // todo: leaf nodes are currently unlinked
     else
     {
-        childNode = ((Node **)parentNode->childrenNodes)[insertionIndex];
-        std::cout << "childnode: " << std::endl;
-        std::cout << "childnode is full?: " << childNode->isFull() << std::endl;
+        Node *childNode = ((Node **)parentNode->childrenNodes)[insertionIndex];
 
-        childNode->printNode(); // correct
-        Node **splitSubTrees = this->insert(childNode, key, incomingRecord);
+        // recursive call on the child
+        // if nullptr is returned from insert() it means that the parent need not do any insertions
+        // if [ Node* leftSubTree, Node* rightSubTree] is returned, it means that the child node was full
+        // and requires insertion on the parent
+        Node **returnedChildSubTrees = this->insert(childNode, key, incomingRecord);
 
-        // if nullptr is returned, then no need to insert
-        if (splitSubTrees == nullptr)
+        // if nullptr is returned, that means theres nothing to be inserted on the parent
+        if (returnedChildSubTrees == nullptr)
         {
-            std::cout << "jere" << std::endl;
             return nullptr;
         }
 
-        // if [leftSub,rightSub] is returned then need to insert
-        Node *leftSubTree = splitSubTrees[0];
-        Node *rightSubTree = splitSubTrees[1];
+        // if [leftSub,rightSub] is returned this means the child was full and split
+        Node *leftChildSubTree = returnedChildSubTrees[0];
+        Node *rightChildSubTree = returnedChildSubTrees[1];
+        int keyToInsertIntoParent;
 
-        // if parent tree is full
+        // if child is a leaf, insert thhe first key into the parent Node
+        if (rightChildSubTree->isLeaf)
+        {
+            keyToInsertIntoParent = rightChildSubTree->keys[0];
+        }
+        // if child is a non-leaf, remove the first key from the right node and insert it into the parent node
+        else
+        {
+            keyToInsertIntoParent = this->removeFirstKeyFromNode(rightChildSubTree);
+        }
+
         if (parentNode->isFull())
         {
-            std::cout << "parent sub tree is leaf? " << parentNode->isLeaf << std::endl;
-
-            // split parent node in the non root node way
-            // split to 2 nodes
+            // split parent node in the non root node way into 2 non-leaf nodes
             Node *leftNode;
             Node *rightNode;
 
-            // if split is happening at the non-leaf node
-            leftNode = new Node(this->nodeSize, true);
-            rightNode = new Node(this->nodeSize, true);
+            leftNode = new Node(this->nodeSize, false);
+            rightNode = new Node(this->nodeSize, false);
+            // child is non-leaf
 
-            int minimumKeySizeLeft = ceil(this->nodeSize / 2);
-            int minimumKeySizeRight = floor(this->nodeSize / 2);
+            // minimum and maximum bounds of non-leaf nodes
+            int minimumKeySizeRight = this->nodeSize / 2;
+            int minimumKeySizeLeft = this->nodeSize - minimumKeySizeRight;
+            // build a virtual array to help with the splitting
+            // todo: probably more memory and time efficient to do this in place but in hurry HAHA
+            int virtualKeyArray[this->nodeSize + 1]{0};
+            Node *virtualPointerArray[this->nodeSize + 2]{nullptr};
 
-            int leftCounter = 0;
-
-            // todo: create a virtual keys array and virtual pointer array with the inserted key and pointers
-            std::vector<int> virtualKeyArray(this->nodeSize + 1, 0);
-            std::vector<Node *> virtualPointerArray(this->nodeSize + 2, nullptr);
-
-            int parentNodeCounter = 0;
-            int virtualNodeCounter = 0;
-            while (virtualNodeCounter < virtualKeyArray.size())
+            int i = 0;
+            for (i; i < this->nodeSize + 1; i++)
             {
-                if (parentNodeCounter == insertionIndex)
-                {
-                    virtualKeyArray.at(virtualNodeCounter) = key;
-                    // deallocate memory space of the original pointer
-                    virtualPointerArray.at(virtualNodeCounter) = leftNode;
-                    virtualNodeCounter++;
-                    virtualPointerArray.at(virtualNodeCounter) = rightNode;
-                    virtualNodeCounter++;
-                }
-                else
-                {
-                    virtualKeyArray.at(virtualNodeCounter) = parentNode->keys[parentNodeCounter];
-                    virtualPointerArray.at(virtualNodeCounter) = ((Node **)parentNode->childrenNodes)[parentNodeCounter];
-                    parentNodeCounter++;
-                    virtualNodeCounter++;
-                }
+                virtualKeyArray[i] = parentNode->keys[i];
+                virtualPointerArray[i] = ((Node **)parentNode->childrenNodes)[i];
             }
-            // todo: check whether both virtual arrays are filled correctly
+            virtualPointerArray[i] = ((Node **)parentNode->childrenNodes)[i];
+
+            // insert the key to be inserted
+            for (int i = this->nodeSize; i > insertionIndex; i--)
+            {
+                virtualKeyArray[i - 1] = virtualKeyArray[i];
+            }
+
+            virtualKeyArray[insertionIndex] = keyToInsertIntoParent;
+            virtualPointerArray[insertionIndex] = leftChildSubTree;
+            virtualPointerArray[insertionIndex + 1] = rightChildSubTree;
+
+            //* debug
+            // std::cout << "*******virtual array*****" << std::endl;
+            // std::cout << "[ ";
+            // for (int i = 0; i < this->nodeSize + 1; i++)
+            // {
+            //     std::cout << virtualKeyArray[i] << ",";
+            // }
+            // std::cout << "]" << std::endl;
+            // std::cout << "[ ";
+            // for (int i = 0; i < this->nodeSize + 2; i++)
+            // {
+            //     std::cout << virtualPointerArray[i] << ",";
+            // }
+            // std::cout << "]" << std::endl;
 
             // fill the left and right subtrees
-            int virtualCounter = 0;
-            int newNodesCounter = 0;
+            int virtualKeyCounter = 0;
+            int newNodesKeyCounter = 0;
 
-            // leftpointer || incomingKey || rightPointer
-            while (newNodesCounter < minimumKeySizeLeft)
+            // fill the left and right subtrees we want to return to the upper level
+            while (newNodesKeyCounter < minimumKeySizeLeft)
             {
-                if (virtualCounter == insertionIndex)
-                {
-                    leftNode->keys[newNodesCounter] = key;
-                    ((Node **)leftNode->childrenNodes)[newNodesCounter] = virtualPointerArray.at(virtualCounter);
-                    newNodesCounter++;
-                }
-                else
-                {
-                    leftNode->keys[newNodesCounter] = virtualKeyArray.at(virtualCounter);
-                    newNodesCounter++;
-                    virtualCounter++;
-                }
-            }
-            // instantiate the last pointer for left subtree
-            ((Node **)leftNode->childrenNodes)[newNodesCounter] = virtualPointerArray.at(virtualCounter);
-            // skip this key, this key is to be inserted in parent node
-            // if no parent node, create new parent node with this key inserted
-            int unecessaryKey = virtualKeyArray.at(virtualCounter);
-            virtualCounter++;
+                leftNode->keys[newNodesKeyCounter] = virtualKeyArray[virtualKeyCounter];
+                ((Node **)leftNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualKeyCounter];
 
-            newNodesCounter = 0;
+                newNodesKeyCounter++;
+                virtualKeyCounter++;
+                leftNode->currentKeySize++;
+                leftNode->currentPointerSize++;
+            }
+
+            // add the right most pointer of left subtree
+            ((Node **)leftNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualKeyCounter];
+
+            virtualKeyCounter++;
+            leftNode->currentPointerSize++;
+
             // fill the right subtree
-            while (newNodesCounter < minimumKeySizeRight)
+            newNodesKeyCounter = 0;
+            while (newNodesKeyCounter < minimumKeySizeRight)
             {
-                if (virtualCounter == insertionIndex)
-                {
-                    rightNode->keys[newNodesCounter] = key;
-                    ((Node **)rightNode->childrenNodes)[newNodesCounter] = virtualPointerArray.at(virtualCounter);
-                    newNodesCounter++;
-                }
-                else
-                {
-                    rightNode->keys[newNodesCounter] = virtualKeyArray.at(virtualCounter);
-                    newNodesCounter++;
-                    virtualCounter++;
-                }
+                rightNode->keys[newNodesKeyCounter] = virtualKeyArray[virtualKeyCounter];
+                ((Node **)rightNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualKeyCounter];
+
+                newNodesKeyCounter++;
+                virtualKeyCounter++;
+                rightNode->currentKeySize++;
+                rightNode->currentPointerSize++;
             }
 
-            // instantiate the last pointer of right subtree
-            ((Node **)rightNode->childrenNodes)[newNodesCounter] = virtualPointerArray.at(virtualCounter);
+            // add the right most pointer of right subtree
+            ((Node **)rightNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualKeyCounter];
 
-            // if the node is the root node and is full
+            // if parent node is root node and is full create new root node and link
             if (parentNode == this->rootNode)
             {
-                // create new parent
-                Node *temp = this->rootNode;
-                this->rootNode = new Node(this->nodeSize, false);
-                this->rootNode->insertInitialInNonLeafNode(rightNode->keys[0], leftNode, rightNode);
+                //  create new parent
+                Node *newRoot = new Node(this->nodeSize, false);
+                newRoot->insertInitialInNonLeafNode(keyToInsertIntoParent, leftNode, rightNode);
+                // dealloc old memory to prevent leaks
+                delete this->rootNode;
+                this->rootNode = newRoot;
+
                 return nullptr;
             }
             return new Node *[2]
             { leftNode, rightNode };
         }
-        // if parent node is not full
+        // if parent node is not full, just insert a key-pointer pair in the parent node
         else
         {
-            std::cout << "leftNode returned subtree: " << std::endl;
-            leftSubTree->printNode();
-            std::cout << "rightNode returned subtree: " << std::endl;
-            rightSubTree->printNode();
-            // deallocate memory for original left subtree
+            //  deallocate memory for original left subtree
             delete ((Node **)parentNode->childrenNodes)[insertionIndex];
-            ((Node **)parentNode->childrenNodes)[insertionIndex] = leftSubTree;
-            parentNode->insertSubsequentPair(rightSubTree->keys[0], rightSubTree);
+            ((Node **)parentNode->childrenNodes)[insertionIndex] = leftChildSubTree;
+            parentNode->insertSubsequentPair(rightChildSubTree->keys[0], rightChildSubTree);
             return nullptr;
         }
     }
-}
-
-int BPTree::insertInternal(Node *currentSubTreeRootNode, int key)
-{
-    return 0;
 }
 
 void BPTree::makeTestTree()
@@ -302,6 +303,7 @@ void BPTree::display()
 
     std::vector<Node *> rootLevel = std::vector<Node *>{this->rootNode};
     pq.push(rootLevel);
+    std::cout << "*********display() debug********" << std::endl;
     int level = 0;
     while (!pq.top().empty())
     {
@@ -321,13 +323,20 @@ void BPTree::display()
 
             Node *currentNode = currentLevel.at(i);
 
-            std::cout << "Node " << i << ": ";
+            std::cout << "Node " << i << "\n";
+            std::cout << "Node address: " << currentNode << "\n";
+            std::cout << "currentKeySize: " << currentNode->currentKeySize << "\n";
+            std::cout << "currentPointerSize: " << currentNode->currentPointerSize << "\n";
+            std::string nodeType = currentNode->isLeaf ? "LEAF" : "INTERNAL NODE";
+            std::cout << "nodeType: " << nodeType << "\n";
 
             int j;
-            std::cout << "[";
+            std::cout << "keys: [";
 
             // displaying each element in the node
-            for (j = 0; j < currentNode->currentKeySize; j++)
+            // if its a non leaf node we need to loop through j+1
+
+            for (j = 0; j < currentNode->maxKeySize; j++)
             {
 
                 std::cout << currentNode->keys[j] << ",";
@@ -338,14 +347,28 @@ void BPTree::display()
                     nextLevel.push_back(((Node **)currentNode->childrenNodes)[j]);
                 }
             }
-            std::cout << "]" << std::endl;
-            std::cout << std::endl;
 
-            // add the rightmost Node pointer if it exists
+            // add children nodes to nextLevel nodes if it is not nullptr
+
+            // add last children Node to the nextLevel list cos there are n+1 children where n= number of keys
             if (((Node **)currentNode->childrenNodes)[j] != nullptr && !currentNode->isLeaf)
             {
                 nextLevel.push_back(((Node **)currentNode->childrenNodes)[j]);
             }
+
+            std::cout << "]" << std::endl;
+
+            std::cout << "Pointers: [";
+
+            // displaying each element in the node
+            // if its a non leaf node we need to loop through j+1
+            for (int i = 0; i < currentNode->maxPointerSize; i++)
+            {
+                std::cout << ((Node **)currentNode->childrenNodes)[i] << ",";
+            }
+            // add last children Node to the nextLevel list cos there are n+1 children where n= number of keys
+            std::cout << "]" << std::endl;
+            std::cout << std::endl;
         }
 
         pq.push(nextLevel);
@@ -391,125 +414,26 @@ Node *BPTree::findParentNode(Node *cursor, Node *child)
 // helper function for when the node size is unbalanced and requires merging
 void BPTree::merge(Node *currentNode, int deletedKey){};
 
-// splits a node into 2 nodes, left and right node and returns them
-// if nodeToSplit is a leaf node, left Node: ceil (n+1)/2 keys, right Node:floor (n+1)/2 keys
-// if nodeToSplit is a non-leaf node, left node: ceil(n/2) keys, right node: floor (n/2) keys
-// a key, nodeToSplit[ceil(n/2)] is removed and used to insert to parent
-// if leaf nodes are returned they are not linked yet
-Node **BPTree::split(Node *nodeToSplit, int keyToInsert, void *recordToInsert)
+// helper function for insert()
+int BPTree::removeFirstKeyFromNode(Node *node)
 {
-
-    // split to 2 nodes
-    Node *leftNode;
-    Node *rightNode;
-
-    int indexToInsert = nodeToSplit->binarySearchInsertIndex(keyToInsert);
-
-    // if split is happening at the leaf Node
-    if (nodeToSplit->isLeaf)
+    int removedKey = node->keys[0];
+    if (node->isLeaf)
     {
-        leftNode = new Node(this->nodeSize, true);
-        rightNode = new Node(this->nodeSize, true);
-
-        int minimumKeySizeLeft = ceil((this->nodeSize + 1) / 2);
-        int minimumKeySizeRight = floor((this->nodeSize + 1) / 2);
-
-        int leftCounter = 0;
-
-        // fill the left and right subtrees
-        int nodeToSplitCounter = 0;
-        int newNodesCounter = 0;
-        while (newNodesCounter < minimumKeySizeLeft)
-        {
-            if (nodeToSplitCounter == indexToInsert)
-            {
-                leftNode->keys[newNodesCounter] = keyToInsert;
-                ((dummyRecord **)leftNode->childrenNodes)[newNodesCounter] = (dummyRecord *)recordToInsert;
-                newNodesCounter++;
-            }
-            else
-            {
-                leftNode->keys[newNodesCounter] = nodeToSplit->keys[nodeToSplitCounter];
-                newNodesCounter++;
-                nodeToSplitCounter++;
-            }
-        }
-
-        newNodesCounter = 0;
-        // fill the right subtree
-        while (newNodesCounter < minimumKeySizeRight)
-        {
-            if (nodeToSplitCounter == indexToInsert)
-            {
-                rightNode->keys[newNodesCounter] = keyToInsert;
-                ((dummyRecord **)rightNode->childrenNodes)[newNodesCounter] = (dummyRecord *)recordToInsert;
-                newNodesCounter++;
-            }
-            else
-            {
-                rightNode->keys[newNodesCounter] = nodeToSplit->keys[nodeToSplitCounter];
-                newNodesCounter++;
-                nodeToSplitCounter++;
-            }
-        }
-    }
-    // if split is happening at the non-leaf node
-    else
-    {
-        leftNode = new Node(this->nodeSize, true);
-        rightNode = new Node(this->nodeSize, true);
-
-        int minimumKeySizeLeft = ceil(this->nodeSize / 2);
-        int minimumKeySizeRight = floor(this->nodeSize / 2);
-
-        int leftCounter = 0;
-
-        // fill the left and right subtrees
-        int nodeToSplitCounter = 0;
-        int newNodesCounter = 0;
-        while (newNodesCounter < minimumKeySizeLeft)
-        {
-            if (nodeToSplitCounter == indexToInsert)
-            {
-                leftNode->keys[newNodesCounter] = keyToInsert;
-                ((Node **)leftNode->childrenNodes)[newNodesCounter] = (Node *)recordToInsert;
-                newNodesCounter++;
-            }
-            else
-            {
-                leftNode->keys[newNodesCounter] = nodeToSplit->keys[nodeToSplitCounter];
-                newNodesCounter++;
-                nodeToSplitCounter++;
-            }
-        }
-        // instantiate the last pointer for left subtree
-        ((dummyRecord **)leftNode->childrenNodes)[newNodesCounter] = (dummyRecord *)recordToInsert;
-
-        newNodesCounter = 0;
-
-        // skip this key, this key is to be inserted in parent node
-        // if no parent node, create new parent node with this key inserted
-        int unecessaryKey = nodeToSplit->keys[nodeToSplitCounter];
-        nodeToSplitCounter++;
-
-        // fill the right subtree
-        while (newNodesCounter < minimumKeySizeRight)
-        {
-            if (nodeToSplitCounter == indexToInsert)
-            {
-                rightNode->keys[newNodesCounter] = keyToInsert;
-                ((dummyRecord **)rightNode->childrenNodes)[newNodesCounter] = (dummyRecord *)recordToInsert;
-                newNodesCounter++;
-            }
-            else
-            {
-                rightNode->keys[newNodesCounter] = nodeToSplit->keys[nodeToSplitCounter];
-                newNodesCounter++;
-                nodeToSplitCounter++;
-            }
-        }
+        std::cout << "cannot remove first key-pointer pair from a leaf node" << std::endl;
+        throw 1;
     }
 
-    return new Node *[2]
-    { leftNode, rightNode };
-}
+    for (int i = 0; i < node->currentKeySize; i++)
+    {
+        node->keys[i] = node->keys[i + 1];
+    }
+
+    for (int i = 1; i < node->currentKeySize + 1; i++)
+    {
+        ((Node **)node->childrenNodes)[i] = ((Node **)node->childrenNodes)[i + 1];
+    }
+    node->currentKeySize--;
+    node->currentPointerSize--;
+    return removedKey;
+};
