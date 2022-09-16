@@ -254,18 +254,15 @@ void Node::remove(int value)
     {
         throw 1;
     }
-    index = binarySearch(value);
-    if (index == -1)
-    {
-        std::cout << "value not found" << std::endl;
-        return;
-    }
-    else
-    {
-        keys.erase(keys.begin() + index); // auto adjusted vector
-    }
+    //find the index of the key 
+     index = this->binarySearch(value);
 
-    std::cout << "removed key : " << value << std::endl;
-    this->keys[index] = 0;
-    this->currentKeySize--;
+    /*
+    within the leaf node removal 
+    1. Remove the key
+    2. Remove the pointer to the block --> deallocate 
+    */
+   std::cout<<"index:" <<index <<"value" << keys[index]<< "childnode" << ((Node**)this->childrenNodes)[index] << std::endl;
+
+
 }

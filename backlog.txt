@@ -1,9 +1,2 @@
-things done:
-1. sort within the node
-2. having a dynamic vector that we dont have to declare size in the beginning 
-3. addition of children node using a function 
-4. remove key from node using value not index
-
-things to do:
-1. discuss if we are following strict OODP principles? if so must change the variables to private and create the functions accordingly
-2. 
+Removing of keys in B+ tree:
+How to update the disk address. 

@@ -21,6 +21,10 @@ int main()
     std::cout<< "*******************inserting 91*******************\n\n"<<std::endl;
     testBPTree->insert(testBPTree->rootNode, 91, nullptr);
     testBPTree->insert(testBPTree->rootNode, 6, nullptr);
+
+    
+    testBPTree->display();
+    testBPTree->remove(80);
     // testBPTree->insert(testBPTree->rootNode, 7, nullptr);
     // testBPTree->insert(testBPTree->rootNode, 8, nullptr);
     // testBPTree->insert(testBPTree->rootNode, 9, nullptr);
@@ -33,6 +37,6 @@ int main()
     // testBPTree->insert(testBPTree->rootNode, 91, nullptr);
 
 
-    testBPTree->display();
+    
     return 0;
 }
