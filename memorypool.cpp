@@ -1,7 +1,3 @@
-//
-// Created by alpha on 9/9/2022.
-//
-
 #include "memorypool.h"
 #include "types.h"
 
@@ -25,6 +21,7 @@ MemoryPool::MemoryPool(std::size_t maxPoolSize, std::size_t blockSize) {
     this->block = nullptr;
     this->blockSizeUsed = 0;
     this->blocksAccessed = 0;
+    this->numAvailBlks = maxPoolSize/blockSize;
 }
 
 bool MemoryPool::allocateBlock(){
@@ -37,10 +34,29 @@ bool MemoryPool::allocateBlock(){
 
 Address MemoryPool::allocate(std::size_t sizeRequired){
     // PK
+    if(numAvailBlks>0&&sizeRequired<=blockSize){
+        bool allocatedSuccessful = allocateBlock();
+    }
+    short int offset = blockSizeUsed;
+    blockSizeUsed += sizeRequired;
+    actualSizeUsed += sizeRequired;
+    Address recordAddress = {block,offset};
+    return recordAddress;
 }
 
 bool MemoryPool::deallocate(Address address, std::size_t sizeToDelete){
     // PK
+    actualSizeUsed -= sizeToDelete;
+    std::memset((char *)address.blockAddress + address.offset, '\0', sizeToDelete);
+    uchar testBlock[blockSize];
+    memset(testBlock, '\0', blockSize);
+    if (memcmp(testBlock, address.blockAddress, blockSize) == 0)
+    {
+      sizeUsed -= blockSize;
+      allocated--;
+    }
+
+    return true;
 }
 
 // Give a block address, offset and size, returns the data there.
