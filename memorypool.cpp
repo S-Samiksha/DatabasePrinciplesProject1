@@ -25,27 +25,21 @@ MemoryPool::MemoryPool(std::size_t maxPoolSize, std::size_t blockSize) {
 
 bool MemoryPool::allocateBlock(){
     // Charles
-     if(sizeUsed + blockSize <= maxPoolSize){
-        block = (char *)pool + (allocated * blockSize);
-        sizeUsed += blockSize;
-        blockSizeUsed = 0;
-        allocated += 1;
-        return true;
-    }else{
-        std::cout << "Error: Block size exceed current available memmory" << '\n';
-        return false;
-    }
+    block = (char *)pool + (allocated * blockSize); // Set current block pointer to new block
+    blockSizeUsed = 0;
+    ++allocated;
+    return true;
 }
 
 Address MemoryPool::allocate(std::size_t sizeRequired){
     // PK
-    if(numAvailBlks>0&&sizeRequired<=blockSize){
+    if(numAvailBlks > 0 && sizeRequired <= blockSize){
         bool allocatedSuccessful = allocateBlock();
     }
-    short int offset = blockSizeUsed;
+    unsigned short int offset = blockSizeUsed;
     blockSizeUsed += sizeRequired;
     actualSizeUsed += sizeRequired;
-    Address recordAddress = {block,offset};
+    Address recordAddress = {block, offset};
     return recordAddress;
 }
 
@@ -57,8 +51,8 @@ bool MemoryPool::deallocate(Address address, std::size_t sizeToDelete){
     memset(testBlock, '\0', blockSize);
     if (memcmp(testBlock, address.blockAddress, blockSize) == 0)
     {
-      sizeUsed -= blockSize;
-      --allocated;
+        sizeUsed -= blockSize;
+        --allocated;
     }
 
     return true;
@@ -67,10 +61,6 @@ bool MemoryPool::deallocate(Address address, std::size_t sizeToDelete){
 // Give a block address, offset and size, returns the data there.
 void *MemoryPool::loadFromDisk(Address address, std::size_t size){
     // Charles
-    void *dataAddress = operator new(size);
-    std::memcpy(dataAddress, (char *)address.blockAddress + address.offset, size);
-    blocksAccessed++;
-    return dataAddress;
 }
 
 // A function that saves the records into the disk. It returns the disk address.
@@ -82,7 +72,7 @@ Address MemoryPool::saveToDisk(void *itemAddress, std::size_t size){
     // 2) 'itemAddress' is the source object item that you're storing, 
     // 3) 'size' is to indicate the size of the item you're storing.
     Address diskAddress = allocate(size); // Call on the Allocate function to provide a space for storage
-    std::memcpy((char *)diskAddress.blockAddress + diskAddress.offset, itemAddress, size); 
+    std::memcpy((char *)diskAddress.blockAddress + diskAddress.offset, itemAddress, size);
 
     // Update block accessed counter
     ++blocksAccessed;   // Using pre-fix is faster than using postfix.
@@ -93,7 +83,7 @@ Address MemoryPool::saveToDisk(void *itemAddress, std::size_t size){
 Address MemoryPool::saveToDisk(void *itemAddress, std::size_t size, Address diskAddress){
     // Alp
     std::memcpy((char *)diskAddress.blockAddress + diskAddress.offset, itemAddress, size);
-    
+
     // Update block accessed counter
     ++blocksAccessed;   // Using pre-fix is faster than using postfix.
     return diskAddress;
