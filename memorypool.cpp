@@ -40,8 +40,14 @@ bool MemoryPool::allocateBlock(){
 
 Address MemoryPool::allocate(std::size_t sizeRequired){
     // PK
-    if(numAvailBlks > 0 && sizeRequired <= blockSize){
+    if(numAvailBlks <= 0 && sizeRequired > blockSize){
+        std::cout << "Required size too large!" << '\n';
+        exit(0);
+
+    }
+    if(allocated==0||(blockSizeUsed+sizeRequired>blockSize)){
         bool allocatedSuccessful = allocateBlock();
+        numAvailBlks-=1;
     }
     unsigned short int offset = blockSizeUsed;
     blockSizeUsed += sizeRequired;
