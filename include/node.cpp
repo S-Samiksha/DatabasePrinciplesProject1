@@ -2,7 +2,7 @@
 #include <cmath>
 #include <vector>
 #include <bits/stdc++.h>
-#include "dummyRecord.h"
+#include "types.h"
 
 // Node constructor
 Node::Node(){};
@@ -149,11 +149,11 @@ void Node::insertChildInPointerArray(void *child, int index)
         // push the elements on the right side of the insertion index 1 slot right
         for (i = this->currentPointerSize; i > index; i--)
         {
-            ((dummyRecord **)this->childrenNodes)[i] = ((dummyRecord **)this->childrenNodes)[i - 1];
+            ((Address **)this->childrenNodes)[i] = ((Address **)this->childrenNodes)[i - 1];
         }
 
-        // insert dummyRecord
-        ((dummyRecord **)this->childrenNodes)[index] = (dummyRecord *)child;
+        // insert Address
+        ((Address **)this->childrenNodes)[index] = (Address *)child;
     }
     else
     {
@@ -247,25 +247,22 @@ int Node::binarySearchInsertIndex(int key)
 }
 
 // removal of key from node within the node
-// void Node::remove(int value)
-// {
-//     int index = -1;
-//     if (this->currentKeySize == 0)
-//     {
-//         throw 1;
-//     }
-//     index = binarySearch(value);
-//     if (index == -1)
-//     {
-//         std::cout << "value not found" << std::endl;
-//         return;
-//     }
-//     else
-//     {
-//         keys.erase(keys.begin() + index); // auto adjusted vector
-//     }
+void Node::remove(int value)
+{
+    int index = -1;
+    if (this->currentKeySize == 0)
+    {
+        throw 1;
+    }
+    //find the index of the key 
+     index = this->binarySearch(value);
 
-//     std::cout << "removed key : " << value << std::endl;
-//     this->keys[index] = 0;
-//     this->currentKeySize--;
-// }
+    /*
+    within the leaf node removal 
+    1. Remove the key
+    2. Remove the pointer to the block --> deallocate 
+    */
+   std::cout<<"index:" <<index <<"value" << keys[index]<< "childnode" << ((Node**)this->childrenNodes)[index] << std::endl;
+
+
+}

@@ -7,9 +7,9 @@ int main()
     BPTree *testBPTree = new BPTree(3);
     // testBPTree->makeTestTree();
     testBPTree->rootNode = new Node(3, true);
-    testBPTree->rootNode->insertInitialInLeafNode(1, nullptr, nullptr);
-
+    testBPTree->insert(testBPTree->rootNode, 1, nullptr);
     testBPTree->insert(testBPTree->rootNode, 4, nullptr);
+
     testBPTree->insert(testBPTree->rootNode, 7, nullptr);
     testBPTree->insert(testBPTree->rootNode, 10, nullptr);
     testBPTree->insert(testBPTree->rootNode, 17, nullptr);
@@ -17,9 +17,10 @@ int main()
     testBPTree->insert(testBPTree->rootNode, 31, nullptr);
     testBPTree->insert(testBPTree->rootNode, 25, nullptr);
     testBPTree->insert(testBPTree->rootNode, 19, nullptr);
-    // testBPTree->insert(testBPTree->rootNode, 20, nullptr);
-    // testBPTree->insert(testBPTree->rootNode, 28, nullptr);
-    // testBPTree->insert(testBPTree->rootNode, 42, nullptr);
+    testBPTree->insert(testBPTree->rootNode, 20, nullptr);
+    testBPTree->insert(testBPTree->rootNode, 28, nullptr);
+    testBPTree->insert(testBPTree->rootNode, 42, nullptr);
+    testBPTree->display();
 
     
     // testBPTree->insert(testBPTree->rootNode, 2, nullptr);
@@ -43,6 +44,6 @@ int main()
     // testBPTree->insert(testBPTree->rootNode, 91, nullptr);
 
 
-    testBPTree->display();
+    
     return 0;
 }

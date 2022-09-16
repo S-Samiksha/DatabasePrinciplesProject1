@@ -2,6 +2,7 @@
 #define _BPTREE_H
 
 #include "node.h"
+#include "types.h"
 
 class BPTree
 {
@@ -12,7 +13,7 @@ public:
     BPTree(int nodeSize);
 
     // inserting a key
-    Node **insert(Node *parentNode, int key, void* incomingRecord);
+    Node **insert(Node *parentNode, int key, Address* incomingRecord);
 
     // deleting a key
     void remove(int key);
@@ -43,6 +44,8 @@ private:
 
     // remove first key-pointer pair from a split right node
     int removeFirstKeyFromNode(Node* node);
+
+    //
     
 };
 
