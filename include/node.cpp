@@ -266,3 +266,16 @@ void Node::remove(int value)
 
 
 }
+
+// inserts the address of another node into the last index of this node
+void Node::linkToAnotherLeafNode(Node* anotherLeafNode){
+    if(!this->isLeaf){
+        throw 1;
+    }
+    // if the current Node is the rightmost Leaf node of the tree and points to a nullptr
+    if(anotherLeafNode == nullptr){
+        this->currentPointerSize++;
+    }
+    ((Node**)this->childrenNodes)[this->maxPointerSize-1] = anotherLeafNode;
+    this->currentPointerSize++;
+}

@@ -108,13 +108,17 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                     rightNode->currentPointerSize++;
                 }
 
+                // link left node to right node
+                leftNode->linkToAnotherLeafNode(rightNode);  
+
                 // terminal case where the parent is full, a leaf and a root node
                 // we just create a new parent and set that as the new root Node
                 if (parentNode == this->rootNode)
                 {
-                    std::cout << "shouldnt be called" << std::endl;
+                    std::cout<<"constructing BPTree of 2 levels"<<std::endl;
                     Node *newParentNode = new Node(3, false);
                     newParentNode->insertInitialInNonLeafNode(rightNode->keys[0], leftNode, rightNode);
+                         
                     this->rootNode = newParentNode;
                     std::cout << "newRootNode: " << std::endl;
                     newParentNode->printNode();
@@ -169,6 +173,8 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
             if (rightChildSubTree->isLeaf)
             {
                 keyToInsertIntoParent = rightChildSubTree->keys[0];
+                //todo:link returned left child to the nearest right child
+                ((Node**)parentNode->childrenNodes)[insertionIndex-1]->linkToAnotherLeafNode(leftChildSubTree);
             }
             // if child is a non-leaf, remove the first key from the right node and insert it into the parent node
             else
