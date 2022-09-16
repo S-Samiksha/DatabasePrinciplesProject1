@@ -1,0 +1,2 @@
+Removing of keys in B+ tree:
+How to update the disk address. 
