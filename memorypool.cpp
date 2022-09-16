@@ -25,10 +25,16 @@ MemoryPool::MemoryPool(std::size_t maxPoolSize, std::size_t blockSize) {
 
 bool MemoryPool::allocateBlock(){
     // Charles
-    block = (char *)pool + (allocated * blockSize); // Set current block pointer to new block
-    blockSizeUsed = 0;
-    ++allocated;
-    return true;
+     if(sizeUsed + blockSize <= maxPoolSize){
+        block = (char *)pool + (allocated * blockSize);
+        sizeUsed += blockSize;
+        blockSizeUsed = 0;
+        allocated += 1;
+        return true;
+    }else{
+        std::cout << "Error: Block size exceed current available memmory" << '\n';
+        return false;
+    }
 }
 
 Address MemoryPool::allocate(std::size_t sizeRequired){
@@ -61,6 +67,10 @@ bool MemoryPool::deallocate(Address address, std::size_t sizeToDelete){
 // Give a block address, offset and size, returns the data there.
 void *MemoryPool::loadFromDisk(Address address, std::size_t size){
     // Charles
+    void *dataAddress = operator new(size);
+    std::memcpy(dataAddress, (char *)address.blockAddress + address.offset, size);
+    blocksAccessed++;
+    return dataAddress;
 }
 
 // A function that saves the records into the disk. It returns the disk address.
