@@ -66,18 +66,25 @@ void *MemoryPool::loadFromDisk(Address address, std::size_t size){
 // A function that saves the records into the disk. It returns the disk address.
 Address MemoryPool::saveToDisk(void *itemAddress, std::size_t size){
     // Alp
+    // You typecast to char pointer so that it copies the raw byte data. 
+    // 3 items here, 
+    // 1) 'diskAddress.blockAddress + offset' is to store it in the memorypool location,
+    // 2) 'itemAddress' is the source object item that you're storing, 
+    // 3) 'size' is to indicate the size of the item you're storing.
     Address diskAddress = allocate(size); // Call on the Allocate function to provide a space for storage
-    std::memcpy((char *)diskAddress.blockAddress + diskAddress.offset, itemAddress, size); // You typecast to char pointer so that it copies the raw byte data. 3 items here, one is the diskAddress that gets stored at, the other is the source object you're storing, last is the size of the item you're storing.
+    std::memcpy((char *)diskAddress.blockAddress + diskAddress.offset, itemAddress, size); 
 
     // Update block accessed counter
     ++blocksAccessed;   // Using pre-fix is faster than using postfix.
     return diskAddress;
 }
 
-// A function that updates the data in the disk if it has already been saved before.
+// Same function as above, just to retrieve the cursor pointer.
 Address MemoryPool::saveToDisk(void *itemAddress, std::size_t size, Address diskAddress){
     // Alp
-    std::memcpy((char *)diskAddress.blockAddress + diskAddress.offset, itemAddress, )
+    std::memcpy((char *)diskAddress.blockAddress + diskAddress.offset, itemAddress, size);
+    
+    // Update block accessed counter
     ++blocksAccessed;   // Using pre-fix is faster than using postfix.
     return diskAddress;
 }
