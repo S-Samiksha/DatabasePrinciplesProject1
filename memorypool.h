@@ -105,12 +105,4 @@ private:
     void *block; // Current block pointer we are inserting to.
 };
 
-
-
-
-};
-
-
-
-
 #endif //DATABASEPROJ_MEMORYPOOL_H
