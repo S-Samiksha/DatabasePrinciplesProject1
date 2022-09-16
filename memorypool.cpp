@@ -12,23 +12,22 @@
 MemoryPool::MemoryPool(std::size_t maxPoolSize, std::size_t blockSize) {
     this->maxPoolSize = maxPoolSize;
     this->blockSize = blockSize;
-    this->sizeUsed = 0;
-    this->actualSizeUsed = 0;
-    this->allocated = 0;
+    this->sizeUsed = 0;             // Total size initialised (regardless of usage)
+    this->actualSizeUsed = 0;       // Total size being occupied
+    this->allocated = 0;            // Number of blocks that have been initialised
 
-    this->pool = operator new(maxPoolSize); // Allocate memory to the MemoryPool object
-    std::memset(pool, '\0', maxPoolSize); // Make all memory space null.
+    this->pool = operator new(maxPoolSize);     // Allocate memory to the MemoryPool object
+    std::memset(pool, '\0', maxPoolSize);       // Make all memory space null.
     this->block = nullptr;
-    this->blockSizeUsed = 0;
-    this->blocksAccessed = 0;
-    this->numAvailBlks = maxPoolSize/blockSize;
+    this->blockSizeUsed = 0;        // A variable that keeps track of the current block size used so that we can allocate to the right address
+    this->blocksAccessed = 0;       // A variable that keeps track of the total number of times the blocks have been accessed
 }
 
 bool MemoryPool::allocateBlock(){
     // Charles
     block = (char *)pool + (allocated * blockSize); // Set current block pointer to new block
     blockSizeUsed = 0;
-    allocated += 1;
+    ++allocated;
     return true;
 }
 
@@ -53,7 +52,7 @@ bool MemoryPool::deallocate(Address address, std::size_t sizeToDelete){
     if (memcmp(testBlock, address.blockAddress, blockSize) == 0)
     {
       sizeUsed -= blockSize;
-      allocated--;
+      --allocated;
     }
 
     return true;
@@ -64,14 +63,23 @@ void *MemoryPool::loadFromDisk(Address address, std::size_t size){
     // Charles
 }
 
-// Saves something into the disk. Returns disk address.
+// A function that saves the records into the disk. It returns the disk address.
 Address MemoryPool::saveToDisk(void *itemAddress, std::size_t size){
     // Alp
+    Address diskAddress = allocate(size); // Call on the Allocate function to provide a space for storage
+    std::memcpy((char *)diskAddress.blockAddress + diskAddress.offset, itemAddress, size); // You typecast to char pointer so that it copies the raw byte data. 3 items here, one is the diskAddress that gets stored at, the other is the source object you're storing, last is the size of the item you're storing.
+
+    // Update block accessed counter
+    ++blocksAccessed;   // Using pre-fix is faster than using postfix.
+    return diskAddress;
 }
 
-// Update data in disk if I have already saved it before.
+// A function that updates the data in the disk if it has already been saved before.
 Address MemoryPool::saveToDisk(void *itemAddress, std::size_t size, Address diskAddress){
     // Alp
+    std::memcpy((char *)diskAddress.blockAddress + diskAddress.offset, itemAddress, )
+    ++blocksAccessed;   // Using pre-fix is faster than using postfix.
+    return diskAddress;
 }
 
 MemoryPool::~MemoryPool(){};
