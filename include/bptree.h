@@ -26,6 +26,8 @@ public:
     Node **linkParentToNewChildrenNode(Node *parentNode, Node *leftChildNode, Node *rightChildNode);
 
     Node *findParentNode(Node *cursor, Node *child);
+    int findMinimumKeyInBPTree(Node* node);
+
 
 private:
     // helper function for when the node size is exceeded and requires splitting

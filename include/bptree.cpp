@@ -231,6 +231,7 @@ Node **BPTree::insert(Node *parentNode, int key, void *incomingRecord)
 
             // add the right most pointer of right subtree
             ((Node **)rightNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualKeyCounter];
+            rightNode->currentPointerSize++;
 
             // if parent node is root node and is full create new root node and link
             if (parentNode == this->rootNode)
@@ -437,3 +438,11 @@ int BPTree::removeFirstKeyFromNode(Node *node)
     node->currentPointerSize--;
     return removedKey;
 };
+
+// finds the minimum key for the BPTree
+int BPTree::findMinimumKeyInBPTree(Node* node){
+    if(node->isLeaf){
+        return node->keys[0];
+    }
+    return findMinimumKeyInBPTree(((Node**)node->childrenNodes)[0]);
+}

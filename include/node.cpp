@@ -247,25 +247,25 @@ int Node::binarySearchInsertIndex(int key)
 }
 
 // removal of key from node within the node
-void Node::remove(int value)
-{
-    int index = -1;
-    if (this->currentKeySize == 0)
-    {
-        throw 1;
-    }
-    index = binarySearch(value);
-    if (index == -1)
-    {
-        std::cout << "value not found" << std::endl;
-        return;
-    }
-    else
-    {
-        keys.erase(keys.begin() + index); // auto adjusted vector
-    }
+// void Node::remove(int value)
+// {
+//     int index = -1;
+//     if (this->currentKeySize == 0)
+//     {
+//         throw 1;
+//     }
+//     index = binarySearch(value);
+//     if (index == -1)
+//     {
+//         std::cout << "value not found" << std::endl;
+//         return;
+//     }
+//     else
+//     {
+//         keys.erase(keys.begin() + index); // auto adjusted vector
+//     }
 
-    std::cout << "removed key : " << value << std::endl;
-    this->keys[index] = 0;
-    this->currentKeySize--;
-}
+//     std::cout << "removed key : " << value << std::endl;
+//     this->keys[index] = 0;
+//     this->currentKeySize--;
+// }
