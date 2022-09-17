@@ -1,6 +1,6 @@
 #include "memorypool.h"
 #include "types.h"
-
+#include <iostream>
 #include <vector>
 #include <cstring>
 
@@ -60,7 +60,7 @@ bool MemoryPool::deallocate(Address address, std::size_t sizeToDelete){
     // PK
     actualSizeUsed -= sizeToDelete;
     std::memset((char *)address.blockAddress + address.offset, '\0', sizeToDelete);
-    uchar testBlock[blockSize];
+    unsigned char testBlock[blockSize];
     memset(testBlock, '\0', blockSize);
     if (memcmp(testBlock, address.blockAddress, blockSize) == 0)
     {

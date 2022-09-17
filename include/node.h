@@ -41,6 +41,7 @@ public:
 
     void insertChildInPointerArray(void *child, int index);
     
+    void linkToAnotherLeafNode(Node *child);
 
     int returnSize();
 

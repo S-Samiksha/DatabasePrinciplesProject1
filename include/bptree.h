@@ -2,6 +2,7 @@
 #define _BPTREE_H
 
 #include "node.h"
+#include "types.h"
 
 class BPTree
 {
@@ -12,7 +13,7 @@ public:
     BPTree(int nodeSize);
 
     // inserting a key
-    Node **insert(Node *parentNode, int key, void* incomingRecord);
+    Node **insert(Node *parentNode, int key, Address* incomingRecord);
 
     // deleting a key
     void remove(int key);
@@ -26,6 +27,8 @@ public:
     Node **linkParentToNewChildrenNode(Node *parentNode, Node *leftChildNode, Node *rightChildNode);
 
     Node *findParentNode(Node *cursor, Node *child);
+    int findMinimumKeyInBPTree(Node* node);
+
 
 private:
     // helper function for when the node size is exceeded and requires splitting

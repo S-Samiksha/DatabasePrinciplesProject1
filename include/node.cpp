@@ -2,7 +2,7 @@
 #include <cmath>
 #include <vector>
 #include <bits/stdc++.h>
-#include "dummyRecord.h"
+#include "types.h"
 
 // Node constructor
 Node::Node(){};
@@ -149,11 +149,11 @@ void Node::insertChildInPointerArray(void *child, int index)
         // push the elements on the right side of the insertion index 1 slot right
         for (i = this->currentPointerSize; i > index; i--)
         {
-            ((dummyRecord **)this->childrenNodes)[i] = ((dummyRecord **)this->childrenNodes)[i - 1];
+            ((Address **)this->childrenNodes)[i] = ((Address **)this->childrenNodes)[i - 1];
         }
 
-        // insert dummyRecord
-        ((dummyRecord **)this->childrenNodes)[index] = (dummyRecord *)child;
+        // insert Address
+        ((Address **)this->childrenNodes)[index] = (Address *)child;
     }
     else
     {
@@ -265,4 +265,17 @@ void Node::remove(int value)
    std::cout<<"index:" <<index <<"value" << keys[index]<< "childnode" << ((Node**)this->childrenNodes)[index] << std::endl;
 
 
+}
+
+// inserts the address of another node into the last index of this node
+void Node::linkToAnotherLeafNode(Node* anotherLeafNode){
+    if(!this->isLeaf){
+        throw 1;
+    }
+    // if the current Node is the rightmost Leaf node of the tree and points to a nullptr
+    if(anotherLeafNode == nullptr){
+        this->currentPointerSize++;
+    }
+    ((Node**)this->childrenNodes)[this->maxPointerSize-1] = anotherLeafNode;
+    this->currentPointerSize++;
 }
