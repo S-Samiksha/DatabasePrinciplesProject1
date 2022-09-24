@@ -29,6 +29,7 @@ public:
     Node *findParentNode(Node *cursor, Node *child);
     int findMinimumKeyInBPTree(Node* node);
 
+    void search(int key);
 
 private:
     // helper function for when the node size is exceeded and requires splitting

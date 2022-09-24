@@ -266,11 +266,11 @@ void Node::remove(int index)
     1. Remove the key
     2. Remove the pointer to the block --> deallocate 
     */
-   this->keys[index]=0;
+   (this->keys)[index] = 0;
    this->currentKeySize--;
    this->currentPointerSize--; //the pointer to the vector has to be removed 
    //TODO
-   std::cout<<"index: " <<index <<" value" << keys[index]<< " childnode " << ((Node**)this->childrenNodes)[index] << std::endl;
+   std::cout<<"index: " <<index <<" value " << keys[0] << " childnode " << ((Node**)this->childrenNodes)[index] << std::endl;
 
 
 }
