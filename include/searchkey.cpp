@@ -8,6 +8,7 @@
 #include <stack>
 #include <cmath>
 
+//single key
 void BPTree::search(int key){
 if (!rootNode){
         std::cout<<"The B+ Tree is Empty" << std::endl;

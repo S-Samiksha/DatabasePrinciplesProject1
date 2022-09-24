@@ -266,7 +266,13 @@ void Node::remove(int index)
     1. Remove the key
     2. Remove the pointer to the block --> deallocate 
     */
-   (this->keys)[index] = 0;
+   
+   
+   //must shift everything to the left 
+   for (int i=index;i<this->currentKeySize;i++){
+    this->keys[i]=this->keys[i+1];
+   }
+   this->keys[currentKeySize]=0;
    this->currentKeySize--;
    this->currentPointerSize--; //the pointer to the vector has to be removed 
    //TODO

@@ -3,6 +3,7 @@
 
 #include "node.h"
 #include "types.h"
+#include <stack>
 
 class BPTree
 {
@@ -30,6 +31,8 @@ public:
     int findMinimumKeyInBPTree(Node* node);
 
     void search(int key);
+
+    void updateParent(std::stack <Node *> stack, int key);
 
 private:
     // helper function for when the node size is exceeded and requires splitting
