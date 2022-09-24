@@ -1,2 +1,3 @@
-Removing of keys in B+ tree:
-How to update the disk address. 
+Bugs:
+1. Main.cpp --> addition of key 5 
+2. Removal of the pointers to the vectors 

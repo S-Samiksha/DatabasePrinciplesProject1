@@ -22,6 +22,8 @@ public:
 
     bool isLeaf;
 
+    int minkeys{0}, minpointers{0};
+
     Node();
 
     Node(int nodeSize, bool isLeaf);

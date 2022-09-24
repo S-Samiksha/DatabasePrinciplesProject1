@@ -344,10 +344,6 @@ void BPTree::makeTestTree()
     // std::cout << "root children 3: " << ((Node **)rootNode->childrenNodes)[2] << std::endl;
 };
 
-// deleting a key
-void BPTree::remove(int key){
-
-};
 
 // displaying the tree
 // do a BFS of the B+tree
