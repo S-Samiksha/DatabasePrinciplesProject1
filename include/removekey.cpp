@@ -32,8 +32,8 @@ void BPTree::remove(int key){
             if (key<current->keys[0]){
                 parent = ((Node **)current->childrenNodes)[0];
                 index = 0;
-                stack.push(NULL);
-                stack.push(((Node **)current->childrenNodes)[1]);
+                stack.push(NULL); //left 
+                stack.push(((Node **)current->childrenNodes)[1]); //right 
             }else{
                 parent = ((Node **)current->childrenNodes)[1];
                 index = 0;
@@ -46,8 +46,8 @@ void BPTree::remove(int key){
             for (int i =0; i<current->currentKeySize;i++){
                 if(key>=current->keys[i] && key < current->keys[i+1]){    
                     parent = ((Node **)current->childrenNodes)[i+1];
-                    stack.push(((Node **)current->childrenNodes)[i]);
-                    stack.push(((Node **)current->childrenNodes)[i+2]);
+                    stack.push(((Node **)current->childrenNodes)[i]); //left
+                    stack.push(((Node **)current->childrenNodes)[i+2]); //right
                     index = i;
                     break; //no point looking further 
                 }
@@ -71,7 +71,7 @@ void BPTree::remove(int key){
     //end while loop----------------------------------------------------------------------------------------------------------
 
     std::cout<<"current " << current << " Index: " << index <<std::endl;
-    //Search within the node 
+    //Search within the leaf node 
     index = current->binarySearch(key);
     if (index == -1){
         std::cout<<"Key not found!"<<std::endl;
@@ -92,13 +92,13 @@ void BPTree::remove(int key){
             //update to the parent only if you are removing the minimum value in the node 
             if (key<current->keys[0]){
                 std::cout<<"Updating parent...."<<std::endl;
-                updateParent(stack, key);
+                updateParent(stack, key); 
                 break;
             }
             break;
         }
         //else if we need to check if we can borrow from left or right neight 
-        std::cout<<stack.size()<<std::endl;
+        //std::cout<<stack.size()<<std::endl;
         
         right = stack.top();
         stack.pop();
@@ -107,8 +107,10 @@ void BPTree::remove(int key){
         //Borrowing NO MERGING ------------------------------------------
         if (left && left->currentKeySize > left->minkeys){
             std::cout<<"borrowing from left node..."<<std::endl;
+            //update parent 
         }else if (right && right->currentKeySize > right->minkeys){
             std::cout<<"borrowing from right node..."<<std::endl;
+            //update parent 
         }
 
         //Requires Merging --------------------------------------------
@@ -126,27 +128,18 @@ void BPTree::remove(int key){
             }
             parent = stack.top();
             stack.pop();
-            //free(right);
+            //1.traverse parent childrennodes --> remove the address 
+            //2. change the key 
+            
+           // delete right; delete in the parent 
             //find the pointer of the right node 
             
 
         }
-        
-
-
 
         break;
-        
-
 
     }
-    
-
-
-    
-
-   
-
 
     std::cout<<"DONE REMOVING~~~~~~~~"<<std::endl<<std::endl;
 
