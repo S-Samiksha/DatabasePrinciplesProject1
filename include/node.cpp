@@ -15,36 +15,41 @@ Node::Node(int nodeSize, bool isLeaf)
     this->keys = new int[this->maxKeySize]{0};
     this->childrenNodes = new void *[this->maxPointerSize]
     { nullptr };
-    if (this->isLeaf){
-        this->minkeys = (int)floor((this->maxKeySize+1)/2);
-        this->minpointers = minkeys+1;
-    }else{
-        this->minkeys = (int)floor(this->maxKeySize/2);
-        this->minpointers = minkeys+1;
+    if (this->isLeaf)
+    {
+        this->minkeys = (int)floor((this->maxKeySize + 1) / 2);
+        this->minpointers = minkeys + 1;
+    }
+    else
+    {
+        this->minkeys = (int)floor(this->maxKeySize / 2);
+        this->minpointers = minkeys + 1;
     }
 };
 
 // prints a node's info and contents
-void Node::printNode(){
-    std::cout<<"**********************"<<std::endl;
-    std::cout<<"Node's address: "<<this<<std::endl;
-    std::cout<<"currentKeySize :"<<this->currentKeySize<<std::endl;
-    std::cout<<"currentPointerSize :"<<this->currentPointerSize<<std::endl;
-    std::string nodeType = this->isLeaf?"LEAF":"InternalNode";
-    std::cout<<"node type :"<<nodeType<<std::endl;
+void Node::printNode()
+{
+    std::cout << "**********************" << std::endl;
+    std::cout << "Node's address: " << this << std::endl;
+    std::cout << "currentKeySize :" << this->currentKeySize << std::endl;
+    std::cout << "currentPointerSize :" << this->currentPointerSize << std::endl;
+    std::string nodeType = this->isLeaf ? "LEAF" : "InternalNode";
+    std::cout << "node type :" << nodeType << std::endl;
 
-    std::cout<<"keyArray: [";
-    for(int i=0;i<this->maxKeySize; i++){
-        std::cout<<this->keys[i]<<",";
+    std::cout << "keyArray: [";
+    for (int i = 0; i < this->maxKeySize; i++)
+    {
+        std::cout << this->keys[i] << ",";
     };
-    std::cout<<"]"<<std::endl;
-    std::cout<<"PointerArray: [";
-    for(int i=0;i<this->maxPointerSize; i++){
-        std::cout<<((Node**)this->childrenNodes)[i]<<",";
+    std::cout << "]" << std::endl;
+    std::cout << "PointerArray: [";
+    for (int i = 0; i < this->maxPointerSize; i++)
+    {
+        std::cout << ((Node **)this->childrenNodes)[i] << ",";
     };
-    std::cout<<"]"<<std::endl;
-    std::cout<<"**********************"<<std::endl;
-
+    std::cout << "]" << std::endl;
+    std::cout << "**********************" << std::endl;
 }
 
 // if leaf node initial insert state is {key,pointer,...., next neighbour}
@@ -101,7 +106,15 @@ void Node::insertSubsequentPair(int key, void *nodeOrRecordPointer)
     }
 
     this->insertKeyInKeyArray(key, insertionIndex);
-    this->insertChildInPointerArray(nodeOrRecordPointer, insertionIndex + 1);
+
+    if (this->isLeaf)
+    {
+        this->insertChildInPointerArray(nodeOrRecordPointer, insertionIndex);
+    }
+    else
+    {
+        this->insertChildInPointerArray(nodeOrRecordPointer, insertionIndex+1);
+    }
 }
 
 // inserts key,pointer pairs into the B+ tree at index
@@ -153,23 +166,33 @@ void Node::insertChildInPointerArray(void *child, int index)
     {
         // push all elements to the right of the inserted element
         int i;
+
+        // offset for linked node
+        // offset is to protect the linked node's pointer from being overwritten
+        int offset = 0;
+        if (((Node **)this->childrenNodes)[this->maxPointerSize - 1] != nullptr)
+        {
+            offset = 1;
+        }
+
         // push the elements on the right side of the insertion index 1 slot right
-        for (i = this->currentPointerSize; i > index; i--)
+        for (i = this->currentPointerSize - offset; i > index; i--)
         {
             ((Address **)this->childrenNodes)[i] = ((Address **)this->childrenNodes)[i - 1];
         }
 
         // insert Address
-        ((Address **)this->childrenNodes)[index] = (Address *)child;
+        // ((Address **)this->childrenNodes)[index] = (Address *)child;
     }
     else
     {
+        // todo: may be cause of error        
         // push all elements to the right of the inserted element
         int i;
         // push the elements on the right side of the insertion index 1 slot right
         for (i = currentPointerSize; i > index; i--)
         {
-            ((Node **)this->childrenNodes)[i] = ((Node **)this->childrenNodes)[i + 1];
+            ((Node **)this->childrenNodes)[i] = ((Node **)this->childrenNodes)[i - 1];
         }
 
         // insert Node
@@ -178,6 +201,37 @@ void Node::insertChildInPointerArray(void *child, int index)
 
     this->currentPointerSize++;
 };
+
+// checks whether there is a right neighbour on the node of the index
+bool Node::hasRightNeighbour(int index)
+{
+
+    // not last value
+    if (index >= this->currentKeySize - 1)
+    {
+        return false;
+    }
+
+    Node *rightNeighbour = ((Node **)this->childrenNodes)[index + 1];
+    if (rightNeighbour != nullptr)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+// checks whether there is a left neighbour on the node of the index
+bool Node::hasLeftNeighbour(int index)
+{
+    // not last value
+    if (index > 0 && index < this->maxKeySize)
+    {
+        return true;
+    }
+
+    return false;
+}
 
 // check if Node is full
 bool Node::isFull()
@@ -260,36 +314,48 @@ void Node::remove(int index)
     {
         throw 1;
     }
-    //find the index of the key 
+    // find the index of the key
     /*
-    within the leaf node removal 
+    within the leaf node removal
     1. Remove the key
-    2. Remove the pointer to the block --> deallocate 
+    2. Remove the pointer to the block --> deallocate
     */
-   
-   
-   //must shift everything to the left 
-   for (int i=index;i<this->currentKeySize;i++){
-    this->keys[i]=this->keys[i+1];
-   }
-   this->keys[currentKeySize]=0;
-   this->currentKeySize--;
-   this->currentPointerSize--; //the pointer to the vector has to be removed 
-   //TODO
-   std::cout<<"index: " <<index <<" value " << keys[0] << " childnode " << ((Node**)this->childrenNodes)[index] << std::endl;
 
-
+    // must shift everything to the left
+    for (int i = index; i < this->currentKeySize; i++)
+    {
+        this->keys[i] = this->keys[i + 1];
+    }
+    this->keys[currentKeySize] = 0;
+    this->currentKeySize--;
+    this->currentPointerSize--; // the pointer to the vector has to be removed
+    // TODO
+    std::cout << "index: " << index << " value " << keys[0] << " childnode " << ((Node **)this->childrenNodes)[index] << std::endl;
 }
 
 // inserts the address of another node into the last index of this node
-void Node::linkToAnotherLeafNode(Node* anotherLeafNode){
-    if(!this->isLeaf){
+void Node::linkToAnotherLeafNode(Node *anotherLeafNode)
+{
+    if (!this->isLeaf)
+    {
         throw 1;
     }
-    // if the current Node is the rightmost Leaf node of the tree and points to a nullptr
-    if(anotherLeafNode == nullptr){
-        this->currentPointerSize++;
+
+    // if the current Node is the rightmost Leaf node of the tree and points to a nullptr we dont increase the currentPointerSize
+    if (anotherLeafNode == nullptr)
+    {
+        return;
     }
-    ((Node**)this->childrenNodes)[this->maxPointerSize-1] = anotherLeafNode;
+
+    // if the leaf node was linked to an old pointer
+    if (((Node **)this->childrenNodes)[this->maxPointerSize - 1] != nullptr)
+    {
+        // link to new node but dont increase pointer size
+        ((Node **)this->childrenNodes)[this->maxPointerSize - 1] = anotherLeafNode;
+        return;
+    }
+
+    // if the leaf node was previously not linked to any other node
+    ((Node **)this->childrenNodes)[this->maxPointerSize - 1] = anotherLeafNode;
     this->currentPointerSize++;
 }

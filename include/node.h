@@ -45,6 +45,11 @@ public:
     
     void linkToAnotherLeafNode(Node *child);
 
+    bool hasRightNeighbour(int index);
+
+    bool hasLeftNeighbour(int index);
+
+
     int returnSize();
 
     bool isFull();

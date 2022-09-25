@@ -22,9 +22,6 @@ public:
     // displaying the tree
     void display();
 
-    // make a test BPTree
-    void makeTestTree();
-
     Node **linkParentToNewChildrenNode(Node *parentNode, Node *leftChildNode, Node *rightChildNode);
 
     Node *findParentNode(Node *cursor, Node *child);

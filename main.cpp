@@ -20,10 +20,15 @@ int main()
     testBPTree->insert(testBPTree->rootNode, 20, nullptr);
     testBPTree->insert(testBPTree->rootNode, 28, nullptr);
     testBPTree->insert(testBPTree->rootNode, 42, nullptr);
-   // testBPTree->insert(testBPTree->rootNode, 5, nullptr); //Causes bugs 
+   testBPTree->insert(testBPTree->rootNode, 5, nullptr);  
+   testBPTree->insert(testBPTree->rootNode, 6, nullptr); 
+
+
+
+
     testBPTree->display();
-    testBPTree->remove(20);
-    testBPTree->display();
+    // testBPTree->remove(20);
+    // testBPTree->display();
     //testBPTree->remove(5);
     //testBPTree->remove(17);
 
