@@ -9,11 +9,14 @@
 
 
 void BPTree::remove(int key){
+    
+    //if there is no root, there is no tree
     if (!rootNode){
         std::cout<<"The B+ Tree is Empty" << std::endl;
         return;
     }
 
+    //start of the removal 
     std::cout<<std::endl;
     std::cout<<"REMOVING~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<std::endl;
     std::stack <Node *> stack;
@@ -32,8 +35,8 @@ void BPTree::remove(int key){
             if (key<current->keys[0]){
                 parent = ((Node **)current->childrenNodes)[0];
                 index = 0;
-                stack.push(NULL);
-                stack.push(((Node **)current->childrenNodes)[1]);
+                stack.push(NULL); //left 
+                stack.push(((Node **)current->childrenNodes)[1]); //right 
             }else{
                 parent = ((Node **)current->childrenNodes)[1];
                 index = 0;
@@ -46,8 +49,8 @@ void BPTree::remove(int key){
             for (int i =0; i<current->currentKeySize;i++){
                 if(key>=current->keys[i] && key < current->keys[i+1]){    
                     parent = ((Node **)current->childrenNodes)[i+1];
-                    stack.push(((Node **)current->childrenNodes)[i]);
-                    stack.push(((Node **)current->childrenNodes)[i+2]);
+                    stack.push(((Node **)current->childrenNodes)[i]); //left
+                    stack.push(((Node **)current->childrenNodes)[i+2]); //right
                     index = i;
                     break; //no point looking further 
                 }
@@ -70,51 +73,110 @@ void BPTree::remove(int key){
     }
     //end while loop----------------------------------------------------------------------------------------------------------
 
+
+
+
     std::cout<<"current " << current << " Index: " << index <<std::endl;
-    //Search within the node 
+    //Search within the leaf node 
     index = current->binarySearch(key);
     if (index == -1){
         std::cout<<"Key not found!"<<std::endl;
         return;
     }
+
+
     //the first thing to do is remove from the leaf node
     current->remove(index);
+
 
     //go upwards 
     Node *left = NULL;
     Node *right = NULL;
-    
+
     current = stack.top();
     stack.pop();
+
     while(!stack.empty()){
         //1. if the removing maintains minimum number of keys  
         if (current->currentKeySize>=current->minkeys){
             //update to the parent only if you are removing the minimum value in the node 
             if (key<current->keys[0]){
                 std::cout<<"Updating parent...."<<std::endl;
-                updateParent(stack, key);
+                std::cout<<key<<std::endl;
+                stack.push(current);
+                updateParent(stack, key); 
                 break;
             }
             break;
         }
         //else if we need to check if we can borrow from left or right neight 
-        std::cout<<stack.size()<<std::endl;
+        //std::cout<<stack.size()<<std::endl;
         
         right = stack.top();
         stack.pop();
         left = stack.top();
         stack.pop();
+        
         //Borrowing NO MERGING ------------------------------------------
         if (left && left->currentKeySize > left->minkeys){
             std::cout<<"borrowing from left node..."<<std::endl;
-        }else if (right && right->currentKeySize > right->minkeys){
+            //make space for the key and pointer in the current node
+            for(int k=current->currentKeySize;k>0;k--){
+                current->keys[k]=current->keys[k-1];
+                ((Node **)current->childrenNodes)[k]=((Node **)current->childrenNodes)[k-1];
+            }
+            current->keys[0]=left->keys[left->currentKeySize-1];
+            left->currentKeySize--;
+            current->currentKeySize++;
+            ((Node **)current->childrenNodes)[0] =((Node **)left->childrenNodes)[left->currentPointerSize-1];
+            current->currentPointerSize++;
+            left->currentPointerSize--;
+            //update parent in the next while loop automatically
+
+        }
+        
+        else if (right && right->currentKeySize > right->minkeys){
             std::cout<<"borrowing from right node..."<<std::endl;
+            current->keys[current->currentKeySize]=right->keys[0];
+            ((Node **)current->childrenNodes)[current->currentPointerSize]=((Node **)right->childrenNodes)[0];
+            for (int k=0;k<right->currentPointerSize;k++){
+                right->keys[k]=right->keys[k+1];
+                ((Node **)right->childrenNodes)[k]=((Node **)right->childrenNodes)[k+1];
+            }
+
+            //update parent 
+
         }
 
         //Requires Merging --------------------------------------------
-        if (left && left->currentKeySize <= left->minkeys){
+        else if (left && left->currentKeySize <= left->minkeys){
             std::cout<<"Merging with left node..."<<std::endl;
+            int i=0;
+            //transfeer all to the left node
+            for (int k=left->currentKeySize;k<left->maxKeySize;k++){
+                left->keys[k]=current->keys[i];
+                current->keys[i]=0;
+                i++;
+            }
+            //since we are merging with left, only removal of the pointer and key is necessary from the parent 
+            parent = stack.top();
+            stack.pop();
+            for(int m=0;m<parent->currentPointerSize;m++){
+                if (((Node **)parent->childrenNodes)[m] == current){
+                    for(int j=m;j<parent->currentPointerSize;j++){
+                       ((Node **)parent->childrenNodes)[j]=((Node **)parent->childrenNodes)[j+1];
+                       parent->keys[j-1]=parent->keys[j];
+                    }
+                    break; //remove the pointers 
+                }
+            }
+            parent->currentKeySize--;
+            parent->currentPointerSize--;
+            delete current;
+            current = parent;
         }
+
+
         else if (right && right->currentKeySize <= right->minkeys){
             std::cout<<"Merging with right node..."<<std::endl;
             //transfer all the keys to the current node
@@ -126,34 +188,38 @@ void BPTree::remove(int key){
             }
             parent = stack.top();
             stack.pop();
-            //free(right);
+            //1.traverse parent childrennodes --> remove the address 
+            //2.remove the key as well 
+            //3. it is the current node must update the key for that 
+            for(int m=0;m<parent->currentPointerSize;m++){
+                if (((Node **)parent->childrenNodes)[m] == right){
+                    for(int j=m;j<parent->currentPointerSize;j++){
+                       ((Node **)parent->childrenNodes)[j]=((Node **)parent->childrenNodes)[j+1];
+                       parent->keys[j-1]=parent->keys[j];
+                    }
+                    break; //remove the pointers 
+                }
+                
+                if (((Node **)parent->childrenNodes)[m] == current){
+                    parent->keys[m-1]=findMinimumKeyInBPTree(current);
+                }
+            }
+            parent->currentKeySize--;
+            parent->currentPointerSize--;
+            current = parent;
+            delete right; //delete in the parent 
             //find the pointer of the right node 
-            
-
         }
-        
-
-
-
-        break;
-        
 
 
     }
-    
-
-
-    
-
-   
 
 
     std::cout<<"DONE REMOVING~~~~~~~~"<<std::endl<<std::endl;
-
-    
-
 }
 
+
+//helper function to update parent all the way to the top 
 void BPTree::updateParent(std::stack <Node *> stack, int key){
 
     Node* parent = NULL;
@@ -165,43 +231,23 @@ void BPTree::updateParent(std::stack <Node *> stack, int key){
     current = stack.top();
     stack.pop();
     while(!stack.empty()){
-        
-        std::cout<<"debug1"<<std::endl;
-        std::cout<<current <<std::endl;
-        
-        
-        right = stack.top(); //right
-        stack.pop();
-        left = stack.top();
+        stack.pop(); //right
         stack.pop(); //left
         parent = stack.top(); //parent 
-        //std::cout<<right <<" "<< left << " " << parent <<std::endl;
         stack.pop();
-        
         //within the parent must update the key only if it comes from the right subtree
         index = -1;
-        index = parent->binarySearch(key);
-        std::cout<<index<<std::endl;
-        if (index == -1){
-            //come from left sub tree no need to do anything simply return
-            //return;
-            //if left does not exist it is the first node in the subtree
-            if (current->keys[0] < minimum){
-                minimum = current->keys[0];
+        minimum = findMinimumKeyInBPTree(current);
+        std::cout<<"parent: "<<parent<<" current: " << current <<" minimum: "<<minimum<<std::endl;
+        for (int m = 0; m<parent->currentPointerSize;m++){       
+            if (((Node **)parent->childrenNodes)[m] == current){
+                std::cout<<"debug 1: "<< m <<std::endl;
+                parent->keys[m-1]=minimum;
             }
-            
-            //std::cout<<minimum<<std::endl;
-        }else{
-            parent->keys[index] = current->keys[0];
-            
         }
         current = parent;
     }
-   // std::cout<<minimum<<std::endl;
-    if (current==rootNode && current->keys[0]>minimum){
-        current->keys[0]=minimum;
-    }
-
+    std::cout<<minimum<<std::endl;
     return;
 }
 
