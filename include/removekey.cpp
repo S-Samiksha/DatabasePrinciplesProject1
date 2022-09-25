@@ -95,6 +95,7 @@ void BPTree::remove(int key){
 
     current = stack.top();
     stack.pop();
+
     while(!stack.empty()){
         //1. if the removing maintains minimum number of keys  
         if (current->currentKeySize>=current->minkeys){
@@ -115,19 +116,40 @@ void BPTree::remove(int key){
         stack.pop();
         left = stack.top();
         stack.pop();
+        
         //Borrowing NO MERGING ------------------------------------------
         if (left && left->currentKeySize > left->minkeys){
             std::cout<<"borrowing from left node..."<<std::endl;
-            //update parent 
+            //make space for the key and pointer in the current node
+            for(int k=current->currentKeySize;k>0;k--){
+                current->keys[k]=current->keys[k-1];
+                ((Node **)current->childrenNodes)[k]=((Node **)current->childrenNodes)[k-1];
+            }
+            current->keys[0]=left->keys[left->currentKeySize-1];
+            left->currentKeySize--;
+            current->currentKeySize++;
+            ((Node **)current->childrenNodes)[0] =((Node **)left->childrenNodes)[left->currentPointerSize-1];
+            current->currentPointerSize++;
+            left->currentPointerSize--;
+            //update parent in the next while loop automatically
+
         }
         
         else if (right && right->currentKeySize > right->minkeys){
             std::cout<<"borrowing from right node..."<<std::endl;
+            current->keys[current->currentKeySize]=right->keys[0];
+            ((Node **)current->childrenNodes)[current->currentPointerSize]=((Node **)right->childrenNodes)[0];
+            for (int k=0;k<right->currentPointerSize;k++){
+                right->keys[k]=right->keys[k+1];
+                ((Node **)right->childrenNodes)[k]=((Node **)right->childrenNodes)[k+1];
+            }
+
             //update parent 
+
         }
 
         //Requires Merging --------------------------------------------
-        if (left && left->currentKeySize <= left->minkeys){
+        else if (left && left->currentKeySize <= left->minkeys){
             std::cout<<"Merging with left node..."<<std::endl;
             int i=0;
             //transfeer all to the left node
