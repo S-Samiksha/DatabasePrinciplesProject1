@@ -9,7 +9,7 @@ int main()
     testBPTree->rootNode = new Node(3, true);
     testBPTree->insert(testBPTree->rootNode, 1, nullptr);
     testBPTree->insert(testBPTree->rootNode, 4, nullptr);
-    //testBPTree->insert(testBPTree->rootNode, 5, nullptr);
+    testBPTree->insert(testBPTree->rootNode, 5, nullptr);
     testBPTree->insert(testBPTree->rootNode, 7, nullptr);
     testBPTree->insert(testBPTree->rootNode, 10, nullptr);
     testBPTree->insert(testBPTree->rootNode, 17, nullptr);
@@ -22,7 +22,7 @@ int main()
     testBPTree->insert(testBPTree->rootNode, 42, nullptr);
    //testBPTree->insert(testBPTree->rootNode, 5, nullptr); //Causes bugs 
     testBPTree->display();
-    testBPTree->remove(20);
+    testBPTree->remove(19);
     testBPTree->display();
     //testBPTree->remove(5);
     //testBPTree->remove(17);
