@@ -24,9 +24,6 @@ handling if there is no tree left <br>
 borrowing from left neighbor (non merging case)  <br>
 borrowing from right neighbor (non merging case) <br>
 merging from left neighbor (merging case) <br>
-merging from right neighbor (merging case) <br>
-check if need to "recursively" merge the function and how to keep track of the nodes. <br>
-how to free the node? <br> --> 
 
 
 B node.cpp<br>

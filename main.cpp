@@ -22,7 +22,7 @@ int main()
     testBPTree->insert(testBPTree->rootNode, 42, nullptr);
    //testBPTree->insert(testBPTree->rootNode, 5, nullptr); //Causes bugs 
     testBPTree->display();
-    testBPTree->remove(19);
+    testBPTree->remove(1);
     testBPTree->display();
     //testBPTree->remove(5);
     //testBPTree->remove(17);

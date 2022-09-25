@@ -9,11 +9,14 @@
 
 
 void BPTree::remove(int key){
+    
+    //if there is no root, there is no tree
     if (!rootNode){
         std::cout<<"The B+ Tree is Empty" << std::endl;
         return;
     }
 
+    //start of the removal 
     std::cout<<std::endl;
     std::cout<<"REMOVING~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<std::endl;
     std::stack <Node *> stack;
@@ -73,8 +76,6 @@ void BPTree::remove(int key){
 
 
 
-
-
     std::cout<<"current " << current << " Index: " << index <<std::endl;
     //Search within the leaf node 
     index = current->binarySearch(key);
@@ -82,19 +83,16 @@ void BPTree::remove(int key){
         std::cout<<"Key not found!"<<std::endl;
         return;
     }
+
+
     //the first thing to do is remove from the leaf node
     current->remove(index);
-
-
-
-
-
 
 
     //go upwards 
     Node *left = NULL;
     Node *right = NULL;
-    
+
     current = stack.top();
     stack.pop();
     while(!stack.empty()){
@@ -121,7 +119,9 @@ void BPTree::remove(int key){
         if (left && left->currentKeySize > left->minkeys){
             std::cout<<"borrowing from left node..."<<std::endl;
             //update parent 
-        }else if (right && right->currentKeySize > right->minkeys){
+        }
+        
+        else if (right && right->currentKeySize > right->minkeys){
             std::cout<<"borrowing from right node..."<<std::endl;
             //update parent 
         }
@@ -129,7 +129,32 @@ void BPTree::remove(int key){
         //Requires Merging --------------------------------------------
         if (left && left->currentKeySize <= left->minkeys){
             std::cout<<"Merging with left node..."<<std::endl;
+            int i=0;
+            //transfeer all to the left node
+            for (int k=left->currentKeySize;k<left->maxKeySize;k++){
+                left->keys[k]=current->keys[i];
+                current->keys[i]=0;
+                i++;
+            }
+            //since we are merging with left, only removal of the pointer and key is necessary from the parent 
+            parent = stack.top();
+            stack.pop();
+            for(int m=0;m<parent->currentPointerSize;m++){
+                if (((Node **)parent->childrenNodes)[m] == current){
+                    for(int j=m;j<parent->currentPointerSize;j++){
+                       ((Node **)parent->childrenNodes)[j]=((Node **)parent->childrenNodes)[j+1];
+                       parent->keys[j-1]=parent->keys[j];
+                    }
+                    break; //remove the pointers 
+                }
+            }
+            parent->currentKeySize--;
+            parent->currentPointerSize--;
+            delete current;
+            current = parent;
         }
+
+
         else if (right && right->currentKeySize <= right->minkeys){
             std::cout<<"Merging with right node..."<<std::endl;
             //transfer all the keys to the current node
@@ -160,20 +185,15 @@ void BPTree::remove(int key){
             parent->currentKeySize--;
             parent->currentPointerSize--;
             current = parent;
-            
-            
             delete right; //delete in the parent 
             //find the pointer of the right node 
         }
 
-        //break;
 
     }
 
+
     std::cout<<"DONE REMOVING~~~~~~~~"<<std::endl<<std::endl;
-
-    
-
 }
 
 
@@ -205,9 +225,7 @@ void BPTree::updateParent(std::stack <Node *> stack, int key){
         }
         current = parent;
     }
-   std::cout<<minimum<<std::endl;
-
-
+    std::cout<<minimum<<std::endl;
     return;
 }
 
