@@ -70,6 +70,11 @@ void BPTree::remove(int key){
     }
     //end while loop----------------------------------------------------------------------------------------------------------
 
+
+
+
+
+
     std::cout<<"current " << current << " Index: " << index <<std::endl;
     //Search within the leaf node 
     index = current->binarySearch(key);
@@ -79,6 +84,12 @@ void BPTree::remove(int key){
     }
     //the first thing to do is remove from the leaf node
     current->remove(index);
+
+
+
+
+
+
 
     //go upwards 
     Node *left = NULL;
@@ -92,6 +103,7 @@ void BPTree::remove(int key){
             //update to the parent only if you are removing the minimum value in the node 
             if (key<current->keys[0]){
                 std::cout<<"Updating parent...."<<std::endl;
+                std::cout<<key<<std::endl;
                 updateParent(stack, key); 
                 break;
             }
@@ -130,14 +142,25 @@ void BPTree::remove(int key){
             stack.pop();
             //1.traverse parent childrennodes --> remove the address 
             //2. change the key 
+            for(int m=0;m<parent->currentPointerSize;m++){
+                if (((Node **)parent->childrenNodes)[m] == right){
+                    for(int j=m;j<parent->currentPointerSize;j++){
+                       ((Node **)parent->childrenNodes)[j]=((Node **)parent->childrenNodes)[j+1];
+                       parent->keys[j-1]=parent->keys[j];
+                    }
+                    break; //remove the pointers 
+                }
+            }
+            parent->currentKeySize--;
+            parent->currentPointerSize--;
+            current = parent;
+            stack.push(current);
             
-           // delete right; delete in the parent 
+            delete right; //delete in the parent 
             //find the pointer of the right node 
-            
-
         }
 
-        break;
+        //break;
 
     }
 
@@ -158,41 +181,31 @@ void BPTree::updateParent(std::stack <Node *> stack, int key){
     current = stack.top();
     stack.pop();
     while(!stack.empty()){
-        
-        std::cout<<"debug1"<<std::endl;
         std::cout<<current <<std::endl;
+        stack.pop(); //right
         
-        
-        right = stack.top(); //right
-        stack.pop();
-        left = stack.top();
         stack.pop(); //left
         parent = stack.top(); //parent 
-        //std::cout<<right <<" "<< left << " " << parent <<std::endl;
         stack.pop();
-        
         //within the parent must update the key only if it comes from the right subtree
         index = -1;
         index = parent->binarySearch(key);
-        std::cout<<index<<std::endl;
+        
         if (index == -1){
-            //come from left sub tree no need to do anything simply return
-            //return;
-            //if left does not exist it is the first node in the subtree
             if (current->keys[0] < minimum){
                 minimum = current->keys[0];
             }
-            
-            //std::cout<<minimum<<std::endl;
         }else{
+            //TODO: must change here to update to the minimum key in the subtree
             parent->keys[index] = current->keys[0];
+
             
         }
         current = parent;
     }
-   // std::cout<<minimum<<std::endl;
-    if (current==rootNode && current->keys[0]>minimum){
-        current->keys[0]=minimum;
+   std::cout<<minimum<<std::endl;
+    if (current==rootNode && current->keys[0]>key){
+        current->keys[0]=key;
     }
 
     return;
