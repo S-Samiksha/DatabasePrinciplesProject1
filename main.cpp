@@ -19,7 +19,6 @@ int main()
     testBPTree->insert(testBPTree->rootNode, 20, nullptr);
     testBPTree->insert(testBPTree->rootNode, 28, nullptr);
     testBPTree->insert(testBPTree->rootNode, 42, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 5, nullptr);
     testBPTree->insert(testBPTree->rootNode, 6, nullptr);
 
     testBPTree->remove(1);
