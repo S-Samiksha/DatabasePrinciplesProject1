@@ -49,6 +49,7 @@ public:
 
     bool hasLeftNeighbour(int index);
 
+    int removeFirstKeyFromNode();
 
     int returnSize();
 

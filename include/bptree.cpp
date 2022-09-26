@@ -77,9 +77,6 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                     leftNode->currentPointerSize++;
                 }
 
-                // link left node to right node
-                leftNode->linkToAnotherLeafNode(rightNode);
-
                 // filling the right subtree
                 newNodesCounter = 0;
 
@@ -138,7 +135,7 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
             // and requires insertion on the parent
             Node **returnedChildSubTrees = this->insert(childNode, key, incomingRecord);
 
-            // if nullptr is returned, that means theres nothing to be inserted on the parent
+            // if nullptr is returned, that means child was not split
             if (returnedChildSubTrees == nullptr)
             {
                 return nullptr;
@@ -150,33 +147,14 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
             int keyToInsertIntoParent;
 
             // if child is a leaf, insert the first key into the parent Node
-            // link rightChilSubTree to right neighbour of parent
-            // link left Neighbour of parent to left childSubTree
             if (rightChildSubTree->isLeaf)
             {
                 // insert key into parent
                 keyToInsertIntoParent = rightChildSubTree->keys[0];
-
-                // if right neighbour exists link to right Chil sub tree
-                // right neighbour exists as long as in the parent node, right child is not inserted at the end at insertion Index and the pointerNode to its right is not empty
-                // todo: might be errornous cos of isnertion index +1 might be out of array range
-                if (insertionIndex < parentNode->maxPointerSize - 1 && ((Node **)parentNode->childrenNodes)[insertionIndex + 1] != nullptr)
-                {
-                    rightChildSubTree->linkToAnotherLeafNode(((Node **)parentNode->childrenNodes)[insertionIndex + 1]);
-                }
-
-                // if left neighbour exists link to left child subtree
-                // left neighbour exists as long as in the parent Node, the left child is not inserted at the index 0
-                if (insertionIndex > 0)
-                {
-                    Node *leftNeighbour = ((Node **)parentNode->childrenNodes)[insertionIndex - 1];
-                    leftNeighbour->linkToAnotherLeafNode(leftChildSubTree);
-                }
             }
-            // if child is a non-leaf, remove the first key from the right node and insert it into the parent node
             else
             {
-                keyToInsertIntoParent = this->removeFirstKeyFromNode(rightChildSubTree);
+                keyToInsertIntoParent = rightChildSubTree->removeFirstKeyFromNode();
             }
 
             if (parentNode->isFull())
@@ -187,16 +165,15 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
 
                 leftNode = new Node(this->nodeSize, false);
                 rightNode = new Node(this->nodeSize, false);
-                // child is non-leaf
 
-                // minimum and maximum bounds of non-leaf nodes
-                int minimumKeySizeRight = this->nodeSize / 2;
+                //  minimum and maximum bounds of non-leaf nodes
+                int minimumKeySizeRight = (this->nodeSize / 2);
                 int minimumKeySizeLeft = this->nodeSize - minimumKeySizeRight;
 
                 // build a virtual array to help with the splitting
                 int virtualKeyArray[this->nodeSize + 1]{0};
                 Node *virtualPointerArray[this->nodeSize + 2]{nullptr};
-                
+
                 int i = 0;
                 for (i; i < this->nodeSize; i++)
                 {
@@ -223,34 +200,36 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
 
                 // fill the left and right subtrees
                 int virtualKeyCounter = 0;
+                int virtualPtrCounter = 0;
                 int newNodesKeyCounter = 0;
 
                 // fill the left and right subtrees we want to return to the upper level
                 while (newNodesKeyCounter < minimumKeySizeLeft)
                 {
                     leftNode->keys[newNodesKeyCounter] = virtualKeyArray[virtualKeyCounter];
-                    ((Node **)leftNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualKeyCounter];
+                    ((Node **)leftNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualPtrCounter];
 
                     newNodesKeyCounter++;
                     virtualKeyCounter++;
+                    virtualPtrCounter++;
                     leftNode->currentKeySize++;
                     leftNode->currentPointerSize++;
                 }
 
                 // add the right most pointer of left subtree
-                ((Node **)leftNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualKeyCounter];
+                ((Node **)leftNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualPtrCounter];
 
-                virtualKeyCounter++;
                 leftNode->currentPointerSize++;
 
                 // fill the right subtree
                 newNodesKeyCounter = 0;
-                while (newNodesKeyCounter < minimumKeySizeRight)
+                while (newNodesKeyCounter < minimumKeySizeRight + 1)
                 {
                     rightNode->keys[newNodesKeyCounter] = virtualKeyArray[virtualKeyCounter];
-                    ((Node **)rightNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualKeyCounter];
+                    ((Node **)rightNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualPtrCounter];
 
                     newNodesKeyCounter++;
+                    virtualPtrCounter++;
                     virtualKeyCounter++;
                     rightNode->currentKeySize++;
                     rightNode->currentPointerSize++;
@@ -260,12 +239,18 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                 ((Node **)rightNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualKeyCounter];
                 rightNode->currentPointerSize++;
 
-                // // if parent node is root node and is full create new root node and link
+                // if parent node is root node and is full create new root node
                 if (parentNode == this->rootNode)
                 {
+                    // remove first element of right subtree
+                    int parentInsertionKey = rightNode->removeFirstKeyFromNode();
+                    // std::cout << "Left subtree to go up up" << std::endl;
+                    // leftNode->printNode();
+                    // std::cout << "Right subtree to go up up" << std::endl;
+                    rightNode->printNode();
                     //  create new parent
                     Node *newRoot = new Node(this->nodeSize, false);
-                    newRoot->insertInitialInNonLeafNode(keyToInsertIntoParent, leftNode, rightNode);
+                    newRoot->insertInitialInNonLeafNode(parentInsertionKey, leftNode, rightNode);
                     // dealloc old memory to prevent leaks
                     delete this->rootNode;
                     this->rootNode = newRoot;
@@ -345,7 +330,6 @@ void BPTree::display()
             }
 
             // add children nodes to nextLevel nodes if it is not nullptr
-
             // add last children Node to the nextLevel list cos there are n+1 children where n= number of keys
             if (((Node **)currentNode->childrenNodes)[j] != nullptr && !currentNode->isLeaf)
             {
@@ -410,30 +394,6 @@ Node *BPTree::findParentNode(Node *cursor, Node *child)
 // helper function for when the node size is unbalanced and requires merging
 void BPTree::merge(Node *currentNode, int deletedKey){};
 
-// helper function for insert()
-int BPTree::removeFirstKeyFromNode(Node *node)
-{
-    int removedKey = node->keys[0];
-    if (node->isLeaf)
-    {
-        std::cout << "cannot remove first key-pointer pair from a leaf node" << std::endl;
-        throw 1;
-    }
-
-    for (int i = 0; i < node->currentKeySize; i++)
-    {
-        node->keys[i] = node->keys[i + 1];
-    }
-
-    for (int i = 1; i < node->currentKeySize + 1; i++)
-    {
-        ((Node **)node->childrenNodes)[i] = ((Node **)node->childrenNodes)[i + 1];
-    }
-    node->currentKeySize--;
-    node->currentPointerSize--;
-    return removedKey;
-};
-
 // finds the minimum key for the BPTree
 int BPTree::findMinimumKeyInBPTree(Node *node)
 {
@@ -442,4 +402,87 @@ int BPTree::findMinimumKeyInBPTree(Node *node)
         return node->keys[0];
     }
     return findMinimumKeyInBPTree(((Node **)node->childrenNodes)[0]);
+}
+
+// prints the record keys currently stored
+void BPTree::printBPDetails()
+{
+    std::cout << "******BPTREE DETAILS******" << std::endl;
+
+    Node *cursor = this->rootNode;
+
+    // traverse to leaf node
+    while (!cursor->isLeaf)
+    {
+        int insertionIndex = cursor->binarySearchInsertIndex(0);
+        cursor = ((Node **)cursor->childrenNodes)[insertionIndex];
+    }
+
+    std::cout << "List of Records: [ ";
+
+    int count = 0;
+    while (cursor != nullptr)
+    {
+        for (int i = 0; i < cursor->currentKeySize; i++)
+        {
+            std::cout << cursor->keys[i] << ",";
+            count++;
+        }
+
+        cursor = ((Node **)cursor->childrenNodes)[cursor->maxPointerSize - 1];
+    }
+    std::cout << "]" << std::endl;
+    ;
+    std::cout << "number of records: " << count << std::endl;
+}
+
+// does DFS traversal and links all leafnodes together
+void BPTree::linkLeafNodes()
+{
+    std::vector<Node *> leafNodes;
+
+    this->DFSNodes(this->rootNode, leafNodes);
+
+    // std::cout<<"Leaf nodeslist size: "<< leafNodes.size()<<std::endl;
+    // for(int i=0;i<leafNodes.size();i++){
+    //     leafNodes[i]->printNode();
+    // }
+
+    // link the leaf nodes tgt
+    for (int i = 0, j = 1; j < leafNodes.size(); i++, j++)
+    {
+        leafNodes.at(i)->linkToAnotherLeafNode(leafNodes.at(j));
+    }
+}
+
+void BPTree::DFSNodes(Node *currentNode, std::vector<Node *> &recordList)
+{
+    std::queue<Node *> childrenNodesToSearch;
+    // terminal condition if the node is a leaf, add node pointer into the vector
+    if (currentNode->isLeaf)
+    {
+        recordList.push_back(currentNode);
+        std::cout << "keys in leaf node: [ ";
+        for (int i = 0; i < currentNode->currentKeySize; i++)
+        {
+            std::cout << currentNode->keys[i] << ", ";
+        }
+        std::cout << "]" << std::endl;
+        return;
+    }
+
+    // keep track of all the children nodes to search in this parent node in a queue
+    for (int i = 0; i < currentNode->currentPointerSize; i++)
+    {
+        Node *tempNode = ((Node **)currentNode->childrenNodes)[i];
+        childrenNodesToSearch.push(tempNode);
+    }
+    // search the first children node in that queue
+    while (!childrenNodesToSearch.empty())
+    {
+        Node *childrenNodeToTraverse = childrenNodesToSearch.front();
+        childrenNodesToSearch.pop();
+        this->DFSNodes(childrenNodeToTraverse, recordList);
+        // going up the recursion
+    }
 }

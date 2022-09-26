@@ -202,6 +202,31 @@ void Node::insertChildInPointerArray(void *child, int index)
     this->currentPointerSize++;
 };
 
+// helper function for insert()
+int Node::removeFirstKeyFromNode()
+{
+    int removedKey = this->keys[0];
+    std::cout << "here is the removed key" << removedKey << std::endl;
+    if (this->isLeaf)
+    {
+        std::cout << "cannot remove first key-pointer pair from a leaf node" << std::endl;
+        throw 1;
+    }
+
+    for (int i = 0; i < this->currentKeySize; i++)
+    {
+        this->keys[i] = this->keys[i + 1];
+    }
+
+    for (int i = 0; i < this->currentKeySize + 1; i++)
+    {
+        ((Node **)this->childrenNodes)[i] = ((Node **)this->childrenNodes)[i + 1];
+    }
+    this->currentKeySize--;
+    this->currentPointerSize--;
+    return removedKey;
+};
+
 // checks whether there is a right neighbour on the node of the index
 bool Node::hasRightNeighbour(int index)
 {

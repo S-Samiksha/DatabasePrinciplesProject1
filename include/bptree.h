@@ -14,7 +14,7 @@ public:
     BPTree(int nodeSize);
 
     // inserting a key
-    Node **insert(Node *parentNode, int key, Address* incomingRecord);
+    Node **insert(Node *parentNode, int key, Address *incomingRecord);
 
     // deleting a key
     void remove(int key);
@@ -25,11 +25,19 @@ public:
     Node **linkParentToNewChildrenNode(Node *parentNode, Node *leftChildNode, Node *rightChildNode);
 
     Node *findParentNode(Node *cursor, Node *child);
-    int findMinimumKeyInBPTree(Node* node);
+    int findMinimumKeyInBPTree(Node *node);
 
     void search(int key);
 
-    void updateParent(std::stack <Node *> stack, int key);
+    void updateParent(std::stack<Node *> stack, int key);
+
+    // prints details and all record keys
+    void printBPDetails();
+
+    // links all leaf nodes of the BPTree
+    void linkLeafNodes();
+
+    void DFSNodes(Node* currentNode,std::vector<Node*> &recordList);
 
 private:
     // helper function for when the node size is exceeded and requires splitting
@@ -44,9 +52,8 @@ private:
     int insertInternal(Node *currentSubTreeRootNode, int key);
 
     // remove first key-pointer pair from a split right node
-    int removeFirstKeyFromNode(Node* node);
+    // int removeFirstKeyFromNode(Node *node);
 
-    //
     
 };
 
