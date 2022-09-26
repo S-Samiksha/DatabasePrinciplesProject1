@@ -122,6 +122,9 @@ void BPTree::searchRange(int lowKey,int highKey){
                 }
                 if(current->){
                     //need help. How to access last pointer of the node?
+                    //psuedocode: if !(last pointer->null address) && (current.key[i]<highKey)
+                    //                  current = next node
+                    //           else stop  = true
                 }
 
             }
