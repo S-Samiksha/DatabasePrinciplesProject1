@@ -37,7 +37,7 @@ public:
     // links all leaf nodes of the BPTree
     void linkLeafNodes();
 
-    void DFSNodes(Node* currentNode,std::vector<Node*> &recordList);
+    void DFSNodes(Node* currentNode,std::vector<Node*> &recordList,int &nodeCount);
 
 private:
     // helper function for when the node size is exceeded and requires splitting

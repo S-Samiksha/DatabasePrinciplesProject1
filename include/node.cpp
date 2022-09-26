@@ -206,7 +206,6 @@ void Node::insertChildInPointerArray(void *child, int index)
 int Node::removeFirstKeyFromNode()
 {
     int removedKey = this->keys[0];
-    std::cout << "here is the removed key" << removedKey << std::endl;
     if (this->isLeaf)
     {
         std::cout << "cannot remove first key-pointer pair from a leaf node" << std::endl;

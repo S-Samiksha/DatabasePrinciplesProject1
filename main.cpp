@@ -33,7 +33,7 @@ int main()
     testBPTree->linkLeafNodes();
 
     testBPTree->display();
-    testBPTree->printBPDetails();
+    // testBPTree->printBPDetails();
     testBPTree->remove(1);
 
     return 0;

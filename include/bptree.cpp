@@ -7,6 +7,7 @@
 #include "types.h"
 #include <stack>
 #include <cmath>
+#include <functional>
 
 BPTree::BPTree(int nodeSize)
 {
@@ -247,7 +248,7 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                     // std::cout << "Left subtree to go up up" << std::endl;
                     // leftNode->printNode();
                     // std::cout << "Right subtree to go up up" << std::endl;
-                    rightNode->printNode();
+                    // rightNode->printNode();
                     //  create new parent
                     Node *newRoot = new Node(this->nodeSize, false);
                     newRoot->insertInitialInNonLeafNode(parentInsertionKey, leftNode, rightNode);
@@ -407,8 +408,10 @@ int BPTree::findMinimumKeyInBPTree(Node *node)
 // prints the record keys currently stored
 void BPTree::printBPDetails()
 {
-    std::cout << "******BPTREE DETAILS******" << std::endl;
-
+    int height =1;
+    // perform DFS of from the root node to
+    std::function<int(int, int)> dfs;
+    
     Node *cursor = this->rootNode;
 
     // traverse to leaf node
@@ -416,8 +419,10 @@ void BPTree::printBPDetails()
     {
         int insertionIndex = cursor->binarySearchInsertIndex(0);
         cursor = ((Node **)cursor->childrenNodes)[insertionIndex];
+        height++;
     }
 
+    std::cout<<"height of B+ Tree is: "<< height <<std::endl;
     std::cout << "List of Records: [ ";
 
     int count = 0;
@@ -440,27 +445,36 @@ void BPTree::printBPDetails()
 void BPTree::linkLeafNodes()
 {
     std::vector<Node *> leafNodes;
-
-    this->DFSNodes(this->rootNode, leafNodes);
-
-    // std::cout<<"Leaf nodeslist size: "<< leafNodes.size()<<std::endl;
-    // for(int i=0;i<leafNodes.size();i++){
-    //     leafNodes[i]->printNode();
-    // }
-
-    // link the leaf nodes tgt
+    int nodeCount =1;
+    this->DFSNodes(this->rootNode, leafNodes,nodeCount);
+    
+    //link the leaf nodes tgt
     for (int i = 0, j = 1; j < leafNodes.size(); i++, j++)
     {
         leafNodes.at(i)->linkToAnotherLeafNode(leafNodes.at(j));
     }
+
+    // other information
+    std::cout << "******BPTREE DETAILS******" << std::endl;
+    std::cout << "parameter n (number of keys): " << this->nodeSize << std::endl;
+    std::cout<<"Total NodeSize: "<<nodeCount<<std::endl;
+    std::cout<<"Leaf nodeslist size: "<< leafNodes.size()<<std::endl;
+    printBPDetails();
+    std::cout<< "\n\nContent Of Root Node:"<<std::endl;
+    this->rootNode->printNode();
+    std::cout<<"\n\nContent of First Child Of Root Node"<<std::endl;
+    ((Node**)this->rootNode->childrenNodes)[0]->printNode();
 }
 
-void BPTree::DFSNodes(Node *currentNode, std::vector<Node *> &recordList)
+void BPTree::DFSNodes(Node *currentNode, std::vector<Node *> &recordList,int &nodeCount)
 {
     std::queue<Node *> childrenNodesToSearch;
     // terminal condition if the node is a leaf, add node pointer into the vector
     if (currentNode->isLeaf)
     {
+        // counting nodes
+        nodeCount++;
+
         recordList.push_back(currentNode);
         std::cout << "keys in leaf node: [ ";
         for (int i = 0; i < currentNode->currentKeySize; i++)
@@ -470,6 +484,8 @@ void BPTree::DFSNodes(Node *currentNode, std::vector<Node *> &recordList)
         std::cout << "]" << std::endl;
         return;
     }
+    //if its not a leaf node add all its children nodes to count
+    nodeCount += currentNode->currentPointerSize;
 
     // keep track of all the children nodes to search in this parent node in a queue
     for (int i = 0; i < currentNode->currentPointerSize; i++)
@@ -482,7 +498,7 @@ void BPTree::DFSNodes(Node *currentNode, std::vector<Node *> &recordList)
     {
         Node *childrenNodeToTraverse = childrenNodesToSearch.front();
         childrenNodesToSearch.pop();
-        this->DFSNodes(childrenNodeToTraverse, recordList);
+        this->DFSNodes(childrenNodeToTraverse, recordList,nodeCount);
         // going up the recursion
     }
 }
