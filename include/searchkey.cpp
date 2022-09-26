@@ -78,4 +78,57 @@ if (!rootNode){
     }
 }
 
-//multiple keys (TODO) 
+//multiple keys (TODO)
+void BPTree::searchRange(int lowKey,int highKey){
+    //No tree
+    if (!rootNode){
+            std::cout<<"The B+ Tree is Empty" << std::endl;
+            return;
+    }
+    else{
+            std::cout<<std::endl;
+            std::cout<<"Searching~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<std::endl;
+            std::stack <Node *> stack;
+            Node *current = rootNode;
+            stack.push(current);
+            //Tranverse down the tree to find the value closest to the smaller key
+            while(!current->isLeaf){
+                for(int i=0;i<current->currentKeySize;i++){
+                    if(lowKey<current->keys[i]){
+                        current = ((Node **)current->childrenNodes)[i];
+                        std::cout<<"currently accessing " << current  <<std::endl;
+                        break;
+                    }
+                    if(i==current->currentKeySize-1){
+                        current = ((Node **)current->childrenNodes)[i+1];
+                        std::cout<<"currently accessing " << current  <<std::endl;
+                        break;
+                    }
+                }
+            }
+            bool end = false;
+            // Keep accessing the key to the right, until its value is larger than the larger key
+            while(!end){
+                int j;
+                for(j=0;j<current->currentKeySize;j++){
+                    if(current->keys[j]>highKey){
+                        end = true;
+                        break;
+                    }
+                    if(current->keys[j]>=lowKey&&current->keys[j]<=highKey){
+                        std::cout<<"Result found at address " << current <<std::endl;
+
+                    }
+                }
+                if(current->){
+                    //need help. How to access last pointer of the node?
+                    //psuedocode: if !(last pointer->null address) && (current.key[i]<highKey)
+                    //                  current = next node
+                    //           else stop  = true
+                }
+
+            }
+    }
+
+    
+} 

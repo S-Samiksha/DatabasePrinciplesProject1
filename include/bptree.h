@@ -29,6 +29,8 @@ public:
 
     void search(int key);
 
+    void searchRange(int lowKey,int highKey);
+
     void updateParent(std::stack<Node *> stack, int key);
 
     // prints details and all record keys
