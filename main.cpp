@@ -34,7 +34,9 @@ int main()
 
     testBPTree->display();
     // testBPTree->printBPDetails();
-    testBPTree->remove(1);
+   // testBPTree->remove(42);
+
+    testBPTree->display();
 
     return 0;
 }

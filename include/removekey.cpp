@@ -35,22 +35,30 @@ void BPTree::remove(int key){
             if (key<current->keys[0]){
                 parent = ((Node **)current->childrenNodes)[0];
                 index = 0;
-                stack.push(NULL); //left 
-                stack.push(((Node **)current->childrenNodes)[1]); //right 
+                //left node is null since we are concerned with left most key so it has no left neighbout 
+                stack.push(NULL); 
+                //push in the right neighbor of the actual node 
+                stack.push(((Node **)current->childrenNodes)[1]); 
             }else{
+                //set the parent as the current node 
                 parent = ((Node **)current->childrenNodes)[1];
                 index = 0;
+                //left node is pushed into the stack 
                 stack.push(((Node **)current->childrenNodes)[0]);
+                //right node is pushed into the stack 
                 stack.push(((Node **)current->childrenNodes)[2]);
             }
         }
         else{
             //run for loop until the correct index is found 
             for (int i =0; i<current->currentKeySize;i++){
+                //if statement checks if the key is more than the left and less than the right --> stopping condition 
                 if(key>=current->keys[i] && key < current->keys[i+1]){    
+                    //set parent node to the current child 
                     parent = ((Node **)current->childrenNodes)[i+1];
-                    stack.push(((Node **)current->childrenNodes)[i]); //left
-                    stack.push(((Node **)current->childrenNodes)[i+2]); //right
+                    //push the left node into the stack 
+                    stack.push(((Node **)current->childrenNodes)[i]); 
+                    stack.push(((Node **)current->childrenNodes)[i+2]); 
                     index = i;
                     break; //no point looking further 
                 }

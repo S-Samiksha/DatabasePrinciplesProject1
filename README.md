@@ -22,8 +22,7 @@ B removekey.cpp<br>
 checking for the leaf node or non leaf node whether it used node or address pointers <br>
 require pointers to be functioning before can test completely <br>
 handling if there is no tree left <br>
-may not work for edge cases idk if it will but since we have not tested against the large data set I cannot say for sure. 
-
+removing last key does not work 
 
 B node.cpp<br>
 removing the actual data the vectors and stuff<br>

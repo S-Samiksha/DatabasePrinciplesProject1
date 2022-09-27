@@ -79,6 +79,7 @@ if (!rootNode){
 }
 
 //multiple keys (TODO)
+
 void BPTree::searchRange(int lowKey,int highKey){
     //No tree
     if (!rootNode){
@@ -121,7 +122,7 @@ void BPTree::searchRange(int lowKey,int highKey){
                     }
                 }
                 if(current->){
-                    //need help. How to access last pointer of the node?
+                     //need help. How to access last pointer of the node?
                     //psuedocode: if !(last pointer->null address) && (current.key[i]<highKey)
                     //                  current = next node
                     //           else stop  = true
