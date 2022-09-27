@@ -396,7 +396,7 @@ Address* BPTree::queryWithNumVotesAsKey(int key, int &nodesUpdated){
         std::cout <<"BPTree does not exist. instantiate rootNode"<<std::endl;
         return;
     }
-    
+
     while(!cursor->isLeaf){
         nodesUpdated+=1;
         cursor->printNode();
