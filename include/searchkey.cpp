@@ -7,6 +7,7 @@
 #include <vector>
 #include <stack>
 #include <cmath>
+#include "memorypool.h"
 
 //single key
 void BPTree::search(int key){
@@ -32,11 +33,8 @@ if (!rootNode){
         if (current->currentKeySize==1){
             if (key<current->keys[0]){
                 parent = ((Node **)current->childrenNodes)[0];
-                
             }else{
                 parent = ((Node **)current->childrenNodes)[1];
-                
-                
             }
         }
         else{
@@ -44,9 +42,8 @@ if (!rootNode){
             for (int i =0; i<current->currentKeySize;i++){
                 if(key>=current->keys[i] && key < current->keys[i+1]){    
                     parent = ((Node **)current->childrenNodes)[i+1];
-                    
                     index = i;
-                    break; //no point looking further 
+                    break; //stop searching
                 }
             }
         }
@@ -79,7 +76,6 @@ if (!rootNode){
 }
 
 //multiple keys (TODO)
-
 void BPTree::searchRange(int lowKey,int highKey){
     //No tree
     if (!rootNode){
@@ -108,33 +104,25 @@ void BPTree::searchRange(int lowKey,int highKey){
                 }
             }
             bool end = false;
+            unsigned int currentKey = current->keys[0];
+            int count=0;
+            Address *start = queryWithNumVotesAsKey(currentKey,count);
+            unsigned int startingBlock = (unsigned int)start->blockAddress;
+            unsigned int startingOffset = start->offset;
+            Record record = 
             // Keep accessing the key to the right, until its value is larger than the larger key
             while(!end){
-                int j;
-                for(j=0;j<current->currentKeySize;j++){
-                    if(current->keys[j]>highKey){
-                        end = true;
-                        break;
-                    }
-                    if(current->keys[j]>=lowKey&&current->keys[j]<=highKey){
-                        std::cout<<"Result found at address " << current <<std::endl;
-                        current->printNode();
-                    }
-                }
-                if(((Node **)current->childrenNodes)[current->maxPointerSize - 1]!=nullptr && current->keys[j]!=highKey){
-                    //need help. How to access last pointer of the node?
-                    //psuedocode: if !(last pointer->null address) && (current.key[i]<highKey)
-                    //                  current = next node
-                    //           else stop  = true
-                    current = ((Node **)current->childrenNodes)[current->maxPointerSize - 1];
-
-                }
-                else{
+                if(currentKey>highKey){
                     end = true;
+                    break;
                 }
-
+                else if(currentKey<lowKey){
+                    Node
+                }
             }
     }
+    
+
 
     
 } 
