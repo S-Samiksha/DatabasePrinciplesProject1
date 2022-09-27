@@ -117,14 +117,19 @@ void BPTree::searchRange(int lowKey,int highKey){
                     }
                     if(current->keys[j]>=lowKey&&current->keys[j]<=highKey){
                         std::cout<<"Result found at address " << current <<std::endl;
-
+                        current->printNode();
                     }
                 }
-                if(current->){
+                if(((Node **)current->childrenNodes)[current->maxPointerSize - 1]!=nullptr && current->keys[j]!=highKey){
                     //need help. How to access last pointer of the node?
                     //psuedocode: if !(last pointer->null address) && (current.key[i]<highKey)
                     //                  current = next node
                     //           else stop  = true
+                    current = ((Node **)current->childrenNodes)[current->maxPointerSize - 1];
+
+                }
+                else{
+                    end = true;
                 }
 
             }
