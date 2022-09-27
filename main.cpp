@@ -171,5 +171,17 @@ int main()
     - the content of the root node and its 1st child node of the updated B+ tree; 
     */
 
+//    int key_to_be_removed = 0;
+//    std::cout <<"Select key to delete:   "<<endl;
+//    std::cin >> key_to_be_removed;
+//    Address* addressToBeDeleted = tree.remove(key_to_be_removed,0,0,0);
+//    Record* tempRecord = (Record*)addressToBeDeleted;
+//    size_t sizeCount = 0;
+//    while (tempRecord->numVotes == key_to_be_removed){
+//        sizeCount+=sizeof(Record);
+//        tempRecord += sizeof(Record);
+//    }
+//    MemoryPool.deallocate(addressToBeDeleted, sizeCount);
+
     return 0;
 }
