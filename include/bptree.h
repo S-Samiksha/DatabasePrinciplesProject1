@@ -17,7 +17,7 @@ public:
     Node **insert(Node *parentNode, int key, Address *incomingRecord);
 
     // deleting a key
-    void remove(int key);
+    Address* remove(int key, int *nodesDeleted, int *nodesUpdated, int *height);
 
     // displaying the tree
     void display();
@@ -25,13 +25,16 @@ public:
     Node **linkParentToNewChildrenNode(Node *parentNode, Node *leftChildNode, Node *rightChildNode);
 
     Node *findParentNode(Node *cursor, Node *child);
+
+    Address* queryWithNumVotesAsKey(int key, int &nodesUpdated);
+
     int findMinimumKeyInBPTree(Node *node);
 
     void search(int key);
 
     void searchRange(int lowKey,int highKey);
 
-    void updateParent(std::stack<Node *> stack, int key);
+    void updateParent(std::stack<Node *> stack, int key, int * nodesUpdated);
 
     // prints details and all record keys
     void printBPDetails();
@@ -40,6 +43,9 @@ public:
     void linkLeafNodes();
 
     void DFSNodes(Node* currentNode,std::vector<Node*> &recordList,int &nodeCount);
+
+
+    int findHeight(Node *rootNode);
 
 private:
     // helper function for when the node size is exceeded and requires splitting

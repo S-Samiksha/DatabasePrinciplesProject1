@@ -11,7 +11,13 @@ struct Record
 
     unsigned int numVotes;      // 4B. was thinking of using short unsigned, but will be limited to 65,535, which is not sufficient.
                                 // Largest numVote value we have will go to a few hundred thousands.
-};                              // Total B used is 18B.
+    bool operator < (const Record& rec) const
+    {
+        return (numVotes < rec.numVotes);
+    }
+
+};                              // Total B used is 19B.
+
 
 // Defines an address of a record that's stored as a block address with an offset,
 struct Address{

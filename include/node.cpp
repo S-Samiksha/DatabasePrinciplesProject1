@@ -11,20 +11,11 @@ Node::Node(int nodeSize, bool isLeaf)
 {
     this->isLeaf = isLeaf;
     this->maxKeySize = nodeSize;
-    this->maxPointerSize = nodeSize + 1;
+    this->maxPointerSize = nodeSize + 1; 
     this->keys = new int[this->maxKeySize]{0};
     this->childrenNodes = new void *[this->maxPointerSize]
     { nullptr };
-    if (this->isLeaf)
-    {
-        this->minkeys = (int)floor((this->maxKeySize + 1) / 2);
-        this->minpointers = minkeys + 1;
-    }
-    else
-    {
-        this->minkeys = (int)floor(this->maxKeySize / 2);
-        this->minpointers = minkeys + 1;
-    }
+    this->childrenTypes = new bool[this->maxKeySize]{0};
 };
 
 // prints a node's info and contents
@@ -332,7 +323,7 @@ int Node::binarySearchInsertIndex(int key)
 }
 
 // removal of key from node within the node
-void Node::remove(int index)
+Address* Node::remove(int index)
 {
     if (this->currentKeySize == 0)
     {
@@ -353,8 +344,10 @@ void Node::remove(int index)
     this->keys[currentKeySize] = 0;
     this->currentKeySize--;
     this->currentPointerSize--; // the pointer to the vector has to be removed
+
     // TODO
     std::cout << "index: " << index << " value " << keys[0] << " childnode " << ((Node **)this->childrenNodes)[index] << std::endl;
+    return ((Address **)this->childrenNodes)[index];
 }
 
 // inserts the address of another node into the last index of this node

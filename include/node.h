@@ -12,17 +12,18 @@ public:
     // current number of keys and pointers a Node is holding
     int currentKeySize{0};
     int currentPointerSize{0};
-    int maxKeySize{0};
+    int maxKeySize{0}; 
     int maxPointerSize{0};
     // switch all vectors to arrays
     // keys instantiated to 0 initially
     int *keys;
     // childrenNodes can either be &Record &Node or nullptr(initially)
     void *childrenNodes;
+    bool *childrenTypes;
 
     bool isLeaf;
 
-    int minkeys{0}, minpointers{0};
+    
 
     Node();
 
@@ -37,7 +38,7 @@ public:
 
     void insertKeyInKeyArray(int key, int index);
 
-    void remove(int remove);
+    Address* remove(int remove);
 
     int binarySearch(int remove);
 

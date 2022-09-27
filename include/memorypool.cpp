@@ -105,5 +105,4 @@ Address MemoryPool::saveToDisk(void *itemAddress, std::size_t size, Address disk
     ++blocksAccessed;   // Using pre-fix is faster than using postfix.
     return diskAddress;
 }
-
-MemoryPool::~MemoryPool(){};
+    

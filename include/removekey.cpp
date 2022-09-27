@@ -6,32 +6,82 @@
 #include <vector>
 #include <stack>
 #include <cmath>
+#include "memorypool.h"
 
 
-void BPTree::remove(int key){
+Address* BPTree::remove(int key, int *nodesDeleted, int *nodesUpdated, int *height){
+
+    *nodesDeleted=0; *nodesUpdated=0; *height = findHeight(rootNode);
+    Address *AddressDeleted;
+    //calculating the minimum number of keys for leaf and non leaf node 
     
+
+    int minkeyLeaf, minkeyNonLeaf, minptLeaf, minptNonLeaf;
+    
+    minkeyLeaf = (int)floor((this->nodeSize + 1) / 2);
+    minptLeaf = minkeyNonLeaf + 1;
+    minkeyNonLeaf = (int)floor(this->nodeSize / 2);
+    minptNonLeaf = minkeyLeaf + 1;
+
     //if there is no root, there is no tree
     if (!rootNode){
         std::cout<<"The B+ Tree is Empty" << std::endl;
-        return;
+        return NULL;
     }
+
+    //there exists no children nodes for root nodes 
+    if (rootNode->childrenNodes == 0){
+
+        //use binary search to find the key 
+        int index = rootNode->binarySearch(key);
+
+        //if index is -1, key is not found
+        if (index == -1){
+            std::cout<<"Key not found!"<<std::endl;
+            return NULL;
+        }
+        //else key is found 
+        else{
+            //remove the key 
+            AddressDeleted = rootNode->remove(index); 
+            
+
+            //if there is nothing left in the root node remove the root node 
+            if (rootNode->currentKeySize == 0){
+                (*nodesDeleted)++;
+                //must deallocate the block 
+                MemoryPool.deallocate(rootNode, MemoryPool.blockSize);
+            }
+        }
+
+    }
+
 
     //start of the removal 
     std::cout<<std::endl;
     std::cout<<"REMOVING~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<std::endl;
+
+    //declaring a stack to store left, right neighbours and then the node itself 
     std::stack <Node *> stack;
     Node *current = rootNode;
     Node *parent = NULL;
+
+    //initialize index to -1 
     int index = -1;
+
+    //push the root into the stack 
     stack.push(current);
+
     //start while loop-----------------------------------------------------------------------------------------------------------
     while(!current->isLeaf){
         index = -1;
+
         /*check if the current node has only one key
         if key is less than the value at index 0, traverse to left node 
         if key is more than the value at index 0, traverse to right node
         */
         if (current->currentKeySize==1){
+
             if (key<current->keys[0]){
                 parent = ((Node **)current->childrenNodes)[0];
                 index = 0;
@@ -39,7 +89,9 @@ void BPTree::remove(int key){
                 stack.push(NULL); 
                 //push in the right neighbor of the actual node 
                 stack.push(((Node **)current->childrenNodes)[1]); 
-            }else{
+            }
+            
+            else{
                 //set the parent as the current node 
                 parent = ((Node **)current->childrenNodes)[1];
                 index = 0;
@@ -49,6 +101,8 @@ void BPTree::remove(int key){
                 stack.push(((Node **)current->childrenNodes)[2]);
             }
         }
+
+        //if the node has more than one keys, must search which key and which pointer to go to 
         else{
             //run for loop until the correct index is found 
             for (int i =0; i<current->currentKeySize;i++){
@@ -58,24 +112,38 @@ void BPTree::remove(int key){
                     parent = ((Node **)current->childrenNodes)[i+1];
                     //push the left node into the stack 
                     stack.push(((Node **)current->childrenNodes)[i]); 
+                    //push the right node into the stack 
                     stack.push(((Node **)current->childrenNodes)[i+2]); 
                     index = i;
                     break; //no point looking further 
                 }
             }
         }
-        
-        std::cout<<"Found "<<index<< " address" << current<< std::endl;
+
+        //if no index is found in the node such that the key is more than or equal to its left or less than its right
+        //then special consideration 
+        //1. key is more than all keys stored in the node 
         if (index == -1 && key>=current->keys[current->currentKeySize-1]){
+            //make parent as current 
             parent = ((Node **)current->childrenNodes)[current->currentPointerSize-1];
+            //push the left
             stack.push(((Node **)current->childrenNodes)[current->currentPointerSize-2]);
+            //push the right since no right neighbour exists, push in NULL
             stack.push(NULL);
-        }else if (index == -1 && key<current->keys[0]){
+        }
+        //2. if the key is less than all the keys stored in the node 
+        else if (index == -1 && key<current->keys[0]){
+            //make parent as current
             parent = ((Node **)current->childrenNodes)[0];
+            //push in left, since no left neighbour exists, push in NULL
             stack.push(NULL);
+            //push in right neighbor
             stack.push(((Node **)current->childrenNodes)[1]);
         }   
+
+        //push the parent in 
         stack.push(parent);
+        //make the new current the parent 
         current = parent;
         //stack has left neighbour then right neighbor then itself   
     }
@@ -84,17 +152,18 @@ void BPTree::remove(int key){
 
 
 
-    std::cout<<"current " << current << " Index: " << index <<std::endl;
+    //std::cout<<"current " << current << " Index: " << index <<std::endl;
+
     //Search within the leaf node 
     index = current->binarySearch(key);
     if (index == -1){
         std::cout<<"Key not found!"<<std::endl;
-        return;
+        return NULL;
     }
-
-
+    
     //the first thing to do is remove from the leaf node
-    current->remove(index);
+    AddressDeleted = current->remove(index);
+    (*nodesDeleted)++;
 
 
     //go upwards 
@@ -103,16 +172,23 @@ void BPTree::remove(int key){
 
     current = stack.top();
     stack.pop();
-
+    int minkeys, minpt;
     while(!stack.empty()){
         //1. if the removing maintains minimum number of keys  
-        if (current->currentKeySize>=current->minkeys){
+        if (current->isLeaf){
+            minkeys = minkeyLeaf;
+            minpt = minptLeaf;
+        }else{
+            minkeys = minkeyNonLeaf;
+            minpt = minptNonLeaf;
+        }
+        if (current->currentKeySize >= minkeys){
             //update to the parent only if you are removing the minimum value in the node 
             if (key<current->keys[0]){
                 std::cout<<"Updating parent...."<<std::endl;
                 std::cout<<key<<std::endl;
                 stack.push(current);
-                updateParent(stack, key); 
+                updateParent(stack, key, nodesUpdated); 
                 break;
             }
             break;
@@ -126,7 +202,17 @@ void BPTree::remove(int key){
         stack.pop();
         
         //Borrowing NO MERGING ------------------------------------------
-        if (left && left->currentKeySize > left->minkeys){
+
+    
+        if (left && left->currentKeySize > minkeys){
+            if (left->isLeaf){
+                minkeys = minkeyLeaf;
+                minpt = minptLeaf;
+            }else{
+                minkeys = minkeyNonLeaf;
+                minpt = minptNonLeaf;
+            }
+            if (left->currentKeySize > minkeys){
             std::cout<<"borrowing from left node..."<<std::endl;
             //make space for the key and pointer in the current node
             for(int k=current->currentKeySize;k>0;k--){
@@ -140,10 +226,21 @@ void BPTree::remove(int key){
             current->currentPointerSize++;
             left->currentPointerSize--;
             //update parent in the next while loop automatically
+            }
+            (*nodesUpdated)++;
 
         }
         
-        else if (right && right->currentKeySize > right->minkeys){
+        
+        else if (right){
+            if (right->isLeaf){
+                minkeys = minkeyLeaf;
+                minpt = minptLeaf;
+            }else{
+                minkeys = minkeyNonLeaf;
+                minpt = minptNonLeaf;
+            }
+            if (right->currentKeySize > minkeys){
             std::cout<<"borrowing from right node..."<<std::endl;
             current->keys[current->currentKeySize]=right->keys[0];
             ((Node **)current->childrenNodes)[current->currentPointerSize]=((Node **)right->childrenNodes)[0];
@@ -151,13 +248,23 @@ void BPTree::remove(int key){
                 right->keys[k]=right->keys[k+1];
                 ((Node **)right->childrenNodes)[k]=((Node **)right->childrenNodes)[k+1];
             }
-
-            //update parent 
+            }
+            (*nodesUpdated)++;
 
         }
 
         //Requires Merging --------------------------------------------
-        else if (left && left->currentKeySize <= left->minkeys){
+        else if (left){
+
+            if (left->isLeaf){
+                minkeys = minkeyLeaf;
+                minpt = minptLeaf;
+            }else{
+                minkeys = minkeyNonLeaf;
+                minpt = minptNonLeaf;
+            }
+
+            if (left->currentKeySize <= minkeys){
             std::cout<<"Merging with left node..."<<std::endl;
             int i=0;
             //transfeer all to the left node
@@ -180,12 +287,27 @@ void BPTree::remove(int key){
             }
             parent->currentKeySize--;
             parent->currentPointerSize--;
+            (*nodesDeleted)++;
+
+            //must deallocate the block 
+            MemoryPool.deallocate(current, MemoryPool.blockSize);
+            (*nodesUpdated)++;
+            
             delete current;
             current = parent;
+            }
         }
 
 
-        else if (right && right->currentKeySize <= right->minkeys){
+        else if (right){
+            if (right->isLeaf){
+                minkeys = minkeyLeaf;
+                minpt = minptLeaf;
+            }else{
+                minkeys = minkeyNonLeaf;
+                minpt = minptNonLeaf;
+            }
+            if (right->currentKeySize<=minkeys){
             std::cout<<"Merging with right node..."<<std::endl;
             //transfer all the keys to the current node
             int i=0;
@@ -213,22 +335,37 @@ void BPTree::remove(int key){
                 }
             }
             parent->currentKeySize--;
-            parent->currentPointerSize--;
+            parent->currentPoi
+
+            //must deallocate the block 
+            MemoryPool.deallocate(rig,t MemoryPool.blockSize);nterSize--;
             current = parent;
+            (*nodesDeleted)++;
+            (*nodesUpdated)++;
             delete right; //delete in the parent 
             //find the pointer of the right node 
+            }
         }
 
 
     }
 
+    *height = findHeight(rootNode);
 
     std::cout<<"DONE REMOVING~~~~~~~~"<<std::endl<<std::endl;
+
+    std::cout<<"Content of Parent Node:"<<std::endl:
+    this->rootNode->printNode();
+    Node * child = ((Node **)this->rootNode->childrenNodes)[0];
+    std::cout<<"Concent of Child Node:"<<std::endl;
+    child->printNode();
+
+    return AddressDeleted;
 }
 
 
 //helper function to update parent all the way to the top 
-void BPTree::updateParent(std::stack <Node *> stack, int key){
+void BPTree::updateParent(std::stack <Node *> stack, int key, int *nodesUpdated){
 
     Node* parent = NULL;
     Node* current = NULL;
@@ -246,16 +383,18 @@ void BPTree::updateParent(std::stack <Node *> stack, int key){
         //within the parent must update the key only if it comes from the right subtree
         index = -1;
         minimum = findMinimumKeyInBPTree(current);
-        std::cout<<"parent: "<<parent<<" current: " << current <<" minimum: "<<minimum<<std::endl;
+        
         for (int m = 0; m<parent->currentPointerSize;m++){       
             if (((Node **)parent->childrenNodes)[m] == current){
-                std::cout<<"debug 1: "<< m <<std::endl;
+                (*nodesUpdated)++;
                 parent->keys[m-1]=minimum;
             }
         }
         current = parent;
     }
-    std::cout<<minimum<<std::endl;
-    return;
+
+   
+
 }
 
+bool BPT
