@@ -102,24 +102,23 @@ int main()
     //Final CLI copy down here once done!!
 
     
-    // std::cout <<"------------------------------------------------------------------------------------------------"<<endl;
-    // std::cout <<"Select Block size:   "<<endl;
-
-    // int options = 0;
-    // while (options != 1 && options != 2){
-    //     std::cout << "Enter a choice: " <<endl;
-    //     std::cout << "1. 200 B " <<endl;
-    //     std::cout << "2. 500 B" <<endl;
-    //     std::cin >> options;
-    //     if (int(options) == 1){
-    //         BLOCKSIZE = int(200);
-    //     } else if (int(options) == 2){
-    //         BLOCKSIZE = int(500);
-    //     }else {
-    //         std::cin.clear();
-    //         std::cout << "Invalid input! Only 1 and 2 are allowed. " <<endl;
-    //     }
-    // }
+    std::cout <<"------------------------------------------------------------------------------------------------"<<std::endl;
+    std::cout <<"Select Block size:   "<<std::endl;
+    int options = 0;
+    while (options != 1 && options != 2){
+         std::cout << "Enter a choice: " <<std::endl;
+         std::cout << "1. 200 B " <<std::endl;
+         std::cout << "2. 500 B" <<std::endl;
+         std::cin >> options;
+         if (int(options) == 1){
+             BLOCKSIZE = int(200);
+         } else if (int(options) == 2){
+             BLOCKSIZE = int(500);
+         }else {
+             std::cin.clear();
+             std::cout << "Invalid input! Only 1 and 2 are allowed. " <<std::endl;
+         }
+     }
 
     /*
     Experiment 1:
@@ -128,8 +127,25 @@ int main()
         - the size of database (in terms of MB);
     */
 
+   std::cout << "Creating memory......" <<std::endl;
+
+   std::cout << "Creating B++ Tree" <<std::endl;
 
 
+   std::cout << "Maximum keys a B++ tree can hold: " <<std::endl;
+
+
+
+  std::cout <<"--------------------------------------Experiment 1------------------------------------------"<<std::endl;
+  std::cout << "No. of records in record block      : " << std::endl;
+  std::cout << "No. of keys in index block          : " << std::endl;
+  std::cout << "No. of record blocks                : " <<  std::endl;
+  std::cout << "No. of index blocks                 : " <<  std::endl;
+  std::cout << "Size of record blocks               : " << std::endl;
+  std::cout << "Size of index blocks                : " << std::endl;
+  std::cout <<"Total number of blocks               : "<<std::endl;
+  std::cout <<"Actual size of database              : "<<std::endl;
+  std::cout <<"Size of database                     : "<<std::endl;
 
 
    /*
