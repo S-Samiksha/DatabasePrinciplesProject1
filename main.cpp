@@ -156,7 +156,13 @@ int main()
         - the height of the B+ tree, i.e., the number of levels of the B+ tree;
         - the content of the root node and its 1st child node;
    */
-
+  std::cout <<"--------------------------------------Experiment 2---------------------------------------------"<<std::endl;
+  std::cout <<"No. of Keys, n, of B+ tree        : "<<std::endl;
+  std::cout <<"No. of nodes of B+ tree           : "<<std::endl;
+  std::cout <<"Height of B+ tree                 : "<<std::endl;
+  std::cout << "Root nodes and child nodes       : "<<std::endl;
+  
+  std::cout <<std::endl;
 
    /*
    Experiment 3:
@@ -167,6 +173,14 @@ int main()
         - the average of “averageRating’s” of the records that are returned;
 
    */
+    std::cout <<"-----------------------------------Experiment 3-----------------------------------------------"<<std::endl;
+    std::cout <<"Retrieving movies with 'numVotes' equal to 500: "<<std::endl;     
+    
+    std::cout << std::endl;
+    std::cout <<"Number of index blocks accesses      : "<<std::endl; 
+    std::cout <<"Number of record blocks accesses     : "<<std::endl;
+    
+    std::cout<<std::endl;
 
   /*
     Experiment 4: retrieve those movies with the attribute “numVotes” from 30,000 to 40,000, 
@@ -175,7 +189,11 @@ int main()
     - the number and the content of data blocks the process accesses;
     - the average of “averageRating’s” of the records that are returned;
   */
-
+  std::cout <<"-------------------------------------Experiment 4---------------------------------------------"<<std::endl;
+  std::cout <<"Retrieving those movies with the attributes 'numVotes' from 30K to 40K"<<std::endl;
+  std::cout << std::endl;
+  std::cout <<"Number of index blocks accesses  : "<<std::endl; 
+  std::cout <<"Number of data blocks accesses   : "<<std::endl;
 
     /*
     Experiment 5:
@@ -186,6 +204,16 @@ int main()
     - the height of the updated B+ tree;
     - the content of the root node and its 1st child node of the updated B+ tree; 
     */
+
+  std::cout <<"-------------------------------------Experiment 5---------------------------------------------"<<std::endl;
+  int* numNodesDeleted = 0, numNodesUpdated=0, height=0;
+  
+  std::cout <<"Deleting those movies with the attribute 'numVotes' equal to 1000" <<std::endl;
+  std::cout << "No. of times that a node is deleted (or two nodes are merged): "<< numNodesDeleted << std::endl; 
+  std::cout << "No. of nodes in updated B+ Tree                              : " << numNodesUpdated <<std::endl;
+  std::cout << "Height of updated B+ tree                                    : " << height <<std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
 
 //    int key_to_be_removed = 0;
 //    std::cout <<"Select key to delete:   "<<endl;
