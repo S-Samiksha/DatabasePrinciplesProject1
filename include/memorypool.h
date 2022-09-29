@@ -99,7 +99,6 @@ private:
 
     int allocated;      // Number of currently allocated blocks.
     int blocksAccessed; // Counts number of blocks accessed.
-    int numAvailBlks;
 
     void *pool;  // Pointer to the memory pool.
     void *block; // Current block pointer we are inserting to.

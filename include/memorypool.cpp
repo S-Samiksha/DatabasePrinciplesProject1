@@ -35,24 +35,40 @@ bool MemoryPool::allocateBlock(){
         return true;
     }
     else{
-        std::cout << "Error: Block size exceed current available memmory" << '\n';
+        std::cout << "Error: Block size exceed current available memory" << '\n';
         return false;
     }
 }
 
 Address MemoryPool::allocate(std::size_t sizeRequired){
     // PK
-    if(numAvailBlks <= 0 && sizeRequired > blockSize){
+    unsigned short int extraSizeUsed;
+    unsigned short int offset;
+    // If size require is more than blocksize, reject request
+    if(actualSizeUsed + sizeRequired > maxPoolSize || sizeRequired > blockSize){
         std::cout << "Required size too large!" << '\n';
         exit(0);
-
     }
+    // If blocksize does not have enough capacity to support allocation, call allocate block for more memory
     if(allocated==0||(blockSizeUsed+sizeRequired>blockSize)){
+        // Find out how much overflow and store in extraSizeUsed
+        extraSizeUsed = blockSizeUsed + sizeRequired - blockSize;
         bool allocatedSuccessful = allocateBlock();
-        numAvailBlks-=1;
+        if (!allocatedSuccessful){
+            throw std::logic_error("Failed to allocate new block!");
+        }
+        else{
+            // set offset before addition of the extraSizeUsed
+            offset = blockSizeUsed;
+            blockSizeUsed += extraSizeUsed;
+        }
     }
-    unsigned short int offset = blockSizeUsed;
-    blockSizeUsed += sizeRequired;
+    else{
+        // set offset before addition of the sizeRequired
+        offset = blockSizeUsed;
+        blockSizeUsed += sizeRequired;
+    }
+    // Update total size used
     actualSizeUsed += sizeRequired;
     Address recordAddress = {block, offset};
     return recordAddress;
