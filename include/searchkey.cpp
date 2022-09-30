@@ -2,7 +2,7 @@
 #include "bptree.h"
 #include <stdio.h>
 #include <iostream>
-#include "node.h"
+//#include "node.h"
 #include <queue>
 #include <vector>
 #include <stack>
@@ -81,7 +81,7 @@ int BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
     //No tree -> end function
     if (!rootNode){
             std::cout<<"The B+ Tree is Empty" << std::endl;
-            return;
+            return 0;
     }
     else{
             std::cout<<std::endl;

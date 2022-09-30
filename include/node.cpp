@@ -1,4 +1,4 @@
-#include "node.h"
+//#include "node.h"
 #include <cmath>
 #include <vector>
 #include <bits/stdc++.h>
@@ -23,7 +23,7 @@ Node::Node(int nodeSize, bool isLeaf)
 void Node::printNode()
 {
     std::cout << "**********************" << std::endl;
-    std::cout << "Node's address: " << this << std::endl;
+    std::cout << "Node's Disk address: " << this->addressInDisk.blockAddress << std::endl;
     std::cout << "currentKeySize :" << this->currentKeySize << std::endl;
     std::cout << "currentPointerSize :" << this->currentPointerSize << std::endl;
     std::string nodeType = this->isLeaf ? "LEAF" : "InternalNode";
@@ -38,7 +38,7 @@ void Node::printNode()
     std::cout << "PointerArray: [";
     for (int i = 0; i < this->maxPointerSize; i++)
     {
-        std::cout << ((Node **)this->childrenNodes)[i] << ",";
+        std::cout << this->childrenNodes[i].blockAddress << ",";
     };
     std::cout << "]" << std::endl;
     std::cout << "**********************" << std::endl;
@@ -116,7 +116,6 @@ void Node::insertKeyInKeyArray(int key, int index)
     if (this->isFull())
     {
         std::cout << "Node Key array is filled! Need to split!" << std::endl;
-        std::cout << index << std::endl;
         throw 1;
     };
 
@@ -162,7 +161,7 @@ void Node::insertChildInPointerArray(Address child, int index)
         // offset for linked node
         // offset is to protect the linked node's pointer from being overwritten
         int offset = 0;
-        if (this->childrenNodes[this->maxPointerSize - 1].blockAddress != 0)
+        if (this->childrenNodes[this->maxPointerSize - 1].blockAddress != nullptr)
         {
             offset = 1;
         }
@@ -174,11 +173,10 @@ void Node::insertChildInPointerArray(Address child, int index)
         }
 
         // insert Address
-        // ((Address **)this->childrenNodes)[index] = (Address *)child;
+        this->childrenNodes[index] = child;
     }
     else
     {
-        // todo: may be cause of error
         // push all elements to the right of the inserted element
         int i;
         // push the elements on the right side of the insertion index 1 slot right
@@ -211,43 +209,12 @@ int Node::removeFirstKeyFromNode()
 
     for (int i = 0; i < this->currentKeySize + 1; i++)
     {
-        ((Node **)this->childrenNodes)[i] = ((Node **)this->childrenNodes)[i + 1];
+        this->childrenNodes[i] = this->childrenNodes[i + 1];
     }
     this->currentKeySize--;
     this->currentPointerSize--;
     return removedKey;
 };
-
-// checks whether there is a right neighbour on the node of the index
-bool Node::hasRightNeighbour(int index)
-{
-
-    // not last value
-    if (index >= this->currentKeySize - 1)
-    {
-        return false;
-    }
-
-    Node *rightNeighbour = ((Node **)this->childrenNodes)[index + 1];
-    if (rightNeighbour != nullptr)
-    {
-        return true;
-    }
-
-    return false;
-}
-
-// checks whether there is a left neighbour on the node of the index
-bool Node::hasLeftNeighbour(int index)
-{
-    // not last value
-    if (index > 0 && index < this->maxKeySize)
-    {
-        return true;
-    }
-
-    return false;
-}
 
 // check if Node is full
 bool Node::isFull()

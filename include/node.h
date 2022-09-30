@@ -21,7 +21,7 @@ public:
     // keys instantiated to 0 initially
     int *keys;
     // childrenNodes can either be &Record &Node or nullptr(initially)
-    Address* childrenNodes;
+    Address *childrenNodes{nullptr};
 
     bool isLeaf;
     Address addressInDisk{NULL};
@@ -61,3 +61,4 @@ public:
     int binarySearchInsertIndex(int key);
 };
 #endif
+
