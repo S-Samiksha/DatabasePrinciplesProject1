@@ -13,11 +13,10 @@ Node::Node(int nodeSize, bool isLeaf)
 {
     this->isLeaf = isLeaf;
     this->maxKeySize = nodeSize;
-    this->maxPointerSize = nodeSize + 1; 
+    this->maxPointerSize = nodeSize + 1;
     this->keys = new int[this->maxKeySize]{0};
-    //todo: check
-    this->childrenNodes = new Address[this->maxPointerSize]{{0}};
-    
+    // todo: check
+    this->childrenNodes = new Address[this->maxPointerSize]{{nullptr, 0}};
 };
 
 // prints a node's info and contents
@@ -106,7 +105,7 @@ void Node::insertSubsequentPair(int key, Address nodeOrRecordPointer)
     }
     else
     {
-        this->insertChildInPointerArray(nodeOrRecordPointer, insertionIndex+1);
+        this->insertChildInPointerArray(nodeOrRecordPointer, insertionIndex + 1);
     }
 }
 
@@ -179,7 +178,7 @@ void Node::insertChildInPointerArray(Address child, int index)
     }
     else
     {
-        // todo: may be cause of error        
+        // todo: may be cause of error
         // push all elements to the right of the inserted element
         int i;
         // push the elements on the right side of the insertion index 1 slot right
@@ -353,7 +352,7 @@ Address Node::remove(int index)
 }
 
 // inserts the address of another node into the last index of this node
-void Node::linkToAnotherLeafNode(Address* anotherLeafNode)
+void Node::linkToAnotherLeafNode(Address anotherLeafNode)
 {
     if (!this->isLeaf)
     {
@@ -361,20 +360,20 @@ void Node::linkToAnotherLeafNode(Address* anotherLeafNode)
     }
 
     // if the current Node is the rightmost Leaf node of the tree and points to a nullptr we dont increase the currentPointerSize
-    if (anotherLeafNode== nullptr)
-    {
-        return;
-    }
+    // if (anotherLeafNode == nullptr)
+    // {
+    //     return;
+    // }
 
     // if the leaf node was linked to an old pointer
-    if (this->childrenNodes[this->maxPointerSize - 1].blockAddress != 0)
+    if (this->childrenNodes[this->maxPointerSize - 1].blockAddress != nullptr)
     {
         // link to new node but dont increase pointer size
-        this->childrenNodes[this->maxPointerSize - 1] = *anotherLeafNode;
+        this->childrenNodes[this->maxPointerSize - 1] = anotherLeafNode;
         return;
     }
 
     // if the leaf node was previously not linked to any other node
-    this->childrenNodes[this->maxPointerSize - 1] = *anotherLeafNode;
+    this->childrenNodes[this->maxPointerSize - 1] = anotherLeafNode;
     this->currentPointerSize++;
 }

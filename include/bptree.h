@@ -47,7 +47,7 @@ public:
     // links all leaf nodes of the BPTree
     void linkLeafNodes();
 
-    void DFSNodes(Node *currentNode, std::vector<Node *> &recordList, int &nodeCount);
+    void DFSNodes(Address currentNode, std::vector<Address > &recordList, int &nodeCount);
 
     int findHeight(Node *rootNode);
 

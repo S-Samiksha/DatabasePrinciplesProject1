@@ -523,7 +523,7 @@ int BPTree::findHeight(Node *rootNode)
     while (!cursor->isLeaf)
     {
         int insertionIndex = cursor->binarySearchInsertIndex(0);
-        cursor = ((Node **)cursor->childrenNodes)[insertionIndex];
+        cursor = cursor->childrenNodes[insertionIndex]->getAddressNode();
         height++;
     }
 
@@ -536,9 +536,9 @@ void BPTree::printBPDetails()
 {
     // experiment 2
     std::cout << "================= Experiment 2 =================" << std::endl;
-    std::vector<Node *> leafNodes;
+    std::vector<Address> leafNodes;
     int nodeCount = 1;
-    this->DFSNodes(this->rootNode, leafNodes, nodeCount);
+    this->DFSNodes(this->rootNode->addressInDisk, leafNodes, nodeCount);
     std::cout << "******BPTREE DETAILS******" << std::endl;
     std::cout << "Parameter n of B+ Tree (number of keys in Node): " << this->nodeSize << std::endl;
     std::cout << "Total NodeSize: " << nodeCount << " nodes" << std::endl;
@@ -573,50 +573,49 @@ void BPTree::printBPDetails()
 // does DFS traversal and links all leafnodes together
 void BPTree::linkLeafNodes()
 {
-    std::vector<Node *> leafNodes;
+    std::vector<Address> leafNodes;
     int nodeCount = 1;
-    this->DFSNodes(this->rootNode, leafNodes, nodeCount);
+    this->DFSNodes(this->rootNode->addressInDisk, leafNodes, nodeCount);
 
     // link the leaf nodes tgt
     for (int i = 0, j = 1; j < leafNodes.size(); i++, j++)
     {
-        leafNodes.at(i)->linkToAnotherLeafNode(leafNodes.at(j));
+        leafNodes.at(i).getAddressNode()->linkToAnotherLeafNode(leafNodes.at(j));
     }
     std::cout << "Finished linking leaf nodes" << std::endl;
 }
 
 // does DFS traversals and returns a list of leafnodes if order, and also the number of nodes in the B+ tree
-void BPTree::DFSNodes(Node *currentNode, std::vector<Node *> &recordList, int &nodeCount)
+void BPTree::DFSNodes(Address currentNode, std::vector<Address> &recordList, int &nodeCount)
 {
-    std::queue<Node *> childrenNodesToSearch;
+    std::queue<Address> childrenNodesToSearch;
     // terminal condition if the node is a leaf, add node pointer into the vector
-    if (currentNode->isLeaf)
+    if (currentNode.getAddressNode()->isLeaf)
     {
         // counting nodes
         nodeCount++;
 
         recordList.push_back(currentNode);
         std::cout << "keys in leaf node: [ ";
-        for (int i = 0; i < currentNode->currentKeySize; i++)
+        for (int i = 0; i < currentNode.getAddressNode()->currentKeySize; i++)
         {
-            std::cout << currentNode->keys[i] << ", ";
+            std::cout << currentNode.getAddressNode()->keys[i] << ", ";
         }
         std::cout << "]" << std::endl;
         return;
     }
     // if its not a leaf node add all its children nodes to count
-    nodeCount += currentNode->currentPointerSize;
+    nodeCount += currentNode.getAddressNode()->currentPointerSize;
 
     // keep track of all the children nodes to search in this parent node in a queue
-    for (int i = 0; i < currentNode->currentPointerSize; i++)
+    for (int i = 0; i < currentNode.getAddressNode()->currentPointerSize; i++)
     {
-        Node *tempNode = ((Node **)currentNode->childrenNodes)[i];
-        childrenNodesToSearch.push(tempNode);
+        childrenNodesToSearch.push(currentNode.getAddressNode()->childrenNodes[i]);
     }
     // search the first children node in that queue
     while (!childrenNodesToSearch.empty())
     {
-        Node *childrenNodeToTraverse = childrenNodesToSearch.front();
+        Address childrenNodeToTraverse = childrenNodesToSearch.front();
         childrenNodesToSearch.pop();
         this->DFSNodes(childrenNodeToTraverse, recordList, nodeCount);
         // going up the recursion

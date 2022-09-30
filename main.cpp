@@ -1,8 +1,8 @@
 #include <iostream>
+#include "include/types.h"
 #include "include/node.h"
 #include "include/bptree.h"
 #include "include/memorypool.h"
-#include "include/types.h"
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
@@ -12,6 +12,8 @@
 #include <functional>
 #include <algorithm>
 #include <math.h>
+#include <types.h>
+
 int BLOCKSIZE = 200;
 int MEMORYPOOLSIZE = 500000000;
 struct tempRecord
@@ -123,7 +125,7 @@ int main()
         testBPTree->insert(testBPTree->rootNode,keyList[i],addressList[i]);
     }
     testBPTree->linkLeafNodes();
-    testBPTree->display();
+    // testBPTree->display();
 
     //Final CLI copy down here once done!!~~~~~~~~~~~~~~~~~~~~~~~~~
 

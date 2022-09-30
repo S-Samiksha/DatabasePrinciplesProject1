@@ -45,7 +45,7 @@ public:
 
     void insertChildInPointerArray(Address child, int index);
 
-    void linkToAnotherLeafNode(Address* child);
+    void linkToAnotherLeafNode(Address child);
 
     bool hasRightNeighbour(int index);
 
