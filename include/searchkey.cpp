@@ -76,7 +76,7 @@ if (!rootNode){
 }
 
 //multiple keys (TODO)
-void BPTree::searchRange(int lowKey,int highKey){
+void BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
     //No tree
     if (!rootNode){
             std::cout<<"The B+ Tree is Empty" << std::endl;
@@ -109,17 +109,31 @@ void BPTree::searchRange(int lowKey,int highKey){
             Address *start = queryWithNumVotesAsKey(currentKey,count);
             unsigned int startingBlock = (unsigned int)start->blockAddress;
             unsigned int startingOffset = start->offset;
-            Record record = 
+            Record* record = (Record*) (disk.loadFromDisk(*start,19));
             // Keep accessing the key to the right, until its value is larger than the larger key
             while(!end){
-                if(currentKey>highKey){
+                if(record->numVotes>highKey){
                     end = true;
                     break;
                 }
-                else if(currentKey<lowKey){
-                    *
+                else if(record->numVotes>=lowKey && record->numVotes<=highKey){
+                    std::cout<<"NumVotes for current record: " << record->numVotes  <<std::endl;
+                    std::cout<<"Rating for current record: " << record->averageRating  <<std::endl;
+                }
+                else if(record->numVotes<lowKey){
+                    unsigned  int newBlock= startingBlock;
+                    unsigned int newOffset;
+                    if(startingOffset+19>=200){
+                        newBlock++;
+                        newOffset += (startingOffset+19)%200;
+                    }else{
+                        newOffset+=19;
+                    }
+                    Address newAddress = {(int*)newBlock,newOffset};
+                    record = (Record*) (disk.loadFromDisk(newAddress,19));
                 }
             }
+            
     }
     
 
