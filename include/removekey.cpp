@@ -50,7 +50,7 @@ Address* BPTree::remove(int key, int *nodesDeleted, int *nodesUpdated, int *heig
             if (rootNode->currentKeySize == 0){
                 (*nodesDeleted)++;
                 //must deallocate the block 
-                MemoryPool.deallocate(rootNode, MemoryPool.blockSize);
+                MemoryPool::deallocate(rootNode, MemoryPool.blockSize);
             }
         }
 

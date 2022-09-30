@@ -11,11 +11,6 @@ struct Record
 
     unsigned int numVotes;      // 4B. was thinking of using short unsigned, but will be limited to 65,535, which is not sufficient.
                                 // Largest numVote value we have will go to a few hundred thousands.
-    bool operator < (const Record& rec) const
-    {
-        return (numVotes < rec.numVotes);
-    }
-
 };                              // Total B used is 19B.
 
 
