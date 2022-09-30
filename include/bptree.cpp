@@ -1,27 +1,42 @@
+#include "node.h"
 #include "bptree.h"
+#include "memorypool.h"
+#include "types.h"
 #include <stdio.h>
 #include <iostream>
-#include "node.h"
 #include <queue>
 #include <vector>
-#include "types.h"
 #include <stack>
 #include <cmath>
-#include <functional>
 
-BPTree::BPTree(int nodeSize)
+BPTree::BPTree(int nodeSize, int poolSize, int blockSize)
 {
     this->nodeSize = nodeSize;
+    // this->memoryPoolInstance = new MemoryPool(poolSize,blockSize);
 }
 
-Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
+Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &disk)
 {
+    // std::cout << "record address blockAddress: " << address.blockAddress;
+    // std::cout << "record address offset: " << address.offset;
+    // void *recordAddress = (char*) address.blockAddress + address.offset;
+
+    // std::cout << "record address: " << recordAddress;
+
+    // allocate space for the record
+    // Address recordAddress = BPTree::memoryPoolInstance->allocate(sizeof(Record));
+
     // if there is no root, just insert in root
     if (this->rootNode == nullptr)
     {
         this->rootNode = new Node(this->nodeSize, true);
         this->rootNode->keys[0] = key;
-        ((Address **)this->rootNode->childrenNodes)[0] = incomingRecord;
+
+        // store address for record in Node
+        (this->rootNode->childrenNodes)[0] = address;
+        // load incoming record to disk
+        // BPTree::memoryPoolInstance->saveToDisk(incomingRecord,sizeof(Record),recordAddress);
+
         this->rootNode->currentPointerSize++;
         this->rootNode->currentKeySize++;
         return nullptr;
@@ -31,40 +46,38 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
         // search for place to insert
         int insertionIndex = parentNode->binarySearchInsertIndex(key);
 
-
         // todo: duplicate index
         // insert record in the index
         if (insertionIndex == -1)
         {
             // todo: when inserting a duplicate key, traverse to the leaf node containing duplicate key
-            Node* cursor = parentNode;
-            int duplicateIndex;
-            while(!cursor->isLeaf){
-                duplicateIndex= parentNode->binarySearch(key);
-                cursor = ((Node**)parentNode->childrenTypes)[duplicateIndex+1];
-            };
-            duplicateIndex = cursor->binarySearch(key);
+            // Node* cursor = parentNode;
+            // int duplicateIndex;
+            // while(!cursor->isLeaf){
+            //     duplicateIndex= parentNode->binarySearch(key);
+            //     cursor = ((Node**)parentNode->childrenTypes)[duplicateIndex+1];
+            // };
+            // duplicateIndex = cursor->binarySearch(key);
 
-            // if its a record
-            if(cursor->childrenTypes[duplicateIndex]==0){
-                // todo: deallocate record and allocate special structure and copy the record pointer over
+            // // if its a record
+            // if(cursor->childrenTypes[duplicateIndex]==0){
+            //     // todo: deallocate record and allocate special structure and copy the record pointer over
 
-                // todo: change the childrenTypes array to be a special struct
-                cursor->childrenTypes[duplicateIndex] = true;
-            }
-            // if its already a struct 
-            else{
-                // get free address from same block of the struct
-                // insert record in struct
-                // struct.insert(recordPointer)
-                // insert record in memory
-                // memory.insert(freeAdress, recordData)
-            }
+            //     // todo: change the childrenTypes array to be a special struct
+            //     cursor->childrenTypes[duplicateIndex] = true;
+            // }
+            // // if its already a struct
+            // else{
+            //     // get free address from same block of the struct
+            //     // insert record in struct
+            //     // struct.insert(recordPointer)
+            //     // insert record in memory
+            //     // memory.insert(freeAdress, recordData)
+            // }
+            // return nullptr;
+
+            // std::cout << "Duplicate key: " << key << std::endl;
             return nullptr;
-            
-
-            std::cout << "Duplicate key: " << key << std::endl;
-            throw 1;
         }
 
         // terminal case for recursion: parentNode is a Leaf
@@ -74,14 +87,21 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
             if (parentNode->isFull())
             {
                 // left And right nodes are leafs
-                Node *leftNode = new Node(this->nodeSize, true);
-                Node *rightNode = new Node(this->nodeSize, true);
+
+                // allocate space for left and right nodes
+                Address leftNodeAddress = BPTree::memoryPoolInstance->allocate(disk.getBlockSize());
+                Address rightNodeAddress = BPTree::memoryPoolInstance->allocate(disk.getBlockSize());
+                BPTree::memoryPoolInstance->saveToDisk(new Node(this->nodeSize, true), sizeof(Node), leftNodeAddress);
+                BPTree::memoryPoolInstance->saveToDisk(new Node(this->nodeSize, true), sizeof(Node), rightNodeAddress);
+
+                Node *leftNode = leftNodeAddress.getAddressNode();
+                Node *rightNode = rightNodeAddress.getAddressNode();
+
                 int minimumKeySizeLeft = ceil((this->nodeSize + 1) / 2);
                 int minimumKeySizeRight = this->nodeSize + 1 - minimumKeySizeLeft;
 
                 // fill the left and right subtrees
                 // filling left subtree
-                // todo: fill boolean arrays for left and right subtree
                 int nodeToSplitCounter = 0;
                 int newNodesCounter = 0;
                 int tempInsertionIndex = insertionIndex;
@@ -91,15 +111,14 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                     if (nodeToSplitCounter == tempInsertionIndex)
                     {
                         leftNode->keys[newNodesCounter] = key;
-                        ((Address **)leftNode->childrenNodes)[newNodesCounter] = incomingRecord;
-
+                        (leftNode->childrenNodes)[newNodesCounter] = address;
                         tempInsertionIndex = -1;
                         newNodesCounter++;
                     }
                     else
                     {
                         leftNode->keys[newNodesCounter] = parentNode->keys[nodeToSplitCounter];
-                        ((Address **)leftNode->childrenNodes)[newNodesCounter] = ((Address **)parentNode->childrenNodes)[nodeToSplitCounter];
+                        (leftNode->childrenNodes)[newNodesCounter] = (parentNode->childrenNodes)[nodeToSplitCounter];
 
                         newNodesCounter++;
                         nodeToSplitCounter++;
@@ -116,40 +135,49 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                     if (nodeToSplitCounter == tempInsertionIndex)
                     {
                         rightNode->keys[newNodesCounter] = key;
-                        ((Address **)rightNode->childrenNodes)[newNodesCounter] = incomingRecord;
+                        (rightNode->childrenNodes)[newNodesCounter] = address;
                         tempInsertionIndex = -1;
                         newNodesCounter++;
                     }
                     else
                     {
                         rightNode->keys[newNodesCounter] = parentNode->keys[nodeToSplitCounter];
-                        ((Address **)leftNode->childrenNodes)[newNodesCounter] = ((Address **)parentNode->childrenNodes)[nodeToSplitCounter];
+                        (leftNode->childrenNodes)[newNodesCounter] = (parentNode->childrenNodes)[nodeToSplitCounter];
 
                         newNodesCounter++;
                         nodeToSplitCounter++;
                     }
                     rightNode->currentKeySize++;
                     rightNode->currentPointerSize++;
+                    std::cout << "Left Node: \n";
+                    leftNode->printNode();
+                    std::cout << "Right Node: \n";
+                    rightNode->printNode();
                 }
+
+                // BPTree::memoryPoolInstance->saveToDisk(incomingRecord,sizeof(Record),recordAddress);
 
                 // terminal case where the parent is full, a leaf and a root node
                 // we just create a new parent and set that as the new root Node
                 if (parentNode == this->rootNode)
                 {
                     Node *newParentNode = new Node(3, false);
-                    newParentNode->insertInitialInNonLeafNode(rightNode->keys[0], leftNode, rightNode);
+                    newParentNode->insertInitialInNonLeafNode(rightNode->keys[0], leftNodeAddress, rightNodeAddress);
 
                     this->rootNode = newParentNode;
                     return nullptr;
                 }
 
-                return new Node *[2]
-                { leftNode, rightNode };
+                return new Address[2]{leftNodeAddress, rightNodeAddress};
             }
             // or if leaf node is not full we can just insert a key pointer pair
             else
             {
-                parentNode->insertSubsequentPair(key, incomingRecord);
+                parentNode->insertSubsequentPair(key, address);
+
+                // todo: save the incoming Record to disk
+                // BPTree::memoryPoolInstance->saveToDisk(incomingRecord,sizeof(Record),recordAddress);
+
                 return nullptr;
             }
         }
@@ -158,13 +186,14 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
         // then we recursively call that child using insert()
         else
         {
-            Node *childNode = ((Node **)parentNode->childrenNodes)[insertionIndex];
+            Address childNodeAddress = parentNode->childrenNodes[insertionIndex];
+            Node *childNode = childNodeAddress.getAddressNode();
 
             // recursive call on the child
             // if nullptr is returned from insert() it means that the parent need not do any insertions
             // if [ Node* leftSubTree, Node* rightSubTree] is returned, it means that the child node was full
             // and requires insertion on the parent
-            Node **returnedChildSubTrees = this->insert(childNode, key, incomingRecord);
+            Address *returnedChildSubTrees = this->insert(childNode, key, address, disk);
 
             // if nullptr is returned, that means child was not split
             if (returnedChildSubTrees == nullptr)
@@ -173,8 +202,8 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
             }
 
             // if [leftSub,rightSub] is returned this means the child was full and split
-            Node *leftChildSubTree = returnedChildSubTrees[0];
-            Node *rightChildSubTree = returnedChildSubTrees[1];
+            Node *leftChildSubTree = returnedChildSubTrees[0].getAddressNode();
+            Node *rightChildSubTree = returnedChildSubTrees[1].getAddressNode();
             int keyToInsertIntoParent;
 
             // if child is a leaf, insert the first key into the parent Node
@@ -194,8 +223,13 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                 Node *leftNode;
                 Node *rightNode;
 
-                leftNode = new Node(this->nodeSize, false);
-                rightNode = new Node(this->nodeSize, false);
+                // todo: allocate space in memory for nodes
+                Address leftNodeAddress = BPTree::memoryPoolInstance->allocate(disk.getBlockSize());
+                Address rightNodeAddress = BPTree::memoryPoolInstance->allocate(disk.getBlockSize());
+
+                // todo: save new nodes into disk
+                BPTree::memoryPoolInstance->saveToDisk(new Node(this->nodeSize, false), disk.getBlockSize());
+                BPTree::memoryPoolInstance->saveToDisk(new Node(this->nodeSize, false), disk.getBlockSize());
 
                 //  minimum and maximum bounds of non-leaf nodes
                 int minimumKeySizeRight = (this->nodeSize / 2);
@@ -203,15 +237,15 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
 
                 // build a virtual array to help with the splitting
                 int virtualKeyArray[this->nodeSize + 1]{0};
-                Node *virtualPointerArray[this->nodeSize + 2]{nullptr};
+                Address virtualPointerArray[this->nodeSize + 2]{nullptr};
 
                 int i = 0;
                 for (i; i < this->nodeSize; i++)
                 {
                     virtualKeyArray[i] = parentNode->keys[i];
-                    virtualPointerArray[i] = ((Node **)parentNode->childrenNodes)[i];
+                    virtualPointerArray[i] = (parentNode->childrenNodes)[i];
                 }
-                virtualPointerArray[i] = ((Node **)parentNode->childrenNodes)[i];
+                virtualPointerArray[i] = parentNode->childrenNodes[i];
 
                 // insert the key to be inserted
                 for (int i = this->nodeSize; i > insertionIndex; i--)
@@ -220,14 +254,14 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                 }
 
                 virtualKeyArray[insertionIndex] = keyToInsertIntoParent;
-                virtualPointerArray[insertionIndex] = leftChildSubTree;
+                virtualPointerArray[insertionIndex] = returnedChildSubTrees[0];
 
                 // insert the pointer to be inserted
                 for (int i = this->nodeSize + 1; i > insertionIndex + 1; i--)
                 {
                     virtualPointerArray[i] = virtualPointerArray[i - 1];
                 }
-                virtualPointerArray[insertionIndex + 1] = rightChildSubTree;
+                virtualPointerArray[insertionIndex + 1] = returnedChildSubTrees[1];
 
                 // fill the left and right subtrees
                 int virtualKeyCounter = 0;
@@ -238,7 +272,7 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                 while (newNodesKeyCounter < minimumKeySizeLeft)
                 {
                     leftNode->keys[newNodesKeyCounter] = virtualKeyArray[virtualKeyCounter];
-                    ((Node **)leftNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualPtrCounter];
+                    (leftNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualPtrCounter];
 
                     newNodesKeyCounter++;
                     virtualKeyCounter++;
@@ -248,7 +282,7 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                 }
 
                 // add the right most pointer of left subtree
-                ((Node **)leftNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualPtrCounter];
+                (leftNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualPtrCounter];
 
                 leftNode->currentPointerSize++;
 
@@ -257,7 +291,7 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                 while (newNodesKeyCounter < minimumKeySizeRight + 1)
                 {
                     rightNode->keys[newNodesKeyCounter] = virtualKeyArray[virtualKeyCounter];
-                    ((Node **)rightNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualPtrCounter];
+                    (rightNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualPtrCounter];
 
                     newNodesKeyCounter++;
                     virtualPtrCounter++;
@@ -267,7 +301,7 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                 }
 
                 // add the right most pointer of right subtree
-                ((Node **)rightNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualKeyCounter];
+                (rightNode->childrenNodes)[newNodesKeyCounter] = virtualPointerArray[virtualKeyCounter];
                 rightNode->currentPointerSize++;
 
                 // if parent node is root node and is full create new root node
@@ -280,26 +314,35 @@ Node **BPTree::insert(Node *parentNode, int key, Address *incomingRecord)
                     // std::cout << "Right subtree to go up up" << std::endl;
                     // rightNode->printNode();
                     //  create new parent
-                    Node *newRoot = new Node(this->nodeSize, false);
-                    newRoot->insertInitialInNonLeafNode(parentInsertionKey, leftNode, rightNode);
+
+                    // allocate new memory to node
+                    Address newRootAddress = BPTree::memoryPoolInstance->allocate(disk.getBlockSize());
+                    // todo: write data into that address
+                    BPTree::memoryPoolInstance->saveToDisk(new Node(this->nodeSize, false), disk.getBlockSize(), newRootAddress);
+
+                    newRootAddress.getAddressNode()->insertInitialInNonLeafNode(parentInsertionKey, leftNodeAddress, rightNodeAddress);
+
                     // dealloc old memory to prevent leaks
-                    delete this->rootNode;
-                    this->rootNode = newRoot;
+                    BPTree::memoryPoolInstance->deallocate(this->rootNode->addressInDisk, disk.getBlockSize());
+
+                    // link to root pointer
+                    this->rootNode = newRootAddress.getAddressNode();
 
                     return nullptr;
                 }
 
-                return new Node *[2]
-                { leftNode, rightNode };
+                return new Address[2]{leftNodeAddress, rightNodeAddress};
             }
 
             // if parent node is not full, just insert a key-pointer pair in the parent node
             else
             {
                 //  deallocate memory for original left subtree
-                delete ((Node **)parentNode->childrenNodes)[insertionIndex];
-                ((Node **)parentNode->childrenNodes)[insertionIndex] = leftChildSubTree;
-                parentNode->insertSubsequentPair(keyToInsertIntoParent, rightChildSubTree);
+                BPTree::memoryPoolInstance->deallocate((parentNode->childrenNodes)[insertionIndex], disk.getBlockSize());
+
+                delete (parentNode->childrenNodes)[insertionIndex].getAddressNode();
+                (parentNode->childrenNodes)[insertionIndex] = returnedChildSubTrees[0];
+                parentNode->insertSubsequentPair(keyToInsertIntoParent, returnedChildSubTrees[1]);
 
                 return nullptr;
             }
@@ -388,35 +431,40 @@ void BPTree::display()
 };
 
 // returns start address of the starting value
-Address* BPTree::queryWithNumVotesAsKey(int key, int &nodesUpdated){
-    Node* cursor = this->rootNode;
+Address *BPTree::queryWithNumVotesAsKey(int key, int &nodesUpdated)
+{
+    Node *cursor = this->rootNode;
     nodesUpdated = 1;
 
-    if(this->rootNode == nullptr){
-        std::cout <<"BPTree does not exist. instantiate rootNode"<<std::endl;
-        return;
+    if (this->rootNode == nullptr)
+    {
+        std::cout << "BPTree does not exist. instantiate rootNode" << std::endl;
+        return nullptr;
     }
 
-    while(!cursor->isLeaf){
-        nodesUpdated+=1;
+    while (!cursor->isLeaf)
+    {
+        nodesUpdated += 1;
         cursor->printNode();
         // checks whether the key exists in the internal node
         int insertionIndex = cursor->binarySearchInsertIndex(key);
         // found the key
-        if(insertionIndex == -1){
-            insertionIndex = cursor ->binarySearch(key);
-            cursor =  ((Node**)cursor->childrenNodes)[insertionIndex+1];
+        if (insertionIndex == -1)
+        {
+            insertionIndex = cursor->binarySearch(key);
+            cursor = ((Node **)cursor->childrenNodes)[insertionIndex + 1];
         }
         // key is not found in internal node
-        else{
-            cursor = ((Node**)cursor->childrenNodes)[insertionIndex];
+        else
+        {
+            cursor = ((Node **)cursor->childrenNodes)[insertionIndex];
         }
     }
 
     int index = cursor->binarySearch(key);
 
-    return ((Address**)cursor->childrenNodes)[index];
-} 
+    return ((Address **)cursor->childrenNodes)[index];
+}
 
 // for finding parent node
 Node *BPTree::findParentNode(Node *cursor, Node *child)
@@ -465,10 +513,10 @@ int BPTree::findMinimumKeyInBPTree(Node *node)
     return findMinimumKeyInBPTree(((Node **)node->childrenNodes)[0]);
 }
 
-
-int BPTree::findHeight(Node * rootNode){
-    int height =1;
-    // perform DFS of from the root node to    
+int BPTree::findHeight(Node *rootNode)
+{
+    int height = 1;
+    // perform DFS of from the root node to
     Node *cursor = rootNode;
 
     // traverse to leaf node
@@ -479,26 +527,26 @@ int BPTree::findHeight(Node * rootNode){
         height++;
     }
 
-    std::cout<<"height of B+ Tree is: "<< height <<std::endl;
-    
+    std::cout << "height of B+ Tree is: " << height << std::endl;
+
     return height;
 }
 // print answers for experiment 2
 void BPTree::printBPDetails()
 {
     // experiment 2
-    std::cout <<"================= Experiment 2 ================="<<std::endl;
+    std::cout << "================= Experiment 2 =================" << std::endl;
     std::vector<Node *> leafNodes;
-    int nodeCount =1;
-    this->DFSNodes(this->rootNode, leafNodes,nodeCount);
+    int nodeCount = 1;
+    this->DFSNodes(this->rootNode, leafNodes, nodeCount);
     std::cout << "******BPTREE DETAILS******" << std::endl;
     std::cout << "Parameter n of B+ Tree (number of keys in Node): " << this->nodeSize << std::endl;
-    std::cout<<"Total NodeSize: "<<nodeCount<<" nodes"<<std::endl;
-   
+    std::cout << "Total NodeSize: " << nodeCount << " nodes" << std::endl;
+
     // find max height of B+ tree
     int height = this->findHeight(this->rootNode);
-    std::cout<<"height of B+ Tree is: "<< height <<std::endl;
-    
+    std::cout << "height of B+ Tree is: " << height << std::endl;
+
     // std::cout << "List of Records: [ ";
 
     // int count = 0;
@@ -516,31 +564,29 @@ void BPTree::printBPDetails()
     // ;
     // std::cout << "number of records: " << count << std::endl;
 
-    std::cout<< "\n\nContent Of Root Node:"<<std::endl;
+    std::cout << "\n\nContent Of Root Node:" << std::endl;
     this->rootNode->printNode();
-    std::cout<<"\n\nContent of First Child Of Root Node"<<std::endl;
-    ((Node**)this->rootNode->childrenNodes)[0]->printNode();
+    std::cout << "\n\nContent of First Child Of Root Node" << std::endl;
+    ((Node **)this->rootNode->childrenNodes)[0]->printNode();
 }
-
-
 
 // does DFS traversal and links all leafnodes together
 void BPTree::linkLeafNodes()
 {
     std::vector<Node *> leafNodes;
-    int nodeCount =1;
-    this->DFSNodes(this->rootNode, leafNodes,nodeCount);
-    
-    //link the leaf nodes tgt
+    int nodeCount = 1;
+    this->DFSNodes(this->rootNode, leafNodes, nodeCount);
+
+    // link the leaf nodes tgt
     for (int i = 0, j = 1; j < leafNodes.size(); i++, j++)
     {
         leafNodes.at(i)->linkToAnotherLeafNode(leafNodes.at(j));
     }
-    std::cout<<"Finished linking leaf nodes"<<std::endl;    
+    std::cout << "Finished linking leaf nodes" << std::endl;
 }
 
 // does DFS traversals and returns a list of leafnodes if order, and also the number of nodes in the B+ tree
-void BPTree::DFSNodes(Node *currentNode, std::vector<Node *> &recordList,int &nodeCount)
+void BPTree::DFSNodes(Node *currentNode, std::vector<Node *> &recordList, int &nodeCount)
 {
     std::queue<Node *> childrenNodesToSearch;
     // terminal condition if the node is a leaf, add node pointer into the vector
@@ -558,7 +604,7 @@ void BPTree::DFSNodes(Node *currentNode, std::vector<Node *> &recordList,int &no
         std::cout << "]" << std::endl;
         return;
     }
-    //if its not a leaf node add all its children nodes to count
+    // if its not a leaf node add all its children nodes to count
     nodeCount += currentNode->currentPointerSize;
 
     // keep track of all the children nodes to search in this parent node in a queue
@@ -572,7 +618,7 @@ void BPTree::DFSNodes(Node *currentNode, std::vector<Node *> &recordList,int &no
     {
         Node *childrenNodeToTraverse = childrenNodesToSearch.front();
         childrenNodesToSearch.pop();
-        this->DFSNodes(childrenNodeToTraverse, recordList,nodeCount);
+        this->DFSNodes(childrenNodeToTraverse, recordList, nodeCount);
         // going up the recursion
     }
 }

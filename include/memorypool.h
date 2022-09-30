@@ -19,7 +19,7 @@ public:
     MemoryPool(std::size_t maxPoolSize, std::size_t blockSize);
 
     // Allocate a new block from the memory pool. Returns false if error.
-    bool allocateBlock();
+    bool allocateBlock(bool record);
 
     // Allocates a new chunk to the memory pool. Creates a new block if chunk is unable to fit in current free block.
     // Returns a struct with the block's address and the record's offset within the block.
@@ -84,6 +84,10 @@ public:
         blocksAccessed = 0;
         return tempBlocksAccessed;
     }
+    int getTotalBlocksUsedForRecords() const
+    {
+        return blocksAllocatedForRecords;
+    }
 
     // Destructor
     ~MemoryPool();
@@ -96,6 +100,7 @@ private:
     std::size_t sizeUsed;       // Current size used up for storage (total block size).
     std::size_t actualSizeUsed; // Actual size used based on records stored in storage.
     std::size_t blockSizeUsed;  // Size used up within the current block we are pointing to.
+    std::size_t blocksAllocatedForRecords; // Total blocks allocated for records
 
     int allocated;      // Number of currently allocated blocks.
     int blocksAccessed; // Counts number of blocks accessed.

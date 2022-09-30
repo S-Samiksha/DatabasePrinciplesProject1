@@ -2,6 +2,7 @@
 #include "include/node.h"
 #include "include/bptree.h"
 #include "include/memorypool.h"
+#include "include/types.h"
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
@@ -10,18 +11,19 @@
 #include <vector>
 #include <functional>
 #include <algorithm>
-int BLOCKSIZE = 100;
-int MEMORYPOOLSIZE;
+#include <math.h>
+int BLOCKSIZE = 200;
+int MEMORYPOOLSIZE = 500000000;
 struct tempRecord
 {
-    char tconst[11];            // 10B. Primary key. Total we need is 9bits for the current data we have. + 1 bit to store the null value.
+    char* tconst = new char[11];            // 10B. Primary key. Total we need is 9bits for the current data we have. + 1 bit to store the null value.
 
     float averageRating;        // 4B. Was thinking of using char but end up will take the same amount of byte (i.e. 4 bytes),
                                 // since 2 for the numbers, 1 for the "." and 1 for the null value
 
     unsigned int numVotes;      // 4B. was thinking of using short unsigned, but will be limited to 65,535, which is not sufficient.
                                 // Largest numVote value we have will go to a few hundred thousands.
-    bool operator < (const Record& rec) const
+    bool operator < (const tempRecord& rec) const
     {
         return (numVotes < rec.numVotes);
     }
@@ -29,77 +31,103 @@ struct tempRecord
 }; 
 int main()
 {
-    BPTree *testBPTree = new BPTree(3);
-    testBPTree->rootNode = new Node(3, true);
-    testBPTree->insert(testBPTree->rootNode, 1, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 4, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 7, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 10, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 17, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 21, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 31, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 25, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 19, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 20, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 28, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 42, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 5, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 6, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 8, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 90, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 91, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 26, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 27, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 3, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 2, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 9, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 36, nullptr);
-    testBPTree->insert(testBPTree->rootNode, 38, nullptr);
-    testBPTree->linkLeafNodes();
+    // memory pool instantiation
+  
 
-    testBPTree->display();
+    // load csv data returns record
+    
+    // construct B+ tree
+    // BPTree *testBPTree = new BPTree(3,MEMORYPOOLSIZE,BLOCKSIZE);
+    // testBPTree->rootNode = new Node(3, true);
+    // testBPTree->insert(testBPTree->rootNode, 4, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 1, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 7, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 10, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 17, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 21, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 31, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 25, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 19, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 20, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 28, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 42, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 5, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 6, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 8, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 90, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 91, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 26, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 27, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 3, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 2, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 9, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 36, nullptr);
+    // testBPTree->insert(testBPTree->rootNode, 38, nullptr);
 
-    int nodeCount=0;
-    Address* result = testBPTree->queryWithNumVotesAsKey(36,nodeCount);
-    std::cout<< "Address of record with key value: 36 :"<<result;
+
+    // int nodeCount=0;
+    // Address* result = testBPTree->queryWithNumVotesAsKey(36,nodeCount);
+    // std::cout<< "Address of record with key value: 36 :"<<result;
 //     // testBPTree->printBPDetails();
 //    // testBPTree->remove(42);
 
 //     testBPTree->display();
 
     //loading data
-    // MemoryPool disk(MEMORYPOOLSIZE, BLOCKSIZE);  // 150MB
-    // std::ifstream file("./data/data.tsv");
-    // int counter = 0;
-    // std::vector<tempRecord> recordList;
-    // // Insert data into database
-    // if(file.is_open()){
-    //     std::string line;
-    //     while(std::getline(file,line)){
-    //         tempRecord newRec;
-    //         std::stringstream datastream(line);
-    //         std::string data;
-    //         std::getline(datastream,data, '\t');
-    //         strcpy(newRec.tconst, data.c_str());
-    //         datastream >> newRec.averageRating >> newRec.numVotes;
-    //         recordList.push_back(newRec);
+    MemoryPool disk(MEMORYPOOLSIZE, BLOCKSIZE);  // 150MB
+    std::ifstream file("./data/data.tsv");
+    std::vector<tempRecord> recordList;
 
-    //     }
-    // }
 
-    // std::sort(recordList.begin(), recordList.end());
+    // test b+ tree
+    BPTree *testBPTree = new BPTree(3,MEMORYPOOLSIZE,BLOCKSIZE);
+    testBPTree->rootNode = new Node(3, true);
+
+    int testCounter = 0;
+    
+    // Insert data into database
+    if(file.is_open()){
+        std::string line;
+        while(std::getline(file,line) && testCounter++ != 20){
+            tempRecord newRec;
+            std::stringstream datastream(line);
+            std::string data;
+            std::getline(datastream,data, '\t');
+            strcpy(newRec.tconst, data.c_str());
+            datastream >> newRec.averageRating >> newRec.numVotes;
+            recordList.push_back(newRec);
+        }
+    }
+
+    std::sort(recordList.begin(), recordList.end());
+
+    std::vector<Address> addressList;
+    std::vector<unsigned int> keyList;
+
+    // Load record onto disk
+    for(int i=0;i<recordList.size();i++){
+        // std::cout<<recordList[i].numVotes<<std::endl;
+        // std::cout<<recordList[i].tconst<<std::endl;
+        char* tconst = recordList[i].tconst;
+        Record newRec{tconst,recordList[i].averageRating,recordList[i].numVotes};
+       
+        Address recAddress = disk.saveToDisk(&newRec, sizeof(Record));
+         if(i==0 || recordList[i].numVotes != recordList[i-1].numVotes){
+            addressList.push_back(recAddress);
+            keyList.push_back(newRec.numVotes);
+         }
+    }
+
+    // insert to b++tree
+    for (int i=0;i<addressList.size();i++){
+        testBPTree->insert(testBPTree->rootNode,keyList[i],addressList[i]);
+    }
+    testBPTree->linkLeafNodes();
+    testBPTree->display();
+
+    //Final CLI copy down here once done!!~~~~~~~~~~~~~~~~~~~~~~~~~
 
     
-    // for(int i=0;i<recordList.size();i++){
-    //     Record newRec{recordList[i].tconst,recordList[i].averageRating,recordList[i].numVotes};
-    //     Address recAddress = disk.saveToDisk(&newRec, sizeof(Record));
-        
-    //     if(i==0 || recordList[i].numVotes != recordList[i-1].numVotes){
-    //         //insert to b++tree
-    //     }
-    // }
-
-    //Final CLI copy down here once done!!
 
     
     std::cout <<"------------------------------------------------------------------------------------------------"<<std::endl;
@@ -120,6 +148,7 @@ int main()
          }
      }
 
+    
     /*
     Experiment 1:
     store the data (which is about IMDb movives) on the disk and report the following statistics:
@@ -130,6 +159,13 @@ int main()
    std::cout << "Creating memory......" <<std::endl;
 
    std::cout << "Creating B++ Tree" <<std::endl;
+   //calculation of Node side 
+   int NodeSize = 0;
+   //calculating the size of the nodes 
+   
+   NodeSize = floor((BLOCKSIZE*8-80-127-64)/96);
+   std::cout<<"Node Size: "<< NodeSize<<std::endl;
+   BPTree *tree = new BPTree(NodeSize, MEMORYPOOLSIZE, BLOCKSIZE);
 
 
    std::cout << "Maximum keys a B++ tree can hold: " <<std::endl;
@@ -137,16 +173,8 @@ int main()
 
 
   std::cout <<"--------------------------------------Experiment 1------------------------------------------"<<std::endl;
-  std::cout << "No. of records in record block      : " << std::endl;
-  std::cout << "No. of keys in index block          : " << std::endl;
-  std::cout << "No. of record blocks                : " <<  std::endl;
-  std::cout << "No. of index blocks                 : " <<  std::endl;
-  std::cout << "Size of record blocks               : " << std::endl;
-  std::cout << "Size of index blocks                : " << std::endl;
-  std::cout <<"Total number of blocks               : "<<std::endl;
-  std::cout <<"Actual size of database              : "<<std::endl;
-  std::cout <<"Size of database                     : "<<std::endl;
-
+  std::cout << "Total number of blocks              : "<< disk.getAllocated() << std::endl;
+  std::cout << "Actual size of database             : "<< disk.getActualSizeUsed() << std::endl;
 
    /*
    Experiment 2:
@@ -160,7 +188,7 @@ int main()
   std::cout <<"No. of Keys, n, of B+ tree        : "<<std::endl;
   std::cout <<"No. of nodes of B+ tree           : "<<std::endl;
   std::cout <<"Height of B+ tree                 : "<<std::endl;
-  std::cout << "Root nodes and child nodes       : "<<std::endl;
+  std::cout <<"Root nodes and child nodes        : "<<std::endl;
   
   std::cout <<std::endl;
 
@@ -174,12 +202,14 @@ int main()
 
    */
     std::cout <<"-----------------------------------Experiment 3-----------------------------------------------"<<std::endl;
-    std::cout <<"Retrieving movies with 'numVotes' equal to 500: "<<std::endl;     
+    std::cout <<"Resetting block access before carrying on with the experiement" << std::endl;
     
+    std::cout <<"Retrieving movies with 'numVotes' equal to 500: "<<std::endl;     
+
     std::cout << std::endl;
     std::cout <<"Number of index blocks accesses      : "<<std::endl; 
     std::cout <<"Number of record blocks accesses     : "<<std::endl;
-    
+
     std::cout<<std::endl;
 
   /*
@@ -189,11 +219,13 @@ int main()
     - the number and the content of data blocks the process accesses;
     - the average of “averageRating’s” of the records that are returned;
   */
-  std::cout <<"-------------------------------------Experiment 4---------------------------------------------"<<std::endl;
-  std::cout <<"Retrieving those movies with the attributes 'numVotes' from 30K to 40K"<<std::endl;
-  std::cout << std::endl;
-  std::cout <<"Number of index blocks accesses  : "<<std::endl; 
-  std::cout <<"Number of data blocks accesses   : "<<std::endl;
+    std::cout <<"-------------------------------------Experiment 4---------------------------------------------"<<std::endl;
+    std::cout <<"Resetting block access before carrying on with the experiement" << std::endl;
+    
+    std::cout <<"Retrieving those movies with the attributes 'numVotes' from 30K to 40K"<<std::endl;
+    std::cout << std::endl;
+    std::cout <<"Number of index blocks accesses  : "<<std::endl; 
+    std::cout <<"Number of data blocks accesses   : "<<std::endl;
 
     /*
     Experiment 5:
@@ -206,9 +238,12 @@ int main()
     */
 
   std::cout <<"-------------------------------------Experiment 5---------------------------------------------"<<std::endl;
-  int* numNodesDeleted = 0, numNodesUpdated=0, height=0;
+  int* numNodesDeleted = 0;
+  int* numNodesUpdated=0;
+  int* height=0;
+  tree->remove(1000, numNodesDeleted, numNodesUpdated, height, disk);
   
-  std::cout <<"Deleting those movies with the attribute 'numVotes' equal to 1000" <<std::endl;
+  std::cout <<"Deleting those movies with the attribute 'numVotes' equal to 1000-----------------------" <<std::endl;
   std::cout << "No. of times that a node is deleted (or two nodes are merged): "<< numNodesDeleted << std::endl; 
   std::cout << "No. of nodes in updated B+ Tree                              : " << numNodesUpdated <<std::endl;
   std::cout << "Height of updated B+ tree                                    : " << height <<std::endl;

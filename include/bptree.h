@@ -3,21 +3,25 @@
 
 #include "node.h"
 #include "types.h"
+#include "memorypool.h"
 #include <stack>
 
 class BPTree
 {
+    friend class Node;
 
 public:
     Node *rootNode{nullptr};
     int nodeSize;
-    BPTree(int nodeSize);
+    static MemoryPool *memoryPoolInstance;
+
+    BPTree(int nodeSize, int poolSize, int blockSize);
 
     // inserting a key
-    Node **insert(Node *parentNode, int key, Address *incomingRecord);
+    Address *insert(Node *parentNode, int key, Address recordAddress, MemoryPool &disk);
 
     // deleting a key
-    Address* remove(int key, int *nodesDeleted, int *nodesUpdated, int *height);
+    void remove(int key, int *nodesDeleted, int *nodesUpdated, int *height, MemoryPool &disk);
 
     // displaying the tree
     void display();
@@ -26,15 +30,16 @@ public:
 
     Node *findParentNode(Node *cursor, Node *child);
 
-    Address* queryWithNumVotesAsKey(int key, int &nodesUpdated);
+    Address *queryWithNumVotesAsKey(int key, int &nodesUpdated);
 
     int findMinimumKeyInBPTree(Node *node);
 
     void search(int key);
 
-    void searchRange(int lowKey,int highKey);
+    //Return the number of blocks accessed
+    int searchRange(int lowKey, int highKey, MemoryPool &disk);
 
-    void updateParent(std::stack<Node *> stack, int key, int * nodesUpdated);
+    void updateParent(std::stack<Node *> stack, int key, int *nodesUpdated);
 
     // prints details and all record keys
     void printBPDetails();
@@ -42,8 +47,7 @@ public:
     // links all leaf nodes of the BPTree
     void linkLeafNodes();
 
-    void DFSNodes(Node* currentNode,std::vector<Node*> &recordList,int &nodeCount);
-
+    void DFSNodes(Node *currentNode, std::vector<Node *> &recordList, int &nodeCount);
 
     int findHeight(Node *rootNode);
 
@@ -56,13 +60,8 @@ private:
     // helper function for when the node size is unbalanced and requires merging
     void merge(Node *currentNode, int deletedKey);
 
-    // function to recursively search the subtree for the node to insert key
-    int insertInternal(Node *currentSubTreeRootNode, int key);
-
     // remove first key-pointer pair from a split right node
     // int removeFirstKeyFromNode(Node *node);
-
-    
 };
 
 #endif

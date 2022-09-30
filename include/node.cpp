@@ -3,6 +3,8 @@
 #include <vector>
 #include <bits/stdc++.h>
 #include "types.h"
+#include "memorypool.h"
+#include "bptree.h"
 
 // Node constructor
 Node::Node(){};
@@ -13,9 +15,9 @@ Node::Node(int nodeSize, bool isLeaf)
     this->maxKeySize = nodeSize;
     this->maxPointerSize = nodeSize + 1; 
     this->keys = new int[this->maxKeySize]{0};
-    this->childrenNodes = new void *[this->maxPointerSize]
-    { nullptr };
-    this->childrenTypes = new bool[this->maxKeySize]{0};
+    //todo: check
+    this->childrenNodes = new Address[this->maxPointerSize]{{0}};
+    
 };
 
 // prints a node's info and contents
@@ -45,7 +47,7 @@ void Node::printNode()
 
 // if leaf node initial insert state is {key,pointer,...., next neighbour}
 // if non-leaf node initial insert state is {pointerL,key,pointerR}
-void Node::insertInitialInNonLeafNode(int key, Node *leftPointer, Node *rightPointer)
+void Node::insertInitialInNonLeafNode(int key, Address leftPointer, Address rightPointer)
 {
     // check if that the node is indeed a non-leaf node
     if (this->isLeaf || this->currentKeySize != 0)
@@ -61,7 +63,7 @@ void Node::insertInitialInNonLeafNode(int key, Node *leftPointer, Node *rightPoi
     // std::cout << "left pointer " << ((Node **)this->childrenNodes)[0] << " right pointer " << ((Node **)this->childrenNodes)[1] << std::endl;
 }
 
-void Node::insertInitialInLeafNode(int key, void *recordPointer, Node *neighbourNode)
+void Node::insertInitialInLeafNode(int key, Address recordPointer, Address neighbourNode)
 {
 
     // check if that the node is indeed a non-leaf node
@@ -79,7 +81,7 @@ void Node::insertInitialInLeafNode(int key, void *recordPointer, Node *neighbour
 
 // binary searches for the insertion slot and inserts a key-pointer pair
 // returns and does nothing if inserted key is a dupe
-void Node::insertSubsequentPair(int key, void *nodeOrRecordPointer)
+void Node::insertSubsequentPair(int key, Address nodeOrRecordPointer)
 {
 
     // if node is full, throw error
@@ -142,7 +144,7 @@ void Node::insertKeyInKeyArray(int key, int index)
 
 // inserts a child pointer(record* or Node*) to the pointer array of the node in the index position
 // pushes every element after the insertion index to the right
-void Node::insertChildInPointerArray(void *child, int index)
+void Node::insertChildInPointerArray(Address child, int index)
 {
     // if pointer node is full
     if (this->currentPointerSize == this->maxPointerSize)
@@ -161,7 +163,7 @@ void Node::insertChildInPointerArray(void *child, int index)
         // offset for linked node
         // offset is to protect the linked node's pointer from being overwritten
         int offset = 0;
-        if (((Node **)this->childrenNodes)[this->maxPointerSize - 1] != nullptr)
+        if (this->childrenNodes[this->maxPointerSize - 1].blockAddress != 0)
         {
             offset = 1;
         }
@@ -169,7 +171,7 @@ void Node::insertChildInPointerArray(void *child, int index)
         // push the elements on the right side of the insertion index 1 slot right
         for (i = this->currentPointerSize - offset; i > index; i--)
         {
-            ((Address **)this->childrenNodes)[i] = ((Address **)this->childrenNodes)[i - 1];
+            this->childrenNodes[i] = this->childrenNodes[i - 1];
         }
 
         // insert Address
@@ -183,11 +185,11 @@ void Node::insertChildInPointerArray(void *child, int index)
         // push the elements on the right side of the insertion index 1 slot right
         for (i = currentPointerSize; i > index; i--)
         {
-            ((Node **)this->childrenNodes)[i] = ((Node **)this->childrenNodes)[i - 1];
+            this->childrenNodes[i] = this->childrenNodes[i - 1];
         }
 
-        // insert Node
-        ((Node **)this->childrenNodes)[index] = (Node *)child;
+        // insert Address
+        this->childrenNodes[index] = child;
     }
 
     this->currentPointerSize++;
@@ -323,7 +325,7 @@ int Node::binarySearchInsertIndex(int key)
 }
 
 // removal of key from node within the node
-Address* Node::remove(int index)
+Address Node::remove(int index)
 {
     if (this->currentKeySize == 0)
     {
@@ -347,11 +349,11 @@ Address* Node::remove(int index)
 
     // TODO
     std::cout << "index: " << index << " value " << keys[0] << " childnode " << ((Node **)this->childrenNodes)[index] << std::endl;
-    return ((Address **)this->childrenNodes)[index];
+    return this->childrenNodes[index];
 }
 
 // inserts the address of another node into the last index of this node
-void Node::linkToAnotherLeafNode(Node *anotherLeafNode)
+void Node::linkToAnotherLeafNode(Address* anotherLeafNode)
 {
     if (!this->isLeaf)
     {
@@ -359,20 +361,20 @@ void Node::linkToAnotherLeafNode(Node *anotherLeafNode)
     }
 
     // if the current Node is the rightmost Leaf node of the tree and points to a nullptr we dont increase the currentPointerSize
-    if (anotherLeafNode == nullptr)
+    if (anotherLeafNode== nullptr)
     {
         return;
     }
 
     // if the leaf node was linked to an old pointer
-    if (((Node **)this->childrenNodes)[this->maxPointerSize - 1] != nullptr)
+    if (this->childrenNodes[this->maxPointerSize - 1].blockAddress != 0)
     {
         // link to new node but dont increase pointer size
-        ((Node **)this->childrenNodes)[this->maxPointerSize - 1] = anotherLeafNode;
+        this->childrenNodes[this->maxPointerSize - 1] = *anotherLeafNode;
         return;
     }
 
     // if the leaf node was previously not linked to any other node
-    ((Node **)this->childrenNodes)[this->maxPointerSize - 1] = anotherLeafNode;
+    this->childrenNodes[this->maxPointerSize - 1] = *anotherLeafNode;
     this->currentPointerSize++;
 }

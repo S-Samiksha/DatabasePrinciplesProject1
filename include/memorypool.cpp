@@ -14,9 +14,10 @@
 MemoryPool::MemoryPool(std::size_t maxPoolSize, std::size_t blockSize) {
     this->maxPoolSize = maxPoolSize;
     this->blockSize = blockSize;
-    this->sizeUsed = 0;             // Total size initialised (regardless of usage)
-    this->actualSizeUsed = 0;       // Total size being occupied
-    this->allocated = 0;            // Number of blocks that have been initialised
+    this->sizeUsed = 0;                 // Total size initialised (regardless of usage)
+    this->actualSizeUsed = 0;           // Total size being occupied
+    this->allocated = 0;                // Number of blocks that have been initialised
+    this->blocksAllocatedForRecords = 0;// Total blocks allocated for records
 
     this->pool = operator new(maxPoolSize);     // Allocate memory to the MemoryPool object
     std::memset(pool, '\0', maxPoolSize);       // Make all memory space null.
@@ -25,8 +26,11 @@ MemoryPool::MemoryPool(std::size_t maxPoolSize, std::size_t blockSize) {
     this->blocksAccessed = 0;       // A variable that keeps track of the total number of times the blocks have been accessed
 }
 
-bool MemoryPool::allocateBlock(){
+bool MemoryPool::allocateBlock(bool record){
     // Charles
+    if (record){
+        ++blocksAllocatedForRecords;
+    }
     if(sizeUsed + blockSize <= maxPoolSize){
         block = (char *)pool + (allocated * blockSize);
         sizeUsed += blockSize;
@@ -49,25 +53,50 @@ Address MemoryPool::allocate(std::size_t sizeRequired){
         std::cout << "Required size too large!" << '\n';
         exit(0);
     }
-    // If blocksize does not have enough capacity to support allocation, call allocate block for more memory
-    if(allocated==0||(blockSizeUsed+sizeRequired>blockSize)){
-        // Find out how much overflow and store in extraSizeUsed
-        extraSizeUsed = blockSizeUsed + sizeRequired - blockSize;
-        bool allocatedSuccessful = allocateBlock();
+
+    // If a node wants to be created, don't do spanning logic, give a new block.
+    if(sizeRequired == blockSize){
+        bool allocatedSuccessful = allocateBlock(true);
         if (!allocatedSuccessful){
             throw std::logic_error("Failed to allocate new block!");
         }
         else{
-            // set offset before addition of the extraSizeUsed
+
+            // Update offset to be 0 since it's a new block
             offset = blockSizeUsed;
-            blockSizeUsed += extraSizeUsed;
         }
     }
+
+    // Else, if it's inserting a record, do spanning logic.
     else{
-        // set offset before addition of the sizeRequired
+        
+        // Store current offset before addition of the extraSizeUsed
         offset = blockSizeUsed;
-        blockSizeUsed += sizeRequired;
+
+        // If blocksize does not have enough capacity to support allocation, call allocate block for more memory
+        if(allocated==0||(blockSizeUsed+sizeRequired>blockSize)){
+
+            // Find out how much overflow and store in extraSizeUsed
+            extraSizeUsed = blockSizeUsed + sizeRequired - blockSize;
+            bool allocatedSuccessful = allocateBlock(true);
+            if (!allocatedSuccessful){
+                throw std::logic_error("Failed to allocate new block!");
+            }
+            else{
+                // Block size has been resetted to 0, update how much space the overflow used.
+                blockSizeUsed += extraSizeUsed;
+            }
+        }
+
+        // IF block still has sufficient space to store
+        else{
+
+            // Update total block size used
+            blockSizeUsed += sizeRequired;
+        }
     }
+
+    
     // Update total size used
     actualSizeUsed += sizeRequired;
     Address recordAddress = {block, offset};
@@ -105,6 +134,9 @@ void *MemoryPool::loadFromDisk(Address address, std::size_t size){
     // Charles
     void *dataAddress = operator new(size);
     std::memcpy(dataAddress, (char *)address.blockAddress + address.offset, size);
+    if(size > blockSize - blockSizeUsed){
+        ++blocksAccessed;
+    }
     ++blocksAccessed;
     return dataAddress;
 }
@@ -134,5 +166,6 @@ Address MemoryPool::saveToDisk(void *itemAddress, std::size_t size, Address disk
     ++blocksAccessed;   // Using pre-fix is faster than using postfix.
     return diskAddress;
 }
+
 
 MemoryPool::~MemoryPool(){};

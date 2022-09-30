@@ -76,8 +76,9 @@ if (!rootNode){
 }
 
 //multiple keys (TODO)
-void BPTree::searchRange(int lowKey,int highKey){
-    //No tree
+//Return the number of blocks accessed
+int BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
+    //No tree -> end function
     if (!rootNode){
             std::cout<<"The B+ Tree is Empty" << std::endl;
             return;
@@ -88,14 +89,17 @@ void BPTree::searchRange(int lowKey,int highKey){
             std::stack <Node *> stack;
             Node *current = rootNode;
             stack.push(current);
-            //Tranverse down the tree to find the value closest to the smaller key
+            //Traverse down the tree to find the value closest to the smaller key
+            //while current node is not a leaf node
             while(!current->isLeaf){
                 for(int i=0;i<current->currentKeySize;i++){
+                    //go left if current key is smaller than small value
                     if(lowKey<current->keys[i]){
                         current = ((Node **)current->childrenNodes)[i];
                         std::cout<<"currently accessing " << current  <<std::endl;
                         break;
                     }
+                    //else go right
                     if(i==current->currentKeySize-1){
                         current = ((Node **)current->childrenNodes)[i+1];
                         std::cout<<"currently accessing " << current  <<std::endl;
@@ -106,20 +110,42 @@ void BPTree::searchRange(int lowKey,int highKey){
             bool end = false;
             unsigned int currentKey = current->keys[0];
             int count=0;
+            //reach a leaf node, start going right until number is no longer in range
             Address *start = queryWithNumVotesAsKey(currentKey,count);
-            unsigned int startingBlock = (unsigned int)start->blockAddress;
-            unsigned int startingOffset = start->offset;
-            Record record = 
+            //incrementing block address along the way
+            long int startingBlock =(long int) start->blockAddress;
+            long int startingOffset = (long int) start->offset;
+            Record* record = (Record*) (disk.loadFromDisk(*start,sizeof(Record)));
+            int blockCount = 0;
             // Keep accessing the key to the right, until its value is larger than the larger key
             while(!end){
-                if(currentKey>highKey){
+                if(record->numVotes>highKey){
+                    //end function once numVotes is higher than upper bound
                     end = true;
                     break;
                 }
-                else if(currentKey<lowKey){
-                    *
+                else if(record->numVotes<=highKey){ 
+                    //else print out the numVotes in record if numVotes of record is in range
+                    if(record->numVotes>=lowKey ){
+                        std::cout<<"NumVotes for current record: " << record->numVotes  <<std::endl;
+                        std::cout<<"Rating for current record: " << record->averageRating  <<std::endl;
+                    }
+                    //go left
+                    long int newBlock = startingBlock;
+                    unsigned short int newOffset;
+                    if(startingOffset+sizeof(Record)>=disk.getBlockSize()){
+                        newBlock += disk.getBlockSize();
+                        newOffset += (startingOffset+sizeof(Record))%disk.getBlockSize();
+                        blockCount++;
+                    }else{
+                        newOffset+=sizeof(Record);
+                    }
+                    Address newAddress = {(void *)newBlock,newOffset};
+                    record = (Record*) (disk.loadFromDisk(newAddress,sizeof(Record)));
                 }
             }
+            return blockCount;
+            
     }
     
 
