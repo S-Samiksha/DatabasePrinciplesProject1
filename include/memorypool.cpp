@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cmath>
 
+struct Address;
 
 // We need to create a general memory pool that can be used for both the relational data and the index.
 // This pool should be able to assign new blocks if necessary.

@@ -1,8 +1,11 @@
 #ifndef DATABASEPROJ_TYPES_H
 #define DATABASEPROJ_TYPES_H
-// #include "node.h"
+
+#include "node.h"
 // Defines a single movie record.
-class Node{};
+
+struct Node;
+struct Address;
 struct Record
 {
     char *tconst = new char[11]; // 10B. Primary key. Total we need is 9bits for the current data we have. + 1 bit to store the null value.
@@ -21,7 +24,9 @@ struct Address
     void *blockAddress;        // 8B. A pointer that points to the block address
     unsigned short int offset; // 4B. An offset used to calculate the position of the address within the block. Apparently same as unsigned int
 public:
-    Node *getAddressNode();
+    Node *getAddressNode(){
+        return (Node *)((char *)blockAddress + offset);
+    };
 }; // Total B used is 12B.
 
 #endif // DATABASEPROJ_TYPES_H

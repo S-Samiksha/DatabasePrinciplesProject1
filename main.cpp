@@ -1,8 +1,8 @@
 #include <iostream>
-#include "include/types.h"
 #include "include/node.h"
-#include "include/bptree.h"
 #include "include/memorypool.h"
+#include "include/types.h"
+#include "include/bptree.h"
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
@@ -122,7 +122,7 @@ int main()
 
     // insert to b++tree
     for (int i=0;i<addressList.size();i++){
-        testBPTree->insert(testBPTree->rootNode,keyList[i],addressList[i]);
+        testBPTree->insert(testBPTree->rootNode,keyList[i],addressList[i],disk);
     }
     testBPTree->linkLeafNodes();
     // testBPTree->display();

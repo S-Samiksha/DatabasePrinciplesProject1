@@ -9,6 +9,8 @@
 
 #include <vector>
 
+struct Address;
+
 class MemoryPool{
 public:
     // =============== Methods ================ //

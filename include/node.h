@@ -5,7 +5,7 @@
 #include <iostream>
 #include "types.h"
 
-
+// struct Address;
 // 200B block size
 class Node
 {
