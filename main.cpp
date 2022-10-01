@@ -18,7 +18,7 @@ int BLOCKSIZE = 200;
 int MEMORYPOOLSIZE = 500000000;
 struct tempRecord
 {
-    char *tconst = new char[11]; // 10B. Primary key. Total we need is 9bits for the current data we have. + 1 bit to store the null value.
+    char tconst[11]; // 10B. Primary key. Total we need is 9bits for the current data we have. + 1 bit to store the null value.
 
     float averageRating; // 4B. Was thinking of using char but end up will take the same amount of byte (i.e. 4 bytes),
                          // since 2 for the numbers, 1 for the "." and 1 for the null value
@@ -107,9 +107,10 @@ int main()
         recordCounter++;
         // std::cout << recordList[i].numVotes << std::endl;
         // std::cout<<recordList[i].tconst<<std::endl;
-        char *tconst = recordList[i].tconst;
-        Record newRec{tconst, recordList[i].averageRating, recordList[i].numVotes};
-
+        Record newRec;
+        std::copy(std::begin(recordList[i].tconst), std::end(recordList[i].tconst), std::begin(newRec.tconst));
+        newRec.averageRating = recordList[i].averageRating;
+        newRec.numVotes = recordList[i].numVotes;
         Address recAddress = disk.saveToDisk(&newRec, sizeof(Record));
         if (i == 0 || recordList[i].numVotes != recordList[i - 1].numVotes)
         {
