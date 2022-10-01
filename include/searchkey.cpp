@@ -79,7 +79,7 @@ if (!rootNode){
 //Return the number of blocks accessed
 int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
     //No tree -> end function
-    int result[2];
+    static int result[2];
     result[0] = 0;
     result[1] = 0;
     if (!rootNode){
@@ -151,7 +151,7 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
             }
             result[0] = indexBlockCounter;
             result[1] = blockCount;
-            return 0;
+            return result;
             
     }
     
