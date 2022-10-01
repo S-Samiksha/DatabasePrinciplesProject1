@@ -150,6 +150,7 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
                     void* adjacentBlock = startingBlock;
                     unsigned short int newOffset;
                     if(startingOffset+sizeof(Record)>=disk.getBlockSize()){
+                        //adjacentBlock = (void*)((char*)adjacentBlock + disk.getBlockSize());
                         adjacentBlock = (void*)((char*)adjacentBlock + disk.getBlockSize());
                         newOffset += (startingOffset+sizeof(Record))%disk.getBlockSize();
                         blockCount++;

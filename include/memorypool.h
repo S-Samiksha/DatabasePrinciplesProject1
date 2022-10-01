@@ -75,13 +75,16 @@ public:
         return allocated;
     };
     
+    
     // Returns actual size of all records stored in memory pool.
     std::size_t getActualSizeUsedWithoutPadding() const
     {
         // Calculate actual size used without padding
-        unsigned int blocksUsedForIndex = allocated - blocksAllocatedForRecords;
-        unsigned int actualRecordSizeWithoutPadding = blocksAllocatedForRecords * getBlockSize() * (19/20);
-        unsigned int actualTotalSizeWithoutPadding = actualRecordSizeWithoutPadding + blocksUsedForIndex * getBlockSize();
+        std::size_t blocksUsedForIndex = allocated - blocksAllocatedForRecords;
+        
+        // actualRecordSizeWithoutPadding given by blocksAllocatedForRecords * 200B to find total space used, then times 19/20 to simulate if we stored it as 19B instead.
+        std::size_t actualRecordSizeWithoutPadding = (blocksAllocatedForRecords * getBlockSize() / 20) * 19;
+        std::size_t actualTotalSizeWithoutPadding = actualRecordSizeWithoutPadding + blocksUsedForIndex * getBlockSize();
         return actualTotalSizeWithoutPadding;
     }
 
@@ -90,8 +93,10 @@ public:
     {
         // Calculate actual blocks used without padding
         unsigned int blocksUsedForIndex = allocated - blocksAllocatedForRecords;
-        unsigned int actualBlockUsedWithoutPadding = blocksAllocatedForRecords * 200;
-        actualBlockUsedWithoutPadding = ceil(actualBlockUsedWithoutPadding/19) + blocksUsedForIndex;
+        
+        // blocksAllocatedForRecords * 200 to find total space used, minus 1B saved for each block, divided by 200 again, then take the ceiling.
+        std::size_t actualSpaceUsedForRecordsWithoutPadding = ceil(((blocksAllocatedForRecords * getBlockSize()) - blocksAllocatedForRecords) / getBlockSize());
+        std::size_t actualBlockUsedWithoutPadding = actualSpaceUsedForRecordsWithoutPadding + blocksUsedForIndex;
         return actualBlockUsedWithoutPadding;
     };
     

@@ -304,9 +304,9 @@ Address Node::remove(int index)
     1. Remove the key
     2. Remove the pointer to the block --> deallocate
     */
+    Address answer = this->childrenNodes[index];
 
-
-    for (int i = index; i < this->currentKeySize-1; i++)
+    for (int i = index; i < this->currentKeySize; i++)
     {
         this->keys[i] = this->keys[i + 1];
         this->childrenNodes[i] = this->childrenNodes[i+1];
@@ -318,7 +318,7 @@ Address Node::remove(int index)
     this->currentKeySize--;
     this->currentPointerSize--; // the pointer to the vector has to be removed
     
-    return this->childrenNodes[index];
+    return answer;
 }
 
 // inserts the address of another node into the last index of this node

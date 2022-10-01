@@ -1,0 +1,110 @@
+------------------------------------------------------------------------------------------------
+Select Block size:   
+Enter a choice: 
+1. 200 B 
+2. 500 B
+Creating memory......
+Creating B++ Tree
+Finished linking leaf nodes
+Node Size: 13
+Maximum keys a B++ tree can hold: 
+--------------------------------------Experiment 1------------------------------------------
+Number of Records                   : 1070319
+Total number of blocks              : 112686
+Actual size of database             : 21518070
+
+
+--------------------------------------Experiment 2---------------------------------------------
+******BPTREE DETAILS******
+Parameter n of B+ Tree (number of keys in Node): 13
+Total NodeSize: 5530 nodes
+height of B+ Tree is: 5
+height of B+ Tree is: 5
+
+
+Content Of Root Node:
+**********************
+Node's Disk address: 0x7ff624236260
+currentKeySize :4
+currentPointerSize :5
+node type :InternalNode
+max Key Size: 13
+keyArray: [3591,7911,16859,47952,0,0,0,0,0,0,0,0,0,]
+PointerArray: [0x7ff6242360d0,0x7ff62426f3a8,0x7ff6242a85b8,0x7ff6242e17c8,0x7ff6242e1890,0,0,0,0,0,0,0,0,0,]
+**********************
+
+
+Content of First Child Of Root Node
+**********************
+Node's Disk address: 0x7ff6242360d0
+currentKeySize :7
+currentPointerSize :8
+node type :InternalNode
+max Key Size: 13
+keyArray: [453,901,1349,1797,2245,2693,3141,0,0,0,0,0,0,]
+PointerArray: [0x7ff6241d93a8,0x7ff6241e0680,0x7ff6241e7890,0x7ff6241eeaa0,0x7ff6241f5cb0,0x7ff6241fcec0,0x7ff6242040d0,0x7ff62420b2e0,0,0,0,0,0,0,]
+**********************
+
+
+-----------------------------------Experiment 3-----------------------------------------------
+Resetting block access before carrying on with the experiment
+Retrieving movies with 'numVotes' equal to 500: 
+
+Searching~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**********************
+Node's Disk address: 0x7ff6241d3f48
+currentKeySize :7
+currentPointerSize :8
+node type :LEAF
+max Key Size: 13
+keyArray: [495,496,497,498,499,500,501,0,0,0,0,0,0,]
+PointerArray: [0x7ff62400d3cc,0x7ff62400dc3c,0x7ff62400e574,0x7ff62400ede4,0x7ff62400f730,0x7ff62400ff8c,0x7ff624010824,0,0,0,0,0,0,0x7ff6241d40d8,]
+**********************
+**Record address in disk: 0x7ffe4fde8678
+NumVotes for current record: 500
+Average Rating for current record: 5.1
+tconst for current record: tt0082841
+total number of records accessed: 1
+Average avgRating of the records: 5.1
+
+Number of index blocks accesses      : 5
+Number of record blocks accesses     : 1
+
+
+-------------------------------------Experiment 5---------------------------------------------
+height of B+ Tree is: 5
+
+REMOVING~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**********************
+Node's Disk address: 0x7ff6241da5a0
+currentKeySize :6
+currentPointerSize :7
+node type :LEAF
+max Key Size: 13
+keyArray: [894,895,896,897,898,899,0,0,0,0,0,0,0,]
+PointerArray: [0x7ff62409f290,0x7ff62409f63c,0x7ff62409f9c0,0x7ff62409fd1c,0x7ff62409ffd8,0x7ff6240a03d4,0,0,0,0,0,0,0,0x7ff6241da730,]
+**********************
+Merging with left node...
+DONE REMOVING~~~~~~~~
+
+height of B+ Tree is: 5
+Content of Parent Node:
+**********************
+Node's Disk address: 0x7ff624236260
+currentKeySize :4
+currentPointerSize :5
+node type :InternalNode
+max Key Size: 13
+keyArray: [3591,7911,16859,47952,0,0,0,0,0,0,0,0,0,]
+PointerArray: [0x7ff6242360d0,0x7ff62426f3a8,0x7ff6242a85b8,0x7ff6242e17c8,0x7ff6242e1890,0,0,0,0,0,0,0,0,0,]
+**********************
+Concent of Child Node:
+**********************
+Node's Disk address: 0x7ff6242360d0
+currentKeySize :7
+currentPointerSize :8
+node type :InternalNode
+max Key Size: 13
+keyArray: [453,901,1349,1797,2245,2693,3141,0,0,0,0,0,0,]
+PointerArray: [0x7ff6241d93a8,0x7ff6241e0680,0x7ff6241e7890,0x7ff6241eeaa0,0x7ff6241f5cb0,0x7ff6241fcec0,0x7ff6242040d0,0x7ff62420b2e0,0,0,0,0,0,0,]
+**********************

@@ -101,6 +101,8 @@ int main()
     std::vector<Address> addressList;
     std::vector<unsigned int> keyList;
 
+    
+
     // Load record onto disk
     for (int i = 0; i < recordList.size(); i++)
     {
@@ -126,7 +128,7 @@ int main()
     }
     
     tree->linkLeafNodes();
-    // tree->display();
+    //tree->display();
     // int nodesUpdated = 0;
     // Address queriedAddress = tree->queryWithNumVotesAsKey(500,nodesUpdated);
     // std::cout<<"nodes updated: "<<nodesUpdated<<std::endl;
@@ -208,18 +210,18 @@ int main()
     //   - the number and the content of data blocks the process accesses;
     //   - the average of “averageRating’s” of the records that are returned;
     // */
-    // std::cout << "-------------------------------------Experiment 4---------------------------------------------" << std::endl;
-    // std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
+    std::cout << "-------------------------------------Experiment 4---------------------------------------------" << std::endl;
+    std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
 
-    // std::cout << "Retrieving those movies with the attributes 'numVotes' from 30K to 40K" << std::endl;
-    // std::cout << std::endl;
-    // int* result4;
+    std::cout << "Retrieving those movies with the attributes 'numVotes' from 30K to 40K" << std::endl;
+    std::cout << std::endl;
+    int* result4;
     
-    // result4 = tree->searchRange(30000,40000,disk);
-    // std::cout << "Number of index blocks accesses  : " <<*(result4+0)<< std::endl;
-    // std::cout << "Number of data blocks accesses   : " <<*(result4+1)<< std::endl;
-    // std::cout << std::endl;
-    // std::cout << std::endl;
+    result4 = tree->searchRange(30000,40000,disk);
+    std::cout << "Number of index blocks accesses  : " <<*(result4+0)<< std::endl;
+    std::cout << "Number of data blocks accesses   : " <<*(result4+1)<< std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
 
 
 
@@ -240,7 +242,7 @@ int main()
      int numNodesUpdated = 0;
      int height = 0;
     
-    tree->remove(1000, numNodesDeleted, numNodesUpdated, height, disk);
+    tree->remove(900, numNodesDeleted, numNodesUpdated, height, disk);
 
     std::cout << "Deleting those movies with the attribute 'numVotes' equal to 1000-----------------------" << std::endl;
     std::cout << "No. of times that a node is deleted (or two nodes are merged): " << numNodesDeleted << std::endl;

@@ -27,10 +27,6 @@ public:
     // displaying the tree
     void display();
 
-    Node **linkParentToNewChildrenNode(Node *parentNode, Node *leftChildNode, Node *rightChildNode);
-
-    Node *findParentNode(Node *cursor, Node *child);
-
     Address queryWithNumVotesAsKey(int key, int &nodesUpdated);
 
     int findMinimumKeyInBPTree(Node *node);
@@ -48,21 +44,21 @@ public:
     // links all leaf nodes of the BPTree
     void linkLeafNodes();
 
+    // DFS traversal and returns by reference an array of records and number nodes
     void DFSNodes(Address currentNode, std::vector<Address > &recordList, int &nodeCount);
 
+    // find height of tree
     int findHeight(Node *rootNode);
 
 private:
     // helper function for when the node size is exceeded and requires splitting
-
     Node *linkNonLeafNode(Node *parentNode, Node *leftNode, Node *rightNode);
+
     Node *linkLeafNode(Node *parentNode, Node *leftNode, Node *rightNode);
 
     // helper function for when the node size is unbalanced and requires merging
     void merge(Node *currentNode, int deletedKey);
 
-    // remove first key-pointer pair from a split right node
-    // int removeFirstKeyFromNode(Node *node);
 };
 
 #endif
