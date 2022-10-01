@@ -164,7 +164,10 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
                     }else{
                         newOffset+=sizeof(Record);
                     }**/
+                    std::cout<<"Currently looking at block: " << adjacentBlock <<std::endl;
+                    std::cout<<"Currently looking at offset: " << newOffset <<std::endl;
                     newOffset+=sizeof(Record);
+                    std::cout<<"Updated offset: " << newOffset <<std::endl;
                     Address newAddress = {(void *)adjacentBlock,newOffset};
                     record = (Record*) (disk.loadFromDisk(newAddress,sizeof(Record)));
                 }
