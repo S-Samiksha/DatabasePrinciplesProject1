@@ -23,7 +23,7 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
     {
 
         this->rootNode = new Node(this->nodeSize, true);
-        this->rootNode->addressInDisk = disk.allocate(disk.getBlockSize());
+        this->rootNode->addressInDisk = disk.allocate(disk.getBlockSize(),false);
         this->rootNode->keys[0] = key;
 
         // store address for record in Node
@@ -62,8 +62,8 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                 // left And right nodes are leafs
 
                 // allocate space for left and right nodes
-                Address leftNodeAddress = disk.allocate(disk.getBlockSize());
-                Address rightNodeAddress = disk.allocate(disk.getBlockSize());
+                Address leftNodeAddress = disk.allocate(disk.getBlockSize(),false);
+                Address rightNodeAddress = disk.allocate(disk.getBlockSize(),false);
 
                 Node *leftNode = new Node(this->nodeSize, true);
                 leftNode->addressInDisk = leftNodeAddress;
@@ -151,7 +151,7 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                     newParentNode->insertInitialInNonLeafNode(rightNode->keys[0], leftNodeAddress, rightNodeAddress);
 
                     // allocate space on disk for new parent node
-                    Address newParentAddress = disk.allocate(disk.getBlockSize());
+                    Address newParentAddress = disk.allocate(disk.getBlockSize(),false);
 
                     disk.saveToDisk(newParentNode, disk.getBlockSize(), newParentAddress);
 
@@ -217,8 +217,8 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                 Node *rightNode = new Node(this->nodeSize, false);
 
                 // todo: allocate space in memory for nodes
-                Address leftNodeAddress = disk.allocate(disk.getBlockSize());
-                Address rightNodeAddress = disk.allocate(disk.getBlockSize());
+                Address leftNodeAddress = disk.allocate(disk.getBlockSize(),false);
+                Address rightNodeAddress = disk.allocate(disk.getBlockSize(),false);
                 leftNode->addressInDisk = leftNodeAddress;
                 rightNode->addressInDisk = rightNodeAddress;
 
@@ -309,7 +309,7 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
 
                     // allocate new memory to node
                     Node *newRoot = new Node(this->nodeSize, false);
-                    Address newRootAddress = disk.allocate(disk.getBlockSize());
+                    Address newRootAddress = disk.allocate(disk.getBlockSize(),false);
                     newRoot->addressInDisk = newRootAddress;
                     // std::cout<<"newly created parent Node Address (splitting internal node): "<< newRootAddress.getAddressNode()<<std::endl;
                     disk.saveToDisk(newRoot, disk.getBlockSize(), newRootAddress);
