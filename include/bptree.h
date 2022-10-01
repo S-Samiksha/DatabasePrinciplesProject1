@@ -38,7 +38,7 @@ public:
     void search(int key);
 
     //Return the number of blocks accessed
-    int * searchRange(int lowKey, int highKey, MemoryPool &disk;
+    int * searchRange(int lowKey, int highKey, MemoryPool &disk);
 
     void updateParent(std::stack<Node *> stack, int key, int &nodesUpdated);
 

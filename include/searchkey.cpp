@@ -151,11 +151,12 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
             }
             result[0] = indexBlockCounter;
             result[1] = blockCount;
-            return result;
+            return 0;
             
     }
     
 
 
     
-} 
+}
+ 

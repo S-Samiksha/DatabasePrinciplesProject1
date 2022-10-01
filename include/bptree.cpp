@@ -171,7 +171,7 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                     disk.saveToDisk(newParentNode, disk.getBlockSize(), newParentAddress);
 
                     // deallocate original parent node
-                    // disk.deallocate(this->rootNode->addressInDisk,disk.blockSize());
+                    disk.deallocate(this->rootNode->addressInDisk,disk.getBlockSize());
 
                     this->rootNode = newParentAddress.getAddressNode();
                     this->rootNode->addressInDisk = newParentAddress;

@@ -225,7 +225,6 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
             //update to the parent only if you are removing the minimum value in the node 
             if (key<current->keys[0]){
                 std::cout<<"Updating parent...."<<std::endl;
-                std::cout<<key<<std::endl;
                 stack.push(current);
                 updateParent(stack, key, nodesUpdated); 
                 break;

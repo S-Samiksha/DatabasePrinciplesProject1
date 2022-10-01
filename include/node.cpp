@@ -312,6 +312,7 @@ Address Node::remove(int index)
         this->childrenNodes[i] = this->childrenNodes[i+1];
     }
     this->keys[currentKeySize] = 0;
+    this->childrenNodes[currentKeySize] = {nullptr, 0};
     this->currentKeySize--;
     this->currentPointerSize--; // the pointer to the vector has to be removed
     
