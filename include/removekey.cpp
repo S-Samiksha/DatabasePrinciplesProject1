@@ -265,6 +265,7 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
                 //make space for the key and pointer in the current node
                 //left current 
                 if (!left->isLeaf){
+                std::cout<<"left is not leaf"<<std::endl;
                     for(int k=current->currentKeySize-1;k>0;k--){
 
                         //move keys to the right to make space 
@@ -305,6 +306,8 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
                 current->currentPointerSize++;
                 left->currentPointerSize--;
                 
+                left->printNode();
+                current->printNode();
 
             }
             nodesUpdated++;
