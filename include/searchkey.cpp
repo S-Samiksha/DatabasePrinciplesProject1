@@ -124,22 +124,27 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
             void* startingBlock = start.blockAddress;
             unsigned short int startingOffset = start.offset;
             Record* record = (Record*) (disk.loadFromDisk(start,sizeof(Record)));
-            int blockCount = 1;
+            int blockCount = 1; 
             int recordCount = 0;
             float totalRating = 0.0;
             void* adjacentBlock = startingBlock;
             unsigned short int newOffset;
             // Keep accessing the key to the right, until its value is larger than the larger key
             while(!end){
+                std::cout<<"Currently looking at key: " << record->numVotes <<std::endl;
+                std::cout<<"Currently looking at tConst: " << record->tconst <<std::endl;
                 if(record->numVotes>highKey||blockCount>=5){
                     //end function once numVotes is higher than upper bound
+                    std::cout<<"Breaking at key:  "<<record->numVotes<<std::endl;
                     end = true;
                     break;
                 }
                 else if(record->numVotes<=highKey){ 
                     //else print out the numVotes in record if numVotes of record is in range
                     if(record->numVotes>=lowKey ){
-                        std::cout<<"**Record address in disk: " << &record  <<std::endl;
+                        // std::cout<<"**Record address in disk: " << record    <<std::endl;
+                        std::cout<<"**Record address in disk: " << (char*) start.blockAddress+(start.offset)   <<std::endl;
+
                         std::cout<<"NumVotes for current record: " << record->numVotes  <<std::endl;
                         std::cout<<"Average Rating for current record: " << record->averageRating  <<std::endl;
                         std::cout<<"tconst for current record: " << record->tconst  <<std::endl;
@@ -149,14 +154,17 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
                     //go right
                     void* adjacentBlock = startingBlock;
                     unsigned short int newOffset;
-                    if(startingOffset+sizeof(Record)>=disk.getBlockSize()){
+                    /**if(startingOffset+sizeof(Record)>=disk.getBlockSize()){
                         //adjacentBlock = (void*)((char*)adjacentBlock + disk.getBlockSize());
+                        std::cout<<"Accessing new block: "<<adjacentBlock<<std::endl;
                         adjacentBlock = (void*)((char*)adjacentBlock + disk.getBlockSize());
+                        std::cout<<"Accessing new block: "<<adjacentBlock<<std::endl;
                         newOffset += (startingOffset+sizeof(Record))%disk.getBlockSize();
                         blockCount++;
                     }else{
                         newOffset+=sizeof(Record);
-                    }
+                    }**/
+                    newOffset+=sizeof(Record);
                     Address newAddress = {(void *)adjacentBlock,newOffset};
                     record = (Record*) (disk.loadFromDisk(newAddress,sizeof(Record)));
                 }

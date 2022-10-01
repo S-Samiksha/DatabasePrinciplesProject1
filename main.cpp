@@ -242,7 +242,7 @@ int main()
      int numNodesUpdated = 0;
      int height = 0;
     
-    tree->remove(900, numNodesDeleted, numNodesUpdated, height, disk);
+    tree->remove(1000, numNodesDeleted, numNodesUpdated, height, disk);
 
     std::cout << "Deleting those movies with the attribute 'numVotes' equal to 1000-----------------------" << std::endl;
     std::cout << "No. of times that a node is deleted (or two nodes are merged): " << numNodesDeleted << std::endl;
