@@ -91,7 +91,7 @@ public:
         // Calculate actual blocks used without padding
         unsigned int blocksUsedForIndex = allocated - blocksAllocatedForRecords;
         unsigned int actualBlockUsedWithoutPadding = blocksAllocatedForRecords * 200;
-        actualBlockUsedWithoutPadding = ceil(actualBlockUsedWithoutPadding/19) + blocksUsedForIndex;
+       // actualBlockUsedWithoutPadding = ceil(actualBlockUsedWithoutPadding/19) + blocksUsedForIndex;
         return actualBlockUsedWithoutPadding;
     };
     

@@ -163,13 +163,13 @@ int main()
 //          - the height of the B+ tree, i.e., the number of levels of the B+ tree;
 //          - the content of the root node and its 1st child node;
 //     */
-    std::cout<<std::endl;
-    std::cout<<std::endl;
-    std::cout << "--------------------------------------Experiment 2---------------------------------------------" << std::endl;
-    tree->printBPDetails();
+    // std::cout<<std::endl;
+    // std::cout<<std::endl;
+    // std::cout << "--------------------------------------Experiment 2---------------------------------------------" << std::endl;
+    // tree->printBPDetails();
 
-    std::cout << std::endl;
-    std::cout << std::endl;
+    // std::cout << std::endl;
+    // std::cout << std::endl;
 
 
 
@@ -185,18 +185,18 @@ int main()
     //      - the average of “averageRating’s” of the records that are returned;
 
     
-    std::cout << "-----------------------------------Experiment 3-----------------------------------------------" << std::endl;
-    std::cout << "Resetting block access before carrying on with the experiment" << std::endl;
+    // std::cout << "-----------------------------------Experiment 3-----------------------------------------------" << std::endl;
+    // std::cout << "Resetting block access before carrying on with the experiment" << std::endl;
 
-    std::cout << "Retrieving movies with 'numVotes' equal to 500: " << std::endl;
-    int* result;
-    result = tree->searchRange(500,500,disk);
-    std::cout << std::endl;
-    std::cout << "Number of index blocks accesses      : " <<*(result+0)<< std::endl;
-    std::cout << "Number of record blocks accesses     : " <<*(result+1)<< std::endl;
+    // std::cout << "Retrieving movies with 'numVotes' equal to 500: " << std::endl;
+    // int* result;
+    // result = tree->searchRange(500,500,disk);
+    // std::cout << std::endl;
+    // std::cout << "Number of index blocks accesses      : " <<*(result+0)<< std::endl;
+    // std::cout << "Number of record blocks accesses     : " <<*(result+1)<< std::endl;
 
-    std::cout << std::endl;
-    std::cout << std::endl;
+    // std::cout << std::endl;
+    // std::cout << std::endl;
 
 
 
