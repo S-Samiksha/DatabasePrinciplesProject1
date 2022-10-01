@@ -77,11 +77,14 @@ if (!rootNode){
 
 //multiple keys (TODO)
 //Return the number of blocks accessed
-int BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
+int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
     //No tree -> end function
+    int result[2];
+    result[0] = 0;
+    result[1] = 0;
     if (!rootNode){
             std::cout<<"The B+ Tree is Empty" << std::endl;
-            return 0;
+            return result;
     }
     else{
             std::cout<<std::endl;
@@ -89,6 +92,7 @@ int BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
             std::stack <Node *> stack;
             Node *current = rootNode;
             stack.push(current);
+            int indexBlockCounter = 0;
             //Traverse down the tree to find the value closest to the smaller key
             //while current node is not a leaf node
             while(!current->isLeaf){
@@ -105,6 +109,7 @@ int BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
                         std::cout<<"currently accessing " << current  <<std::endl;
                         break;
                     }
+                    indexBlockCounter++;
                 }
             }
             bool end = false;
@@ -144,7 +149,9 @@ int BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
                     record = (Record*) (disk.loadFromDisk(newAddress,sizeof(Record)));
                 }
             }
-            return blockCount;
+            result[0] = indexBlockCounter;
+            result[1] = blockCount;
+            return result;
             
     }
     

@@ -309,13 +309,12 @@ Address Node::remove(int index)
     for (int i = index; i < this->currentKeySize; i++)
     {
         this->keys[i] = this->keys[i + 1];
+        this->childrenNodes[i] = this->childrenNodes[i+1];
     }
     this->keys[currentKeySize] = 0;
     this->currentKeySize--;
     this->currentPointerSize--; // the pointer to the vector has to be removed
-
-    // TODO
-    std::cout << "index: " << index << " value " << keys[0] << " childnode " << ((Node **)this->childrenNodes)[index] << std::endl;
+    
     return this->childrenNodes[index];
 }
 

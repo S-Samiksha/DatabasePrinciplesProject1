@@ -31,9 +31,9 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
 
     if (this->rootNode == nullptr)
     {
+
         this->rootNode = new Node(this->nodeSize, true);
         this->rootNode->addressInDisk = disk.allocate(disk.getBlockSize());
-        std::cout<<"DEBUG Address rootnode: " << rootNode->addressInDisk.getAddressNode() <<std::endl;
         this->rootNode->keys[0] = key;
 
         // store address for record in Node
@@ -46,43 +46,18 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
         // std::cout<<"hi here: \n";
         // std::cout<<this->rootNode->addressInDisk.blockAddress;
         // testAddress.getAddressNode()->printNode();
+
         return nullptr;
     }
     else
     {
+
         // search for place to insert
         int insertionIndex = parentNode->binarySearchInsertIndex(key);
 
-        // todo: duplicate index
-        // insert record in the index
+        // duplicate records
         if (insertionIndex == -1)
         {
-            // todo: when inserting a duplicate key, traverse to the leaf node containing duplicate key
-            // Node* cursor = parentNode;
-            // int duplicateIndex;
-            // while(!cursor->isLeaf){
-            //     duplicateIndex= parentNode->binarySearch(key);
-            //     cursor = ((Node**)parentNode->childrenTypes)[duplicateIndex+1];
-            // };
-            // duplicateIndex = cursor->binarySearch(key);
-
-            // // if its a record
-            // if(cursor->childrenTypes[duplicateIndex]==0){
-            //     // todo: deallocate record and allocate special structure and copy the record pointer over
-
-            //     // todo: change the childrenTypes array to be a special struct
-            //     cursor->childrenTypes[duplicateIndex] = true;
-            // }
-            // // if its already a struct
-            // else{
-            //     // get free address from same block of the struct
-            //     // insert record in struct
-            //     // struct.insert(recordPointer)
-            //     // insert record in memory
-            //     // memory.insert(freeAdress, recordData)
-            // }
-            // return nullptr;
-
             std::cout << "Duplicate key: " << key << std::endl;
             return nullptr;
         }
@@ -90,6 +65,7 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
         // terminal case for recursion: parentNode is a Leaf
         if (parentNode->isLeaf)
         {
+
             // if leaf Node is full, split and return left and right leaf node
             if (parentNode->isFull())
             {
@@ -98,22 +74,16 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                 // allocate space for left and right nodes
                 Address leftNodeAddress = disk.allocate(disk.getBlockSize());
                 Address rightNodeAddress = disk.allocate(disk.getBlockSize());
-                std::cout<<"DEBUG Address left allocate: "<< leftNodeAddress.getAddressNode()<<std::endl;
-                std::cout<<"DEBUG Address right allocate: "<< rightNodeAddress.getAddressNode()<<std::endl;
-
+                               
+                
                 Node *leftNode = new Node(this->nodeSize, true);
                 leftNode->addressInDisk = leftNodeAddress;
                 Node *rightNode = new Node(this->nodeSize, true);
                 rightNode->addressInDisk = rightNodeAddress;
 
-                // int minimumKeySizeLeft = ceil((this->nodeSize + 1) / 2);
-                // int minimumKeySizeRight = this->nodeSize + 1 - minimumKeySizeLeft;
-
                 //  minimum and maximum bounds of non-leaf nodes
                 int minimumKeySizeRight = (int)floor((this->nodeSize / 2));
                 int minimumKeySizeLeft = this->nodeSize - minimumKeySizeRight;
-
-                
 
                 // build a virtual array to help with the splitting
                 int virtualKeyArray[this->nodeSize + 1]{0};
@@ -126,12 +96,9 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                     virtualPointerArray[i] = parentNode->childrenNodes[i];
                     
                 }
-                std::cout<<"debug1"<<std::endl;
+                
                 
                 // insert the key and pointer to be inserted
-                
-                
-                
                 for (int i = this->nodeSize; i > insertionIndex; i--)
                 {
                     virtualPointerArray[i] = virtualPointerArray[i - 1];
@@ -159,7 +126,7 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                     leftNode->currentKeySize++;
                     leftNode->currentPointerSize++;
                 }
-                std::cout<<"debug4"<<std::endl;
+                
                 // fill the right subtree
                 newNodesKeyCounter = 0;
                 while (newNodesKeyCounter < minimumKeySizeRight + 1)
@@ -195,13 +162,16 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                 // we just create a new parent and set that as the new root Node
                 if (parentNode == this->rootNode)
                 {
-                    Node *newParentNode = new Node(3, false);
+                    Node *newParentNode = new Node(this->nodeSize, false);
                     newParentNode->insertInitialInNonLeafNode(rightNode->keys[0], leftNodeAddress, rightNodeAddress);
 
                     // allocate space on disk for new parent node
                     Address newParentAddress = disk.allocate(disk.getBlockSize());
-                    std::cout<<"DEBUG Address new parent address: "<< newParentAddress.getAddressNode()<<std::endl;
+                    
                     disk.saveToDisk(newParentNode, disk.getBlockSize(), newParentAddress);
+
+                    // deallocate original parent node
+                    // disk.deallocate(this->rootNode->addressInDisk,disk.blockSize());
 
                     this->rootNode = newParentAddress.getAddressNode();
                     this->rootNode->addressInDisk = newParentAddress;
@@ -227,6 +197,7 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
         // then we recursively call that child using insert()
         else
         {
+
             Address childNodeAddress = parentNode->childrenNodes[insertionIndex];
             Node *childNode = childNodeAddress.getAddressNode();
 
@@ -269,8 +240,8 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                 // todo: allocate space in memory for nodes
                 Address leftNodeAddress = disk.allocate(disk.getBlockSize());
                 Address rightNodeAddress = disk.allocate(disk.getBlockSize());
-                std::cout<<"DEBUG Address left split: "<< leftNodeAddress.getAddressNode()<<std::endl;
-                std::cout<<"DEBUG Address right split: "<< rightNodeAddress.getAddressNode()<<std::endl;
+                // std::cout<<"DEBUG Address left split: "<< leftNodeAddress.getAddressNode()<<std::endl;
+                // std::cout<<"DEBUG Address right split: "<< rightNodeAddress.getAddressNode()<<std::endl;
                 disk.saveToDisk(leftNode, disk.getBlockSize(), leftNodeAddress);
                 disk.saveToDisk(rightNode, disk.getBlockSize(), rightNodeAddress);
                 
@@ -369,14 +340,15 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                     // allocate new memory to node
                     Node *newRoot = new Node(this->nodeSize, false);
                     Address newRootAddress = disk.allocate(disk.getBlockSize());
-                    std::cout<<"DEBUG Address: "<< newRootAddress.getAddressNode()<<std::endl;
+                    // std::cout<<"newly created parent Node Address (splitting internal node): "<< newRootAddress.getAddressNode()<<std::endl;
                     disk.saveToDisk(newRoot, disk.getBlockSize(), newRootAddress);
                     
                     newRootAddress.getAddressNode()->insertInitialInNonLeafNode(parentInsertionKey, leftNodeAddress, rightNodeAddress);
                     
                     // deallocate old rootNode in disk and in heap
-                    disk.deallocate(this->rootNode->addressInDisk,disk.getBlockSize());
-                    std::cout<<"DEBUG deallocate: "<<this->rootNode->addressInDisk.getAddressNode()<<std::endl;
+                    // std::cout<<"DEBUG: rootNode address in disk (dealloc): "<<this->rootNode->addressInDisk.blockAddress<<std::endl;
+                    // disk.deallocate(this->rootNode->addressInDisk,disk.getBlockSize());
+                    // std::cout<<"DEBUG deallocate: "<<this->rootNode->addressInDisk.getAddressNode()<<std::endl;
                     // delete this->rootNode;
 
 
@@ -400,7 +372,6 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                 // disk.deallocate(parentNode->childrenNodes[insertionIndex], disk.getBlockSize());
 
                 // delete parentNode->childrenNodes[insertionIndex].getAddressNode();
-
                 parentNode->childrenNodes[insertionIndex] = returnedChildSubTrees[0];
                 parentNode->insertSubsequentPair(keyToInsertIntoParent, returnedChildSubTrees[1]);
 
@@ -636,10 +607,10 @@ void BPTree::linkLeafNodes()
 {
     std::vector<Address> leafNodes;
     int nodeCount = 1;
-    std::cout << "rootNode";
-    this->rootNode->printNode();
-    std::cout<<"first rootNode left children: "<<std::endl;
-    this->rootNode->childrenNodes[0].getAddressNode()->printNode();
+    // std::cout << "rootNode";
+    // this->rootNode->printNode();
+    // std::cout<<"first rootNode left children: "<<std::endl;
+    // this->rootNode->childrenNodes[0].getAddressNode()->printNode();
     // std::cout<<"first rootNode right children: "<<std::endl;
     // this->rootNode->childrenNodes[1].getAddressNode()->printNode();
 
@@ -660,17 +631,16 @@ void BPTree::DFSNodes(Address currentNode, std::vector<Address> &recordList, int
     // terminal condition if the node is a leaf, add node pointer into the vector
     if (currentNode.getAddressNode()->isLeaf)
     {
-        std::cout << "reached here" << std::endl;
         // counting nodes
         nodeCount++;
 
         recordList.push_back(currentNode);
-        std::cout << "keys in leaf node: [ ";
-        for (int i = 0; i < currentNode.getAddressNode()->currentKeySize; i++)
-        {
-            std::cout << currentNode.getAddressNode()->keys[i] << ", ";
-        }
-        std::cout << "]" << std::endl;
+        // std::cout << "keys in leaf node: [ ";
+        // for (int i = 0; i < currentNode.getAddressNode()->currentKeySize; i++)
+        // {
+        //     std::cout << currentNode.getAddressNode()->keys[i] << ", ";
+        // }
+        // std::cout << "]" << std::endl;
         return;
     }
     // if its not a leaf node add all its children nodes to count
