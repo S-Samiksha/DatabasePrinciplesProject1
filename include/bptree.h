@@ -31,7 +31,7 @@ public:
 
     Node *findParentNode(Node *cursor, Node *child);
 
-    Address *queryWithNumVotesAsKey(int key, int &nodesUpdated);
+    Address queryWithNumVotesAsKey(int key, int &nodesUpdated);
 
     int findMinimumKeyInBPTree(Node *node);
 

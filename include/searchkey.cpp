@@ -32,9 +32,9 @@ if (!rootNode){
         */
         if (current->currentKeySize==1){
             if (key<current->keys[0]){
-                parent = ((Node **)current->childrenNodes)[0];
+                parent = current->childrenNodes[0].getAddressNode();
             }else{
-                parent = ((Node **)current->childrenNodes)[1];
+                parent = current->childrenNodes[1].getAddressNode();
             }
         }
         else{
@@ -50,10 +50,10 @@ if (!rootNode){
         
         std::cout<<"Found "<<index<< " address" << current<< std::endl;
         if (index == -1 && key>=current->keys[current->currentKeySize-1]){
-            parent = ((Node **)current->childrenNodes)[current->currentPointerSize-1];
+            parent = current->childrenNodes[current->currentPointerSize-1].getAddressNode();
             
         }else if (key<current->keys[0]){
-            parent = ((Node **)current->childrenNodes)[0];
+            parent = current->childrenNodes[0].getAddressNode();
             
         }   
         
@@ -80,8 +80,8 @@ if (!rootNode){
 int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
     //No tree -> end function
     static int result[2];
-    result[0] = 0;
-    result[1] = 0;
+    result[0] = 0;//index block counter
+    result[1] = 0;//data block counter
     if (!rootNode){
             std::cout<<"The B+ Tree is Empty" << std::endl;
             return result;
@@ -89,39 +89,44 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
     else{
             std::cout<<std::endl;
             std::cout<<"Searching~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<std::endl;
-            std::stack <Node *> stack;
+            // std::stack <Node *> stack;
             Node *current = rootNode;
-            stack.push(current);
-            int indexBlockCounter = 0;
+            // stack.push(current);
+            // int indexBlockCounter = 0;
             //Traverse down the tree to find the value closest to the smaller key
             //while current node is not a leaf node
-            while(!current->isLeaf){
-                for(int i=0;i<current->currentKeySize;i++){
-                    //go left if current key is smaller than small value
-                    if(lowKey<current->keys[i]){
-                        current = ((Node **)current->childrenNodes)[i];
-                        std::cout<<"currently accessing " << current  <<std::endl;
-                        break;
-                    }
-                    //else go right
-                    if(i==current->currentKeySize-1){
-                        current = ((Node **)current->childrenNodes)[i+1];
-                        std::cout<<"currently accessing " << current  <<std::endl;
-                        break;
-                    }
-                    indexBlockCounter++;
-                }
-            }
+            // while(!current->isLeaf){
+            //     for(int i=0;i<current->currentKeySize;i++){
+            //         //go left if current key is smaller than small value
+            //         if(lowKey<current->keys[i]){
+            //             current = current->childrenNodes[i].getAddressNode();
+            //             std::cout<<"currently accessing: " << current  <<std::endl;
+            //             current->printNode(); //debug
+            //             break;
+            //         }
+            //         //else go right
+            //         if(i==current->currentKeySize-1){
+            //             current = current->childrenNodes[i+1].getAddressNode();
+            //             std::cout<<"currently accessing: " << current  <<std::endl; 
+            //             current->printNode(); //debug
+            //             break;
+            //         }
+            //         indexBlockCounter++;
+            //     }
+            // }
             bool end = false;
-            unsigned int currentKey = current->keys[0];
-            int count=0;
+            unsigned int currentKey = lowKey;
+            int indexNodesAcccessed=0;
             //reach a leaf node, start going right until number is no longer in range
-            Address *start = queryWithNumVotesAsKey(currentKey,count);
+            Address start = queryWithNumVotesAsKey(lowKey,indexNodesAcccessed);
+
             //incrementing block address along the way
-            long int startingBlock =(long int) start->blockAddress;
-            long int startingOffset = (long int) start->offset;
-            Record* record = (Record*) (disk.loadFromDisk(*start,sizeof(Record)));
-            int blockCount = 0;
+            long int startingBlock =(long int) start.blockAddress;
+            long int startingOffset = (long int) start.offset;
+            Record* record = (Record*) (disk.loadFromDisk(start,sizeof(Record)));
+            int blockCount = 1;
+            int recordCount;
+            float totalRating;
             // Keep accessing the key to the right, until its value is larger than the larger key
             while(!end){
                 if(record->numVotes>highKey){
@@ -132,10 +137,15 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
                 else if(record->numVotes<=highKey){ 
                     //else print out the numVotes in record if numVotes of record is in range
                     if(record->numVotes>=lowKey ){
+                        std::cout<<"**Record address in disk: " << &record  <<std::endl;
                         std::cout<<"NumVotes for current record: " << record->numVotes  <<std::endl;
-                        std::cout<<"Rating for current record: " << record->averageRating  <<std::endl;
+                        std::cout<<"Average Rating for current record: " << record->averageRating  <<std::endl;
+                        std::cout<<"tconst for current record: " << record->tconst  <<std::endl;
+
+                        recordCount++;
+                        totalRating+= record->averageRating;
                     }
-                    //go left
+                    //go right
                     long int newBlock = startingBlock;
                     unsigned short int newOffset;
                     if(startingOffset+sizeof(Record)>=disk.getBlockSize()){
@@ -149,8 +159,11 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
                     record = (Record*) (disk.loadFromDisk(newAddress,sizeof(Record)));
                 }
             }
-            result[0] = indexBlockCounter;
+
+            result[0] = indexNodesAcccessed;
             result[1] = blockCount;
+            std::cout<<"total number of records accessed: " << recordCount  <<std::endl;
+            std::cout<<"Average avgRating of the records: " << float(totalRating/(float)recordCount)  <<std::endl;
             return result;
             
     }

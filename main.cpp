@@ -126,8 +126,16 @@ int main()
     
     tree->linkLeafNodes();
     // tree->display();
+    // int nodesUpdated = 0;
+    // Address queriedAddress = tree->queryWithNumVotesAsKey(500,nodesUpdated);
+    // std::cout<<"nodes updated: "<<nodesUpdated<<std::endl;
+    // Record* record = (Record*) ((char*)queriedAddress.blockAddress + queriedAddress.offset);
 
+    // std::cout<<"Record tconst: "<<record->tconst<<std::endl;
+    // std::cout<<"Record average rating: "<<record->averageRating<<std::endl;
+    // std::cout<<"Record numvotes: "<<record->numVotes<<std::endl;
 
+    // return 0;
     std::cout << "Node Size: " << NodeSize << std::endl;
 
     std::cout << "Maximum keys a B++ tree can hold: " << std::endl;
@@ -175,19 +183,19 @@ int main()
     //      - the number and the content of data blocks the process accesses;
     //      - the average of “averageRating’s” of the records that are returned;
 
-    // */
-    // std::cout << "-----------------------------------Experiment 3-----------------------------------------------" << std::endl;
-    // std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
+    
+    std::cout << "-----------------------------------Experiment 3-----------------------------------------------" << std::endl;
+    std::cout << "Resetting block access before carrying on with the experiment" << std::endl;
 
-    // std::cout << "Retrieving movies with 'numVotes' equal to 500: " << std::endl;
-    // int* result;
-    // result = tree->searchRange(500,500,disk);
-    // std::cout << std::endl;
-    // std::cout << "Number of index blocks accesses      : " <<*(result+0)<< std::endl;
-    // std::cout << "Number of record blocks accesses     : " <<*(result+1)<< std::endl;
+    std::cout << "Retrieving movies with 'numVotes' equal to 500: " << std::endl;
+    int* result;
+    result = tree->searchRange(500,500,disk);
+    std::cout << std::endl;
+    std::cout << "Number of index blocks accesses      : " <<*(result+0)<< std::endl;
+    std::cout << "Number of record blocks accesses     : " <<*(result+1)<< std::endl;
 
-    // std::cout << std::endl;
-    // std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
 
 
 
@@ -195,21 +203,22 @@ int main()
     // /*
     //   Experiment 4: retrieve those movies with the attribute “numVotes” from 30,000 to 40,000,
     //   both inclusively and report the following statistics:
-    //   - the number and the content of index nodes the process accesses;
+    //   - the number and the content of index nodes the process accesses;  report the first 5 index nodes or data blocks ONLY if there are more than 5
     //   - the number and the content of data blocks the process accesses;
     //   - the average of “averageRating’s” of the records that are returned;
     // */
-    // std::cout << "-------------------------------------Experiment 4---------------------------------------------" << std::endl;
-    // std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
+    std::cout << "-------------------------------------Experiment 4---------------------------------------------" << std::endl;
+    std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
 
-    // std::cout << "Retrieving those movies with the attributes 'numVotes' from 30K to 40K" << std::endl;
-    // std::cout << std::endl;
-    // int* result;
-    // result = tree->searchRange(500,500,disk);
-    // std::cout << "Number of index blocks accesses  : " <<*(result+0)<< std::endl;
-    // std::cout << "Number of data blocks accesses   : " <<*(result+1)<< std::endl;
-    // std::cout << std::endl;
-    // std::cout << std::endl;
+    std::cout << "Retrieving those movies with the attributes 'numVotes' from 30K to 40K" << std::endl;
+    std::cout << std::endl;
+    int* result4;
+    
+    result4 = tree->searchRange(30000,40000,disk);
+    std::cout << "Number of index blocks accesses  : " <<*(result4+0)<< std::endl;
+    std::cout << "Number of data blocks accesses   : " <<*(result4+1)<< std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
 
 
 
