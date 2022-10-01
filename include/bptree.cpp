@@ -33,7 +33,7 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
     {
         this->rootNode = new Node(this->nodeSize, true);
         this->rootNode->addressInDisk = disk.allocate(disk.getBlockSize());
-        std::cout<<"DEBUG Address rootnode: " << rootNode->addressInDisk.blockAddress <<std::endl;
+        std::cout<<"DEBUG Address rootnode: " << rootNode->addressInDisk.getAddressNode() <<std::endl;
         this->rootNode->keys[0] = key;
 
         // store address for record in Node
@@ -98,8 +98,8 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                 // allocate space for left and right nodes
                 Address leftNodeAddress = disk.allocate(disk.getBlockSize());
                 Address rightNodeAddress = disk.allocate(disk.getBlockSize());
-                std::cout<<"DEBUG Address left allocate: "<< leftNodeAddress.blockAddress<<std::endl;
-                std::cout<<"DEBUG Address right allocate: "<< rightNodeAddress.blockAddress<<std::endl;
+                std::cout<<"DEBUG Address left allocate: "<< leftNodeAddress.getAddressNode()<<std::endl;
+                std::cout<<"DEBUG Address right allocate: "<< rightNodeAddress.getAddressNode()<<std::endl;
 
                 Node *leftNode = new Node(this->nodeSize, true);
                 leftNode->addressInDisk = leftNodeAddress;
@@ -200,7 +200,7 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
 
                     // allocate space on disk for new parent node
                     Address newParentAddress = disk.allocate(disk.getBlockSize());
-                    std::cout<<"DEBUG Address new parent address: "<< newParentAddress.blockAddress<<std::endl;
+                    std::cout<<"DEBUG Address new parent address: "<< newParentAddress.getAddressNode()<<std::endl;
                     disk.saveToDisk(newParentNode, disk.getBlockSize(), newParentAddress);
 
                     this->rootNode = newParentAddress.getAddressNode();
@@ -269,8 +269,8 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                 // todo: allocate space in memory for nodes
                 Address leftNodeAddress = disk.allocate(disk.getBlockSize());
                 Address rightNodeAddress = disk.allocate(disk.getBlockSize());
-                std::cout<<"DEBUG Address left split: "<< leftNodeAddress.blockAddress<<std::endl;
-                std::cout<<"DEBUG Address right split: "<< rightNodeAddress.blockAddress<<std::endl;
+                std::cout<<"DEBUG Address left split: "<< leftNodeAddress.getAddressNode()<<std::endl;
+                std::cout<<"DEBUG Address right split: "<< rightNodeAddress.getAddressNode()<<std::endl;
                 disk.saveToDisk(leftNode, disk.getBlockSize(), leftNodeAddress);
                 disk.saveToDisk(rightNode, disk.getBlockSize(), rightNodeAddress);
                 
@@ -369,13 +369,14 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                     // allocate new memory to node
                     Node *newRoot = new Node(this->nodeSize, false);
                     Address newRootAddress = disk.allocate(disk.getBlockSize());
-                    std::cout<<"DEBUG Address: "<< newRootAddress.blockAddress<<std::endl;
+                    std::cout<<"DEBUG Address: "<< newRootAddress.getAddressNode()<<std::endl;
                     disk.saveToDisk(newRoot, disk.getBlockSize(), newRootAddress);
                     
                     newRootAddress.getAddressNode()->insertInitialInNonLeafNode(parentInsertionKey, leftNodeAddress, rightNodeAddress);
                     
                     // deallocate old rootNode in disk and in heap
                     disk.deallocate(this->rootNode->addressInDisk,disk.getBlockSize());
+                    std::cout<<"DEBUG deallocate: "<<this->rootNode->addressInDisk.getAddressNode()<<std::endl;
                     // delete this->rootNode;
 
 
@@ -435,7 +436,7 @@ void BPTree::display()
 
         for (int i = 0; i < currentLevel.size(); i++)
         {
-
+            
             Node *currentNode = currentLevel.at(i);
 
             std::cout << "Node " << i << "\n";
@@ -637,6 +638,11 @@ void BPTree::linkLeafNodes()
     int nodeCount = 1;
     std::cout << "rootNode";
     this->rootNode->printNode();
+    std::cout<<"first rootNode left children: "<<std::endl;
+    this->rootNode->childrenNodes[0].getAddressNode()->printNode();
+    // std::cout<<"first rootNode right children: "<<std::endl;
+    // this->rootNode->childrenNodes[1].getAddressNode()->printNode();
+
     this->DFSNodes(this->rootNode->addressInDisk, leafNodes, nodeCount);
 
     // link the leaf nodes tgt

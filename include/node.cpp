@@ -23,13 +23,14 @@ Node::Node(int nodeSize, bool isLeaf)
 void Node::printNode()
 {
     std::cout << "**********************" << std::endl;
-    std::cout << "Node's Disk address: " << this->addressInDisk.blockAddress << std::endl;
+    std::cout << "Node's Disk address: " << this->addressInDisk.getAddressNode() << std::endl;
     std::cout << "currentKeySize :" << this->currentKeySize << std::endl;
     std::cout << "currentPointerSize :" << this->currentPointerSize << std::endl;
     std::string nodeType = this->isLeaf ? "LEAF" : "InternalNode";
     std::cout << "node type :" << nodeType << std::endl;
-
+    std::cout<<"max Key Size: "<< this->maxKeySize <<std::endl;
     std::cout << "keyArray: [";
+    
     for (int i = 0; i < this->maxKeySize; i++)
     {
         std::cout << this->keys[i] << ",";
@@ -38,7 +39,7 @@ void Node::printNode()
     std::cout << "PointerArray: [";
     for (int i = 0; i < this->maxPointerSize; i++)
     {
-        std::cout << this->childrenNodes[i].blockAddress << ",";
+        std::cout << this->childrenNodes[i].getAddressNode() << ",";
     };
     std::cout << "]" << std::endl;
     std::cout << "**********************" << std::endl;
