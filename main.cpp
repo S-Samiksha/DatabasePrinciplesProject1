@@ -89,7 +89,7 @@ int main()
     if (file.is_open())
     {
         std::string line;
-        while (std::getline(file, line) && testCounter++ != 100)
+        while (std::getline(file, line) && testCounter++ != 21)
         {
             tempRecord newRec;
             std::stringstream datastream(line);

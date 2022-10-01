@@ -125,11 +125,13 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                 std::cout<<"debug1"<<std::endl;
                 
                 // insert the key and pointer to be inserted
+                
+                
+                
                 for (int i = this->nodeSize; i > insertionIndex; i--)
                 {
                     virtualPointerArray[i] = virtualPointerArray[i - 1];
                     virtualKeyArray[i] = virtualKeyArray[i - 1];
-                    std::cout<<"debug2"<<std::endl;
                     
                 }
 
@@ -153,7 +155,7 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                     leftNode->currentKeySize++;
                     leftNode->currentPointerSize++;
                 }
-
+                std::cout<<"debug4"<<std::endl;
                 // fill the right subtree
                 newNodesKeyCounter = 0;
                 while (newNodesKeyCounter < minimumKeySizeRight + 1)
@@ -175,9 +177,10 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                 // rightNode->printNode();
 
                 // save to filled left and right subtree to disk
-
+                
                 Address testLeftAddress = disk.saveToDisk(leftNode, disk.getBlockSize(), leftNodeAddress);
                 Address testRightAddress = disk.saveToDisk(rightNode, disk.getBlockSize(), rightNodeAddress);
+               
 
                 // std::cout<<"debug left: "<<std::endl;
                 // testLeftAddress.getAddressNode()->printNode();
