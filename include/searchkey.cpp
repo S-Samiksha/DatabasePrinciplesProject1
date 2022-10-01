@@ -121,15 +121,17 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
             Address start = queryWithNumVotesAsKey(lowKey,indexNodesAcccessed);
 
             //incrementing block address along the way
-            long int startingBlock =(long int) start.blockAddress;
-            long int startingOffset = (long int) start.offset;
+            void* startingBlock = start.blockAddress;
+            unsigned short int startingOffset = start.offset;
             Record* record = (Record*) (disk.loadFromDisk(start,sizeof(Record)));
             int blockCount = 1;
-            int recordCount;
-            float totalRating;
+            int recordCount = 0;
+            float totalRating = 0.0;
+            void* adjacentBlock = startingBlock;
+            unsigned short int newOffset;
             // Keep accessing the key to the right, until its value is larger than the larger key
             while(!end){
-                if(record->numVotes>highKey){
+                if(record->numVotes>highKey||blockCount>=5){
                     //end function once numVotes is higher than upper bound
                     end = true;
                     break;
@@ -141,21 +143,20 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
                         std::cout<<"NumVotes for current record: " << record->numVotes  <<std::endl;
                         std::cout<<"Average Rating for current record: " << record->averageRating  <<std::endl;
                         std::cout<<"tconst for current record: " << record->tconst  <<std::endl;
-
                         recordCount++;
                         totalRating+= record->averageRating;
                     }
                     //go right
-                    long int newBlock = startingBlock;
+                    void* adjacentBlock = startingBlock;
                     unsigned short int newOffset;
                     if(startingOffset+sizeof(Record)>=disk.getBlockSize()){
-                        newBlock += disk.getBlockSize();
+                        adjacentBlock = (void*)((char*)adjacentBlock + disk.getBlockSize());
                         newOffset += (startingOffset+sizeof(Record))%disk.getBlockSize();
                         blockCount++;
                     }else{
                         newOffset+=sizeof(Record);
                     }
-                    Address newAddress = {(void *)newBlock,newOffset};
+                    Address newAddress = {(void *)adjacentBlock,newOffset};
                     record = (Record*) (disk.loadFromDisk(newAddress,sizeof(Record)));
                 }
             }

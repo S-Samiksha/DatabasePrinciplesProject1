@@ -305,12 +305,14 @@ Address Node::remove(int index)
     2. Remove the pointer to the block --> deallocate
     */
 
-    // must shift everything to the left
-    for (int i = index; i < this->currentKeySize; i++)
+
+    for (int i = index; i < this->currentKeySize-1; i++)
     {
         this->keys[i] = this->keys[i + 1];
         this->childrenNodes[i] = this->childrenNodes[i+1];
+        
     }
+
     this->keys[currentKeySize] = 0;
     this->childrenNodes[currentKeySize] = {nullptr, 0};
     this->currentKeySize--;

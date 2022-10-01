@@ -6,7 +6,7 @@
 // Defines a single movie record.
 struct Record
 {
-    char *tconst = new char[11]; // 10B. Primary key. Total we need is 9bits for the current data we have. + 1 bit to store the null value.
+    char *tconst = new char[11]; // 11B. Primary key. Total we need is 9bits for the current data we have. + 1 bit to store the null value.
 
     float averageRating; // 4B. Was thinking of using char but end up will take the same amount of byte (i.e. 4 bytes),
                          // since 2 for the numbers, 1 for the "." and 1 for the null value

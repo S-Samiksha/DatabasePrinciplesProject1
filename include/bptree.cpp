@@ -405,7 +405,7 @@ void BPTree::display()
             Node *currentNode = currentLevel.at(i);
 
             std::cout << "Node " << i << "\n";
-            std::cout << "Node address: " << currentNode << "\n";
+            std::cout << "Node address: " << currentNode << " \n";
             std::cout << "currentKeySize: " << currentNode->currentKeySize << "\n";
             std::cout << "currentPointerSize: " << currentNode->currentPointerSize << "\n";
             std::string nodeType = currentNode->isLeaf ? "LEAF" : "INTERNAL NODE";
@@ -505,9 +505,6 @@ Address BPTree::queryWithNumVotesAsKey(int key, int &nodesUpdated)
             break;
         }
     }    
-    std::cout<<"index: "<<index<<std::endl;
-    // int index = cursor->binarySearch(key);
-    std::cout << "leaf node:" << std::endl;
     cursor->printNode();
     return cursor->childrenNodes[index];
 }
@@ -527,7 +524,7 @@ Node *BPTree::findParentNode(Node *cursor, Node *child)
     for (int i = 0; i < cursor->currentPointerSize; i++)
     {
         // if cursor's children is child, return cursor as parent
-        if (cursor->childrenNodes)[i] == child)
+        if (cursor->childrenNodes[i].getAddressNode() == child)
         {
             parent = cursor;
             return parent;
@@ -640,12 +637,14 @@ void BPTree::linkLeafNodes()
 // does DFS traversals and returns a list of leafnodes if order, and also the number of nodes in the B+ tree
 void BPTree::DFSNodes(Address currentNode, std::vector<Address> &recordList, int &nodeCount)
 {
+    int addressZeroCounter = 0;
     std::queue<Address> childrenNodesToSearch;
     // terminal condition if the node is a leaf, add node pointer into the vector
     if (currentNode.getAddressNode()->isLeaf)
     {
         // counting nodes
         nodeCount++;
+        if(currentNode.getAddressNode())
 
         recordList.push_back(currentNode);
         // std::cout << "keys in leaf node: [ ";

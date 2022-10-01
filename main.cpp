@@ -207,18 +207,18 @@ int main()
     //   - the number and the content of data blocks the process accesses;
     //   - the average of “averageRating’s” of the records that are returned;
     // */
-    std::cout << "-------------------------------------Experiment 4---------------------------------------------" << std::endl;
-    std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
+    // std::cout << "-------------------------------------Experiment 4---------------------------------------------" << std::endl;
+    // std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
 
-    std::cout << "Retrieving those movies with the attributes 'numVotes' from 30K to 40K" << std::endl;
-    std::cout << std::endl;
-    int* result4;
+    // std::cout << "Retrieving those movies with the attributes 'numVotes' from 30K to 40K" << std::endl;
+    // std::cout << std::endl;
+    // int* result4;
     
-    result4 = tree->searchRange(30000,40000,disk);
-    std::cout << "Number of index blocks accesses  : " <<*(result4+0)<< std::endl;
-    std::cout << "Number of data blocks accesses   : " <<*(result4+1)<< std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
+    // result4 = tree->searchRange(30000,40000,disk);
+    // std::cout << "Number of index blocks accesses  : " <<*(result4+0)<< std::endl;
+    // std::cout << "Number of data blocks accesses   : " <<*(result4+1)<< std::endl;
+    // std::cout << std::endl;
+    // std::cout << std::endl;
 
 
 
@@ -234,19 +234,19 @@ int main()
     // - the content of the root node and its 1st child node of the updated B+ tree;
     // */
 
-    //  std::cout << "-------------------------------------Experiment 5---------------------------------------------" << std::endl;
-    //  int numNodesDeleted = 0;
-    //  int numNodesUpdated = 0;
-    //  int height = 0;
+     std::cout << "-------------------------------------Experiment 5---------------------------------------------" << std::endl;
+     int numNodesDeleted = 0;
+     int numNodesUpdated = 0;
+     int height = 0;
     
-    // tree->remove(1000, numNodesDeleted, numNodesUpdated, height, disk);
+    tree->remove(1000, numNodesDeleted, numNodesUpdated, height, disk);
 
-    // std::cout << "Deleting those movies with the attribute 'numVotes' equal to 1000-----------------------" << std::endl;
-    // std::cout << "No. of times that a node is deleted (or two nodes are merged): " << numNodesDeleted << std::endl;
-    // std::cout << "No. of nodes in updated B+ Tree                              : " << numNodesUpdated << std::endl;
-    // std::cout << "Height of updated B+ tree                                    : " << height << std::endl;
-    // std::cout << std::endl;
-    // std::cout << std::endl;
+    std::cout << "Deleting those movies with the attribute 'numVotes' equal to 1000-----------------------" << std::endl;
+    std::cout << "No. of times that a node is deleted (or two nodes are merged): " << numNodesDeleted << std::endl;
+    std::cout << "No. of nodes in updated B+ Tree                              : " << numNodesUpdated << std::endl;
+    std::cout << "Height of updated B+ tree                                    : " << height << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
 
 
 
