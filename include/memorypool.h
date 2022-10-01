@@ -6,7 +6,7 @@
 #define DATABASEPROJ_MEMORYPOOL_H
 
 #include "types.h"
-
+#include <cmath>
 #include <vector>
 
 struct Address;
