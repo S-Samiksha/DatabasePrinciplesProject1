@@ -10,9 +10,11 @@
 
 
 
-void BPTree::remove(int key, int *nodesDeleted, int *nodesUpdated, int *height, MemoryPool &disk){
-
-    *nodesDeleted=0; *nodesUpdated=0; *height = findHeight(rootNode);
+void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, MemoryPool &disk){
+    
+    nodesDeleted = 0; nodesUpdated = 0;
+    
+    height = findHeight(rootNode);
     Address AddressDeleted;
     //calculating the minimum number of keys for leaf and non leaf node 
     int minkeyLeaf, minkeyNonLeaf, minptLeaf, minptNonLeaf;
@@ -21,7 +23,7 @@ void BPTree::remove(int key, int *nodesDeleted, int *nodesUpdated, int *height, 
     minptLeaf = minkeyNonLeaf + 1;
     minkeyNonLeaf = (int)floor(this->nodeSize / 2);
     minptNonLeaf = minkeyLeaf + 1;
-
+    
     //if there is no root, there is no tree
     if (!rootNode){
         std::cout<<"The B+ Tree is Empty" << std::endl;
@@ -49,7 +51,7 @@ void BPTree::remove(int key, int *nodesDeleted, int *nodesUpdated, int *height, 
             if (rootNode->currentKeySize == 0){
                 
                 //increment the nodesDeleted
-                (*nodesDeleted)++;
+                nodesDeleted++;
 
                 //must deallocate the block that holds the root node 
                 disk.deallocate(rootNode->addressInDisk, disk.getBlockSize());
@@ -192,7 +194,7 @@ void BPTree::remove(int key, int *nodesDeleted, int *nodesUpdated, int *height, 
     AddressDeleted = current->remove(index);
 
     //update the nodesDeleted 
-    (*nodesDeleted)++;
+    nodesDeleted++;
 
 
     //go upwards 
@@ -284,7 +286,7 @@ void BPTree::remove(int key, int *nodesDeleted, int *nodesUpdated, int *height, 
                 left->currentPointerSize--;
 
             }
-            (*nodesUpdated)++;
+            nodesUpdated++;
             //skip all the rest of the conditions 
             continue;
 
@@ -312,7 +314,7 @@ void BPTree::remove(int key, int *nodesDeleted, int *nodesUpdated, int *height, 
                 right->childrenNodes[k]=right->childrenNodes[k+1];
             }
             }
-            (*nodesUpdated)++;
+            nodesUpdated++;
             //skip all the rest of the conditions 
             continue;
 
@@ -367,8 +369,8 @@ void BPTree::remove(int key, int *nodesDeleted, int *nodesUpdated, int *height, 
             //update the key and pointer sizes 
             parent->currentKeySize--;
             parent->currentPointerSize--;
-            (*nodesDeleted)++;
-            (*nodesUpdated)++;
+            nodesDeleted++;
+            nodesUpdated++;
 
             //must deallocate the block 
             disk.deallocate(current->addressInDisk, disk.getBlockSize());
@@ -436,8 +438,8 @@ void BPTree::remove(int key, int *nodesDeleted, int *nodesUpdated, int *height, 
 
             //must deallocate the block 
             current = parent;
-            (*nodesDeleted)++;
-            (*nodesUpdated)++;
+            nodesDeleted++;
+            nodesUpdated++;
             disk.deallocate(right->addressInDisk, disk.getBlockSize());
             delete right; //delete in the parent 
             //find the pointer of the right node 
@@ -447,10 +449,9 @@ void BPTree::remove(int key, int *nodesDeleted, int *nodesUpdated, int *height, 
 
     }
 
-    *height = findHeight(rootNode);
 
     std::cout<<"DONE REMOVING~~~~~~~~"<<std::endl<<std::endl;
-
+    height = findHeight(rootNode);
     std::cout<<"Content of Parent Node:"<<std::endl;
     this->rootNode->printNode();
     Node * child = this->rootNode->childrenNodes[0].getAddressNode();
@@ -463,7 +464,7 @@ void BPTree::remove(int key, int *nodesDeleted, int *nodesUpdated, int *height, 
 
 
 //helper function to update parent all the way to the top 
-void BPTree::updateParent(std::stack <Node *> stack, int key, int *nodesUpdated){
+void BPTree::updateParent(std::stack <Node *> stack, int key, int &nodesUpdated){
 
     Node* parent = NULL;
     Node* current = NULL;
@@ -488,7 +489,7 @@ void BPTree::updateParent(std::stack <Node *> stack, int key, int *nodesUpdated)
 
             //when the current equals the index of childrenNode array then update the key at the key array 
             if (parent->childrenNodes[m].getAddressNode() == current){
-                (*nodesUpdated)++;
+                nodesUpdated++;
                 parent->keys[m-1]=minimum;
             }
         }

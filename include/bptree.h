@@ -22,7 +22,7 @@ public:
     Address *insert(Node *parentNode, int key, Address recordAddress, MemoryPool &disk);
 
     // deleting a key
-    void remove(int key, int *nodesDeleted, int *nodesUpdated, int *height, MemoryPool &disk);
+    void remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, MemoryPool &disk);
 
     // displaying the tree
     void display();
@@ -40,7 +40,7 @@ public:
     //Return the number of blocks accessed
     int searchRange(int lowKey, int highKey, MemoryPool &disk);
 
-    void updateParent(std::stack<Node *> stack, int key, int *nodesUpdated);
+    void updateParent(std::stack<Node *> stack, int key, int &nodesUpdated);
 
     // prints details and all record keys
     void printBPDetails();

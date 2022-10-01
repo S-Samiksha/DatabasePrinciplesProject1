@@ -80,7 +80,7 @@ int main()
     std::vector<tempRecord> recordList;
 
     // test b+ tree
-    BPTree *tree = new BPTree(3, MEMORYPOOLSIZE, BLOCKSIZE);
+    BPTree *tree = new BPTree(4, MEMORYPOOLSIZE, BLOCKSIZE);
 
     //todo: remove test counter
     int testCounter = 0;
@@ -89,7 +89,7 @@ int main()
     if (file.is_open())
     {
         std::string line;
-        while (std::getline(file, line) && testCounter++ != 20)
+        while (std::getline(file, line) && testCounter++ != 100)
         {
             tempRecord newRec;
             std::stringstream datastream(line);
@@ -147,23 +147,22 @@ int main()
          - the height of the B+ tree, i.e., the number of levels of the B+ tree;
          - the content of the root node and its 1st child node;
     */
+    std::cout<<std::endl;
+    std::cout<<std::endl;
     std::cout << "--------------------------------------Experiment 2---------------------------------------------" << std::endl;
-    std::cout << "No. of Keys, n, of B+ tree        : " << std::endl;
-    std::cout << "No. of nodes of B+ tree           : " << std::endl;
-    std::cout << "Height of B+ tree                 : " << std::endl;
-    std::cout << "Root nodes and child nodes        : " << std::endl;
+    tree->printBPDetails();
 
     std::cout << std::endl;
 
-    /*
-    Experiment 3:
-    retrieve those movies with the “numVotes” equal to 500 and report the following statistics:
-         - the number and the content of index nodes the process accesses;
-         (for the content, it would be sufficient to report for the first 5 index nodes or data blocks only if there are more than 5,
-         - the number and the content of data blocks the process accesses;
-         - the average of “averageRating’s” of the records that are returned;
+    // /*
+    // Experiment 3:
+    // retrieve those movies with the “numVotes” equal to 500 and report the following statistics:
+    //      - the number and the content of index nodes the process accesses;
+    //      (for the content, it would be sufficient to report for the first 5 index nodes or data blocks only if there are more than 5,
+    //      - the number and the content of data blocks the process accesses;
+    //      - the average of “averageRating’s” of the records that are returned;
 
-    */
+    // */
     std::cout << "-----------------------------------Experiment 3-----------------------------------------------" << std::endl;
     std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
 
@@ -175,13 +174,13 @@ int main()
 
     std::cout << std::endl;
 
-    /*
-      Experiment 4: retrieve those movies with the attribute “numVotes” from 30,000 to 40,000,
-      both inclusively and report the following statistics:
-      - the number and the content of index nodes the process accesses;
-      - the number and the content of data blocks the process accesses;
-      - the average of “averageRating’s” of the records that are returned;
-    */
+    // /*
+    //   Experiment 4: retrieve those movies with the attribute “numVotes” from 30,000 to 40,000,
+    //   both inclusively and report the following statistics:
+    //   - the number and the content of index nodes the process accesses;
+    //   - the number and the content of data blocks the process accesses;
+    //   - the average of “averageRating’s” of the records that are returned;
+    // */
     std::cout << "-------------------------------------Experiment 4---------------------------------------------" << std::endl;
     std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
 
@@ -190,20 +189,21 @@ int main()
     std::cout << "Number of index blocks accesses  : " << std::endl;
     std::cout << "Number of data blocks accesses   : " << std::endl;
 
-    /*
-    Experiment 5:
-    delete those movies with the attribute “numVotes” equal to 1,000,
-    update the B+ tree accordingly, and report the following statistics:
-    - the number of times that a node is deleted (or two nodes are merged) during the process of the updating the B+ tree;
-    - the number nodes of the updated B+ tree;
-    - the height of the updated B+ tree;
-    - the content of the root node and its 1st child node of the updated B+ tree;
-    */
+    // /*
+    // Experiment 5:
+    // delete those movies with the attribute “numVotes” equal to 1,000,
+    // update the B+ tree accordingly, and report the following statistics:
+    // - the number of times that a node is deleted (or two nodes are merged) during the process of the updating the B+ tree;
+    // - the number nodes of the updated B+ tree;
+    // - the height of the updated B+ tree;
+    // - the content of the root node and its 1st child node of the updated B+ tree;
+    // */
 
-    std::cout << "-------------------------------------Experiment 5---------------------------------------------" << std::endl;
-    int *numNodesDeleted = 0;
-    int *numNodesUpdated = 0;
-    int *height = 0;
+     std::cout << "-------------------------------------Experiment 5---------------------------------------------" << std::endl;
+     int numNodesDeleted = 0;
+     int numNodesUpdated = 0;
+     int height = 0;
+     std::cout<<"debug"<<std::endl;
     tree->remove(1000, numNodesDeleted, numNodesUpdated, height, disk);
 
     std::cout << "Deleting those movies with the attribute 'numVotes' equal to 1000-----------------------" << std::endl;

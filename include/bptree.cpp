@@ -106,8 +106,10 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                 // int minimumKeySizeRight = this->nodeSize + 1 - minimumKeySizeLeft;
 
                 //  minimum and maximum bounds of non-leaf nodes
-                int minimumKeySizeRight = (this->nodeSize / 2);
+                int minimumKeySizeRight = (int)floor((this->nodeSize / 2));
                 int minimumKeySizeLeft = this->nodeSize - minimumKeySizeRight;
+
+                
 
                 // build a virtual array to help with the splitting
                 int virtualKeyArray[this->nodeSize + 1]{0};
@@ -118,13 +120,17 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                 {
                     virtualKeyArray[i] = parentNode->keys[i];
                     virtualPointerArray[i] = parentNode->childrenNodes[i];
+                    
                 }
-
+                std::cout<<"debug1"<<std::endl;
+                
                 // insert the key and pointer to be inserted
                 for (int i = this->nodeSize; i > insertionIndex; i--)
                 {
                     virtualPointerArray[i] = virtualPointerArray[i - 1];
                     virtualKeyArray[i] = virtualKeyArray[i - 1];
+                    std::cout<<"debug2"<<std::endl;
+                    
                 }
 
                 virtualKeyArray[insertionIndex] = key;
@@ -579,7 +585,6 @@ int BPTree::findHeight(Node *rootNode)
 void BPTree::printBPDetails()
 {
     // experiment 2
-    std::cout << "================= Experiment 2 =================" << std::endl;
     std::vector<Address> leafNodes;
     int nodeCount = 1;
     this->DFSNodes(this->rootNode->addressInDisk, leafNodes, nodeCount);
