@@ -136,99 +136,100 @@ int main()
     // tree->printBPDetails();
     tree->display();
 
-    std::cout << "Node Size: " << NodeSize << std::endl;
 
-    std::cout << "Maximum keys a B++ tree can hold: " << std::endl;
+//     std::cout << "Node Size: " << NodeSize << std::endl;
 
-    std::cout << "--------------------------------------Experiment 1------------------------------------------" << std::endl;
-    std::cout << "Total number of blocks              : " << disk.getAllocated() << std::endl;
-    std::cout << "Actual size of database             : " << disk.getActualSizeUsed() << std::endl;
+//     std::cout << "Maximum keys a B++ tree can hold: " << std::endl;
 
-    /*
-    Experiment 2:
-    build a B+ tree on the attribute "numVotes" by inserting the records sequentially and report the following statistics:
-         - the parameter n of the B+ tree;
-         - the number of nodes of the B+ tree;
-         - the height of the B+ tree, i.e., the number of levels of the B+ tree;
-         - the content of the root node and its 1st child node;
-    */
-    std::cout<<std::endl;
-    std::cout<<std::endl;
-    std::cout << "--------------------------------------Experiment 2---------------------------------------------" << std::endl;
-    tree->printBPDetails();
+//     std::cout << "--------------------------------------Experiment 1------------------------------------------" << std::endl;
+//     std::cout << "Total number of blocks              : " << disk.getAllocated() << std::endl;
+//     std::cout << "Actual size of database             : " << disk.getActualSizeUsed() << std::endl;
 
-    std::cout << std::endl;
+//     /*
+//     Experiment 2:
+//     build a B+ tree on the attribute "numVotes" by inserting the records sequentially and report the following statistics:
+//          - the parameter n of the B+ tree;
+//          - the number of nodes of the B+ tree;
+//          - the height of the B+ tree, i.e., the number of levels of the B+ tree;
+//          - the content of the root node and its 1st child node;
+//     */
+//     std::cout<<std::endl;
+//     std::cout<<std::endl;
+//     std::cout << "--------------------------------------Experiment 2---------------------------------------------" << std::endl;
+//     tree->printBPDetails();
 
-    // /*
-    // Experiment 3:
-    // retrieve those movies with the “numVotes” equal to 500 and report the following statistics:
-    //      - the number and the content of index nodes the process accesses;
-    //      (for the content, it would be sufficient to report for the first 5 index nodes or data blocks only if there are more than 5,
-    //      - the number and the content of data blocks the process accesses;
-    //      - the average of “averageRating’s” of the records that are returned;
+//     std::cout << std::endl;
 
-    // */
-    std::cout << "-----------------------------------Experiment 3-----------------------------------------------" << std::endl;
-    std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
+//     // /*
+//     // Experiment 3:
+//     // retrieve those movies with the “numVotes” equal to 500 and report the following statistics:
+//     //      - the number and the content of index nodes the process accesses;
+//     //      (for the content, it would be sufficient to report for the first 5 index nodes or data blocks only if there are more than 5,
+//     //      - the number and the content of data blocks the process accesses;
+//     //      - the average of “averageRating’s” of the records that are returned;
 
-    std::cout << "Retrieving movies with 'numVotes' equal to 500: " << std::endl;
+//     // */
+//     std::cout << "-----------------------------------Experiment 3-----------------------------------------------" << std::endl;
+//     std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
 
-    std::cout << std::endl;
-    std::cout << "Number of index blocks accesses      : " << std::endl;
-    std::cout << "Number of record blocks accesses     : " << std::endl;
+//     std::cout << "Retrieving movies with 'numVotes' equal to 500: " << std::endl;
 
-    std::cout << std::endl;
+//     std::cout << std::endl;
+//     std::cout << "Number of index blocks accesses      : " << std::endl;
+//     std::cout << "Number of record blocks accesses     : " << std::endl;
 
-    // /*
-    //   Experiment 4: retrieve those movies with the attribute “numVotes” from 30,000 to 40,000,
-    //   both inclusively and report the following statistics:
-    //   - the number and the content of index nodes the process accesses;
-    //   - the number and the content of data blocks the process accesses;
-    //   - the average of “averageRating’s” of the records that are returned;
-    // */
-    std::cout << "-------------------------------------Experiment 4---------------------------------------------" << std::endl;
-    std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
+//     std::cout << std::endl;
 
-    std::cout << "Retrieving those movies with the attributes 'numVotes' from 30K to 40K" << std::endl;
-    std::cout << std::endl;
-    std::cout << "Number of index blocks accesses  : " << std::endl;
-    std::cout << "Number of data blocks accesses   : " << std::endl;
+//     // /*
+//     //   Experiment 4: retrieve those movies with the attribute “numVotes” from 30,000 to 40,000,
+//     //   both inclusively and report the following statistics:
+//     //   - the number and the content of index nodes the process accesses;
+//     //   - the number and the content of data blocks the process accesses;
+//     //   - the average of “averageRating’s” of the records that are returned;
+//     // */
+//     std::cout << "-------------------------------------Experiment 4---------------------------------------------" << std::endl;
+//     std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
 
-    // /*
-    // Experiment 5:
-    // delete those movies with the attribute “numVotes” equal to 1,000,
-    // update the B+ tree accordingly, and report the following statistics:
-    // - the number of times that a node is deleted (or two nodes are merged) during the process of the updating the B+ tree;
-    // - the number nodes of the updated B+ tree;
-    // - the height of the updated B+ tree;
-    // - the content of the root node and its 1st child node of the updated B+ tree;
-    // */
+//     std::cout << "Retrieving those movies with the attributes 'numVotes' from 30K to 40K" << std::endl;
+//     std::cout << std::endl;
+//     std::cout << "Number of index blocks accesses  : " << std::endl;
+//     std::cout << "Number of data blocks accesses   : " << std::endl;
 
-     std::cout << "-------------------------------------Experiment 5---------------------------------------------" << std::endl;
-     int numNodesDeleted = 0;
-     int numNodesUpdated = 0;
-     int height = 0;
-     std::cout<<"debug"<<std::endl;
-    tree->remove(1000, numNodesDeleted, numNodesUpdated, height, disk);
+//     // /*
+//     // Experiment 5:
+//     // delete those movies with the attribute “numVotes” equal to 1,000,
+//     // update the B+ tree accordingly, and report the following statistics:
+//     // - the number of times that a node is deleted (or two nodes are merged) during the process of the updating the B+ tree;
+//     // - the number nodes of the updated B+ tree;
+//     // - the height of the updated B+ tree;
+//     // - the content of the root node and its 1st child node of the updated B+ tree;
+//     // */
 
-    std::cout << "Deleting those movies with the attribute 'numVotes' equal to 1000-----------------------" << std::endl;
-    std::cout << "No. of times that a node is deleted (or two nodes are merged): " << numNodesDeleted << std::endl;
-    std::cout << "No. of nodes in updated B+ Tree                              : " << numNodesUpdated << std::endl;
-    std::cout << "Height of updated B+ tree                                    : " << height << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
+//      std::cout << "-------------------------------------Experiment 5---------------------------------------------" << std::endl;
+//      int numNodesDeleted = 0;
+//      int numNodesUpdated = 0;
+//      int height = 0;
+//      std::cout<<"debug"<<std::endl;
+//     tree->remove(1000, numNodesDeleted, numNodesUpdated, height, disk);
 
-    //    int key_to_be_removed = 0;
-    //    std::cout <<"Select key to delete:   "<<endl;
-    //    std::cin >> key_to_be_removed;
-    //    Address* addressToBeDeleted = tree.remove(key_to_be_removed,0,0,0);
-    //    Record* tempRecord = (Record*)addressToBeDeleted;
-    //    size_t sizeCount = 0;
-    //    while (tempRecord->numVotes == key_to_be_removed){
-    //        sizeCount+=sizeof(Record);
-    //        tempRecord += sizeof(Record);
-    //    }
-    //    MemoryPool.deallocate(addressToBeDeleted, sizeCount);
+//     std::cout << "Deleting those movies with the attribute 'numVotes' equal to 1000-----------------------" << std::endl;
+//     std::cout << "No. of times that a node is deleted (or two nodes are merged): " << numNodesDeleted << std::endl;
+//     std::cout << "No. of nodes in updated B+ Tree                              : " << numNodesUpdated << std::endl;
+//     std::cout << "Height of updated B+ tree                                    : " << height << std::endl;
+//     std::cout << std::endl;
+//     std::cout << std::endl;
 
-    return 0;
+//     //    int key_to_be_removed = 0;
+//     //    std::cout <<"Select key to delete:   "<<endl;
+//     //    std::cin >> key_to_be_removed;
+//     //    Address* addressToBeDeleted = tree.remove(key_to_be_removed,0,0,0);
+//     //    Record* tempRecord = (Record*)addressToBeDeleted;
+//     //    size_t sizeCount = 0;
+//     //    while (tempRecord->numVotes == key_to_be_removed){
+//     //        sizeCount+=sizeof(Record);
+//     //        tempRecord += sizeof(Record);
+//     //    }
+//     //    MemoryPool.deallocate(addressToBeDeleted, sizeCount);
+
+//     return 0;
 }
