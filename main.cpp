@@ -151,8 +151,8 @@ int main()
 
     std::cout << "--------------------------------------Experiment 1------------------------------------------" << std::endl;
     std::cout << "Number of Records                   : " << recordCounter << std::endl;
-    std::cout << "Total number of blocks              : " << disk.getAllocated() << std::endl; 
-    std::cout << "Actual size of database             : " << disk.getActualSizeUsed() << std::endl; 
+    std::cout << "Total number of blocks              : " << disk.getAllocatedUsedWithoutPadding() << std::endl; 
+    std::cout << "Actual size of database             : " << disk.getActualSizeUsedWithoutPadding() << std::endl; 
 
 
 //     /*
