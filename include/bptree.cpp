@@ -16,6 +16,7 @@ BPTree::BPTree(int nodeSize, int poolSize, int blockSize)
     // this->memoryPoolInstance = new MemoryPool(poolSize,blockSize);
 }
 
+//todo: check for addresses = 0 for node
 Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &disk)
 {
     // std::cout << "record address blockAddress: " << address.blockAddress;
@@ -171,7 +172,7 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
                     disk.saveToDisk(newParentNode, disk.getBlockSize(), newParentAddress);
 
                     // deallocate original parent node
-                    disk.deallocate(this->rootNode->addressInDisk,disk.getBlockSize());
+                    // disk.deallocate(this->rootNode->addressInDisk,disk.getBlockSize());
 
                     this->rootNode = newParentAddress.getAddressNode();
                     this->rootNode->addressInDisk = newParentAddress;
