@@ -118,12 +118,12 @@ int main()
         if(recordCounter <20){
             std::cout << (unsigned long)(void*)((char*)recAddress.blockAddress + recAddress.offset) << std::endl;
         }
-        // if(addressList1.size()!=0){
-        //     if((unsigned long)(void*)((char*)recAddress.blockAddress + recAddress.offset) - (unsigned long)(void*)((char*)addressList1[addressList1.size()-1].blockAddress + addressList1[addressList1.size()-1].offset)!=sizeof(Record)){
-        //     std::cout << (unsigned long)(void*)((char*)addressList1[addressList1.size()-1].blockAddress + addressList1[addressList1.size()-1].offset) << std::endl;
-        //     std::cout << (unsigned long)(void*)((char*)recAddress.blockAddress + recAddress.offset) << std::endl;
-        // }
-        // }
+        if(addressList1.size()!=0){
+            if((unsigned long)(void*)((char*)recAddress.blockAddress + recAddress.offset) - (unsigned long)(void*)((char*)addressList1[addressList1.size()-1].blockAddress + addressList1[addressList1.size()-1].offset)!=20){
+                std::cout << (unsigned long)(void*)((char*)addressList1[addressList1.size()-1].blockAddress + addressList1[addressList1.size()-1].offset) << std::endl;
+                std::cout << (unsigned long)(void*)((char*)recAddress.blockAddress + recAddress.offset) << std::endl;
+            }
+        }
         addressList1.push_back(recAddress);
         if (i == 0 || recordList[i].numVotes != recordList[i - 1].numVotes)
         {
