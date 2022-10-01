@@ -12,6 +12,7 @@
 #include <functional>
 #include <algorithm>
 #include <math.h>
+#include <inttypes.h>
 // #include <types.h>
 
 int BLOCKSIZE = 200;
@@ -104,10 +105,9 @@ int main()
     
 
     // Load record onto disk
-    std::vector<Address> addressList1;
+    // std::vector<Address> addressList1;
     for (int i = 0; i < recordList.size(); i++)
     {
-        recordCounter++;
         // std::cout << recordList[i].numVotes << std::endl;
         // std::cout<<recordList[i].tconst<<std::endl;
         Record newRec;
@@ -115,23 +115,22 @@ int main()
         newRec.averageRating = recordList[i].averageRating;
         newRec.numVotes = recordList[i].numVotes;
         Address recAddress = disk.saveToDisk(&newRec, sizeof(Record));
-        if(recordCounter <20){
-            std::cout << (unsigned long)(void*)((char*)recAddress.blockAddress + recAddress.offset) << std::endl;
-        }
-        if(addressList1.size()!=0){
-            if((unsigned long)(void*)((char*)recAddress.blockAddress + recAddress.offset) - (unsigned long)(void*)((char*)addressList1[addressList1.size()-1].blockAddress + addressList1[addressList1.size()-1].offset)!=20){
-                std::cout << (unsigned long)(void*)((char*)addressList1[addressList1.size()-1].blockAddress + addressList1[addressList1.size()-1].offset) << std::endl;
-                std::cout << (unsigned long)(void*)((char*)recAddress.blockAddress + recAddress.offset) << std::endl;
-            }
-        }
-        addressList1.push_back(recAddress);
+
+        // if(addressList1.size()!=0 && recordCounter < 20){
+        //     if((intptr_t)(void*)((char*)recAddress.blockAddress + recAddress.offset) - (intptr_t)(void*)((char*)addressList1[addressList1.size()-1].blockAddress + addressList1[addressList1.size()-1].offset)!=20){
+        //         std::cout << "Counter: " << recordCounter<< std::endl;
+        //         std::cout << (intptr_t)(void*)((char*)addressList1[addressList1.size()-1].blockAddress + addressList1[addressList1.size()-1].offset) << std::endl;
+        //         std::cout << (intptr_t)(void*)((char*)recAddress.blockAddress + recAddress.offset) << std::endl;
+        //     }
+        // }
+        // addressList1.push_back(recAddress);
         if (i == 0 || recordList[i].numVotes != recordList[i - 1].numVotes)
         {
             addressList.push_back(recAddress);
             keyList.push_back(newRec.numVotes);
         }
+        recordCounter++;
     }
-
     // insert to b++tree
     for (int i = 0; i < addressList.size(); i++)
     {

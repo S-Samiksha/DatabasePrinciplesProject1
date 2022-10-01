@@ -45,10 +45,11 @@ bool MemoryPool::allocateBlock(bool record){
     }
 }
 
-Address MemoryPool::allocate(std::size_t sizeRequired){
+Address MemoryPool::allocate(std::size_t sizeRequired, bool record){
     // PK
     unsigned short int extraSizeUsed;
     unsigned short int offset;
+    void* blockAddress;
     // If size require is more than blocksize, reject request
     if(actualSizeUsed + sizeRequired > maxPoolSize || sizeRequired > blockSize){
         std::cout << "Required size too large!" << '\n';
@@ -56,14 +57,15 @@ Address MemoryPool::allocate(std::size_t sizeRequired){
     }
 
     // If a node wants to be created, don't do spanning logic, give a new block.
-    if(sizeRequired == blockSize){
-        bool allocatedSuccessful = allocateBlock(true);
+    if(!record){
+        bool allocatedSuccessful = allocateBlock(record);
         if (!allocatedSuccessful){
             throw std::logic_error("Failed to allocate new block!");
         }
         else{
 
             // Update offset to be 0 since it's a new block
+            blockAddress = block;
             offset = blockSizeUsed;
         }
     }
@@ -72,14 +74,27 @@ Address MemoryPool::allocate(std::size_t sizeRequired){
     else{
         
         // Store current offset before addition of the extraSizeUsed
-        offset = blockSizeUsed;
-
+        if(allocated==0){
+                bool allocatedSuccessful = allocateBlock(record);
+                if (!allocatedSuccessful){
+                    throw std::logic_error("Failed to allocate new block!");
+                }
+            }
+        if(blockSizeUsed<blockSize){
+            blockAddress = block;
+            offset = blockSizeUsed;
+        }else{
+            blockAddress = (void*)((char*)block + blockSize);
+            offset = 0;
+        }
+        // std::cout << offset << std::endl;
+        // std::cout << blockAddress <<std::endl;
         // If blocksize does not have enough capacity to support allocation, call allocate block for more memory
-        if(allocated==0||(blockSizeUsed+sizeRequired>blockSize)){
+        if(blockSizeUsed+sizeRequired>blockSize){
 
             // Find out how much overflow and store in extraSizeUsed
             extraSizeUsed = blockSizeUsed + sizeRequired - blockSize;
-            bool allocatedSuccessful = allocateBlock(true);
+            bool allocatedSuccessful = allocateBlock(record);
             if (!allocatedSuccessful){
                 throw std::logic_error("Failed to allocate new block!");
             }
@@ -91,7 +106,6 @@ Address MemoryPool::allocate(std::size_t sizeRequired){
 
         // IF block still has sufficient space to store
         else{
-
             // Update total block size used
             blockSizeUsed += sizeRequired;
         }
@@ -100,7 +114,7 @@ Address MemoryPool::allocate(std::size_t sizeRequired){
     
     // Update total size used
     actualSizeUsed += sizeRequired;
-    Address recordAddress = {block, offset};
+    Address recordAddress = {blockAddress, offset};
     return recordAddress;
 }
 
@@ -150,7 +164,7 @@ Address MemoryPool::saveToDisk(void *itemAddress, std::size_t size){
     // 1) 'diskAddress.blockAddress + offset' is to store it in the memorypool location,
     // 2) 'itemAddress' is the source object item that you're storing,
     // 3) 'size' is to indicate the size of the item you're storing.
-    Address diskAddress = allocate(size); // Call on the Allocate function to provide a space for storage
+    Address diskAddress = allocate(size, true); // Call on the Allocate function to provide a space for storage
     std::memcpy((char *)diskAddress.blockAddress + diskAddress.offset, itemAddress, size);
 
     // Update block accessed counter
