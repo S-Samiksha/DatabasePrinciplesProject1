@@ -125,8 +125,13 @@ int main()
     // insert to b++tree
     for (int i = 0; i < addressList.size(); i++)
     {
+        std::cout<<"key inserted: " <<keyList[i]<<std::endl;
         tree->insert(tree->rootNode, keyList[i], addressList[i], disk);
+        if (i==12){
+            break;
+        }
     }
+    
     tree->linkLeafNodes();
     // tree->printBPDetails();
     tree->display();

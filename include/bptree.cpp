@@ -28,6 +28,7 @@ Address *BPTree::insert(Node *parentNode, int key, Address address, MemoryPool &
     // Address recordAddress = BPTree::memoryPoolInstance->allocate(sizeof(Record));
 
     // if there is no root, just insert in root
+    
     if (this->rootNode == nullptr)
     {
         this->rootNode = new Node(this->nodeSize, true);
