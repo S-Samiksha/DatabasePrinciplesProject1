@@ -64,7 +64,7 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
 
     //start of the removal 
     std::cout<<std::endl;
-    std::cout<<"REMOVING~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<std::endl;
+    //std::cout<<"REMOVING~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<std::endl;
 
     //declaring a stack to store left, right neighbours and then the node itself 
     std::stack <Node *> stack;
@@ -515,7 +515,7 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
     }
 
 
-    std::cout<<"DONE REMOVING~~~~~~~~"<<std::endl<<std::endl;
+    //std::cout<<"DONE REMOVING~~~~~~~~"<<std::endl<<std::endl;
     height = findHeight(rootNode);
     std::cout<<"Content of Parent Node:"<<std::endl;
     this->rootNode->printNode();
