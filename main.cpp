@@ -127,6 +127,9 @@ int main()
     {
         std::cout<<"key inserted: " <<keyList[i]<<std::endl;
         tree->insert(tree->rootNode, keyList[i], addressList[i], disk);
+        std::cout<<"after key insert"<<std::endl;
+        tree->rootNode->printNode();
+        std::cout<<"RootNode Address: " <<tree->rootNode->addressInDisk.blockAddress << std::endl;
         if (i==12){
             break;
         }
