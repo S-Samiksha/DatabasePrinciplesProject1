@@ -74,7 +74,27 @@ public:
     {
         return allocated;
     };
+    
+    // Returns actual size of all records stored in memory pool.
+    std::size_t getActualSizeUsedWithoutPadding() const
+    {
+        // Calculate actual size used without padding
+        unsigned int blocksUsedForIndex = allocated - blocksAllocatedForRecords;
+        unsigned int actualRecordSizeWithoutPadding = blocksAllocatedForRecords * getBlockSize() * (19/20);
+        unsigned int actualTotalSizeWithoutPadding = actualRecordSizeWithoutPadding + blocksUsedForIndex * getBlockSize();
+        return actualTotalSizeWithoutPadding;
+    }
 
+    // Returns number of currently allocated blocks.
+    int getAllocatedUsedWithoutPadding() const
+    {
+        // Calculate actual blocks used without padding
+        unsigned int blocksUsedForIndex = allocated - blocksAllocatedForRecords;
+        unsigned int actualBlockUsedWithoutPadding = blocksAllocatedForRecords * 200;
+        actualBlockUsedWithoutPadding = ceil(actualBlockUsedWithoutPadding/19) + blocksUsedForIndex;
+        return actualBlockUsedWithoutPadding;
+    };
+    
     int getBlocksAccessed() const
     {
         return blocksAccessed;
