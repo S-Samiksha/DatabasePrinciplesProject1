@@ -123,7 +123,10 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
             //incrementing block address along the way
             void* startingBlock = start.blockAddress;
             unsigned short int startingOffset = start.offset;
-            Record* record = (Record*) (disk.loadFromDisk(start,sizeof(Record)));
+            // Record* record = (Record*) (disk.loadFromDisk(start,sizeof(Record)));
+            Record* record = (Record *)((char*) start.blockAddress +start.offset);
+            std::cout<<"Record pointer for 500: "<<record<<std::endl;
+
             int blockCount = 1; 
             int recordCount = 0;
             float totalRating = 0.0;
@@ -172,6 +175,7 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
                     record = (Record*) (disk.loadFromDisk(newAddress,sizeof(Record)));
                 }
             }
+            
 
             result[0] = indexNodesAcccessed;
             result[1] = blockCount;

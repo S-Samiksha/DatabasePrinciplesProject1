@@ -219,7 +219,7 @@ int main()
     //   - the number and the content of index nodes the process accesses;  report the first 5 index nodes or data blocks ONLY if there are more than 5
     //   - the number and the content of data blocks the process accesses;
     //   - the average of “averageRating’s” of the records that are returned;
-    // */
+    // // */
     std::cout << "-------------------------------------Experiment 4---------------------------------------------" << std::endl;
     std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
 
