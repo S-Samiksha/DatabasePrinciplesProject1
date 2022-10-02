@@ -569,7 +569,7 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
     std::cout<<"Content of Parent Node:"<<std::endl;
     this->rootNode->printNode();
     Node * child = this->rootNode->childrenNodes[0].getAddressNode();
-    std::cout<<"Concent of Child Node:"<<std::endl;
+    std::cout<<"Content of Child Node:"<<std::endl;
     child->printNode();
     std::cout<<"here: " << AddressDeleted.blockAddress <<std::endl;
     disk.deallocate(AddressDeleted, disk.getBlockSize());
