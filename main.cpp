@@ -59,7 +59,6 @@ int main()
         }
     }
 
-
     std::cout << "Creating memory......" << std::endl;
 
     std::cout << "Creating B++ Tree" << std::endl;
@@ -77,7 +76,7 @@ int main()
     // test b+ tree
     BPTree *tree = new BPTree(NodeSize, MEMORYPOOLSIZE, BLOCKSIZE);
 
-    //todo: remove test counter
+    // todo: remove test counter
     int recordCounter = 0;
     int nodeCounter = 0;
 
@@ -101,8 +100,6 @@ int main()
 
     std::vector<Address> addressList;
     std::vector<unsigned int> keyList;
-
-    
 
     // Load record onto disk
     // std::vector<Address> addressList1;
@@ -136,13 +133,13 @@ int main()
     {
         tree->insert(tree->rootNode, keyList[i], addressList[i], disk);
     }
-    
+
     tree->linkLeafNodes();
-    //tree->display();
-    // int nodesUpdated = 0;
-    // Address queriedAddress = tree->queryWithNumVotesAsKey(500,nodesUpdated);
-    // std::cout<<"nodes updated: "<<nodesUpdated<<std::endl;
-    // Record* record = (Record*) ((char*)queriedAddress.blockAddress + queriedAddress.offset);
+    // tree->display();
+    //  int nodesUpdated = 0;
+    //  Address queriedAddress = tree->queryWithNumVotesAsKey(500,nodesUpdated);
+    //  std::cout<<"nodes updated: "<<nodesUpdated<<std::endl;
+    //  Record* record = (Record*) ((char*)queriedAddress.blockAddress + queriedAddress.offset);
 
     // std::cout<<"Record tconst: "<<record->tconst<<std::endl;
     // std::cout<<"Record average rating: "<<record->averageRating<<std::endl;
@@ -153,7 +150,6 @@ int main()
 
     std::cout << "Maximum keys a B++ tree can hold: " << std::endl;
 
-
     /*
     Experiment 1:
     store the data (which is about IMDb movives) on the disk and report the following statistics:
@@ -163,31 +159,26 @@ int main()
 
     std::cout << "--------------------------------------Experiment 1------------------------------------------" << std::endl;
     std::cout << "Number of Records                   : " << recordCounter << std::endl;
-    std::cout << "Total number of blocks              : " << disk.getAllocatedUsedWithoutPadding() << std::endl; 
-    std::cout << "Actual size of database             : " << disk.getActualSizeUsedWithoutPadding() << std::endl; 
+    std::cout << "Total number of blocks              : " << disk.getAllocatedUsedWithoutPadding() << std::endl;
+    std::cout << "Actual size of database             : " << disk.getActualSizeUsedWithoutPadding() << std::endl;
 
-
-//     /*
-//     Experiment 2:
-//     build a B+ tree on the attribute "numVotes" by inserting the records sequentially and report the following statistics:
-//          - the parameter n of the B+ tree;
-//          - the number of nodes of the B+ tree;
-//          - the height of the B+ tree, i.e., the number of levels of the B+ tree;
-//          - the content of the root node and its 1st child node;
-//     */
-    std::cout<<std::endl;
-    std::cout<<std::endl;
+    //     /*
+    //     Experiment 2:
+    //     build a B+ tree on the attribute "numVotes" by inserting the records sequentially and report the following statistics:
+    //          - the parameter n of the B+ tree;
+    //          - the number of nodes of the B+ tree;
+    //          - the height of the B+ tree, i.e., the number of levels of the B+ tree;
+    //          - the content of the root node and its 1st child node;
+    //     */
+    std::cout << std::endl;
+    std::cout << std::endl;
     std::cout << "--------------------------------------Experiment 2---------------------------------------------" << std::endl;
     tree->printBPDetails();
 
     std::cout << std::endl;
     std::cout << std::endl;
 
-
-
-
-
-// todo: check that the node address in disk is not 0 when traversing
+    // todo: check that the node address in disk is not 0 when traversing
     // /*
     // Experiment 3:
     // retrieve those movies with the “numVotes” equal to 500 and report the following statistics:
@@ -196,22 +187,18 @@ int main()
     //      - the number and the content of data blocks the process accesses;
     //      - the average of “averageRating’s” of the records that are returned;
 
-    
     std::cout << "-----------------------------------Experiment 3-----------------------------------------------" << std::endl;
     std::cout << "Resetting block access before carrying on with the experiment" << std::endl;
 
     std::cout << "Retrieving movies with 'numVotes' equal to 500: " << std::endl;
-    int* result;
-    result = tree->searchRange(500,500,disk);
+    int *result;
+    result = tree->searchRange(500, 500, disk);
     std::cout << std::endl;
-    std::cout << "Number of index blocks accesses      : " <<*(result+0)<< std::endl;
-    std::cout << "Number of record blocks accesses     : " <<*(result+1)<< std::endl;
+    std::cout << "Number of index blocks accesses      : " << *(result + 0) << std::endl;
+    std::cout << "Number of record blocks accesses     : " << *(result + 1) << std::endl;
 
     std::cout << std::endl;
     std::cout << std::endl;
-
-
-
 
     // /*
     //   Experiment 4: retrieve those movies with the attribute “numVotes” from 30,000 to 40,000,
@@ -225,17 +212,13 @@ int main()
 
     std::cout << "Retrieving those movies with the attributes 'numVotes' from 30K to 40K" << std::endl;
     std::cout << std::endl;
-    int* result4;
-    
-    result4 = tree->searchRange(30000,40000,disk);
-    std::cout << "Number of index blocks accesses  : " <<*(result4+0)<< std::endl;
-    std::cout << "Number of data blocks accesses   : " <<*(result4+1)<< std::endl;
+    int *result4;
+
+    result4 = tree->searchRange(30000, 40000, disk);
+    std::cout << "Number of index blocks accesses  : " << *(result4 + 0) << std::endl;
+    std::cout << "Number of data blocks accesses   : " << *(result4 + 1) << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
-
-
-
-
 
     // /*
     // Experiment 5:
@@ -247,11 +230,11 @@ int main()
     // - the content of the root node and its 1st child node of the updated B+ tree;
     // */
 
-     std::cout << "-------------------------------------Experiment 5---------------------------------------------" << std::endl;
-     int numNodesDeleted = 0;
-     int numNodesUpdated = 0;
-     int height = 0;
-    
+    std::cout << "-------------------------------------Experiment 5---------------------------------------------" << std::endl;
+    int numNodesDeleted = 0;
+    int numNodesUpdated = 0;
+    int height = 0;
+
     tree->remove(1000, numNodesDeleted, numNodesUpdated, height, disk);
 
     std::cout << "Deleting those movies with the attribute 'numVotes' equal to 1000-----------------------" << std::endl;
@@ -261,20 +244,19 @@ int main()
     std::cout << std::endl;
     std::cout << std::endl;
 
+    std::cout << "--------------------------------------End--------------------------------------------------" << std::endl;
 
+    //     //    int key_to_be_removed = 0;
+    //     //    std::cout <<"Select key to delete:   "<<endl;
+    //     //    std::cin >> key_to_be_removed;
+    //     //    Address* addressToBeDeleted = tree.remove(key_to_be_removed,0,0,0);
+    //     //    Record* tempRecord = (Record*)addressToBeDeleted;
+    //     //    size_t sizeCount = 0;
+    //     //    while (tempRecord->numVotes == key_to_be_removed){
+    //     //        sizeCount+=sizeof(Record);
+    //     //        tempRecord += sizeof(Record);
+    //     //    }
+    //     //    MemoryPool.deallocate(addressToBeDeleted, sizeCount);
 
-
-//     //    int key_to_be_removed = 0;
-//     //    std::cout <<"Select key to delete:   "<<endl;
-//     //    std::cin >> key_to_be_removed;
-//     //    Address* addressToBeDeleted = tree.remove(key_to_be_removed,0,0,0);
-//     //    Record* tempRecord = (Record*)addressToBeDeleted;
-//     //    size_t sizeCount = 0;
-//     //    while (tempRecord->numVotes == key_to_be_removed){
-//     //        sizeCount+=sizeof(Record);
-//     //        tempRecord += sizeof(Record);
-//     //    }
-//     //    MemoryPool.deallocate(addressToBeDeleted, sizeCount);
-
-     return 0;
+    return 0;
 }

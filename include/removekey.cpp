@@ -64,7 +64,6 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
 
     //start of the removal 
     std::cout<<std::endl;
-    std::cout<<"REMOVING~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<<std::endl;
 
     //declaring a stack to store left, right neighbours and then the node itself 
     std::stack <Node *> stack;
@@ -239,11 +238,9 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
 
             //update to the parent only if you are removing the minimum value in the node 
             if (key<current->keys[0]){
-                std::cout<<"updating parent ..."<<std::endl;
                 
                 stack.push(current);
                 updateParent(stack, key, nodesUpdated); 
-                std::cout<<"updating parent"<<std::endl;
                 
                 break;
             }
@@ -291,7 +288,6 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
 
             //if it is sufficient proceed onto merging current and left 
             if (left->currentKeySize > minkeys && current->currentKeySize < current->maxKeySize){
-                std::cout<<"borrowing from left"<<std::endl;
                 //make space for the key and pointer in the current node
                 //left current 
                 if (!left->isLeaf){
@@ -354,9 +350,6 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
             }
             //if right has sufficient nodes simply borrow from the left
             if (right->currentKeySize > minkeys){
-            std::cout<<"Borrowing from right"<<std::endl;
-            right->printNode();
-            current->printNode();
             current->keys[current->currentKeySize+1]=right->keys[0];
             current->childrenNodes[current->currentPointerSize+1]=right->childrenNodes[0];
 
@@ -383,23 +376,16 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
             right->childrenNodes[right->currentPointerSize-1]={nullptr, 0};
             right->currentKeySize--;
             right->currentPointerSize--;
-            std::cout<<"debug1"<<std::endl;
             current->currentKeySize++;
             current->currentPointerSize++;
 
 
             
             nodesUpdated++;
-            std::cout<<"after transferring"<<std::endl;
-            right->printNode();
-            current->printNode();
             parent = stack.top();
             //stack.pop();
-            parent->printNode();
             for (int m=0;m<parent->currentPointerSize;m++){
-                std::cout<<"debug"<<std::endl;
                 if (parent->childrenNodes[m].getAddressNode() == right){
-                    std::cout<<"minimum key"<< findMinimumKeyInBPTree(right) <<std::endl;
                     parent->keys[m-1] = findMinimumKeyInBPTree(right);
                     break;
                 }
@@ -427,11 +413,8 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
 
             //if left has less than the minkeys then merge
             if (left->currentKeySize <= minkeys && left->currentKeySize+current->currentKeySize <= left->maxKeySize){
-            std::cout<<"merging with left"<<std::endl;
             int i=0;
             //transfer all to the left node
-            left->printNode();
-            current->printNode();
             for (int k=left->currentKeySize;k<left->maxKeySize;k++){
                 left->keys[k]=current->keys[i];
                 current->keys[i]=0;
@@ -464,7 +447,6 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
             //since we are merging with left, only removal of the pointer and key is necessary from the parent 
             parent = stack.top();
             stack.pop();
-            parent->printNode();
 
             int min = left->keys[0];
             for(int m=0;m<parent->currentPointerSize;m++){
@@ -490,6 +472,7 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
                     if (!parent->isLeaf){
                         parent->keys[m] = left->keys[left->currentKeySize];
                     }
+                }
             }
             
 
@@ -499,8 +482,6 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
             nodesDeleted++;
             nodesUpdated++;
             
-            left->printNode();
-            parent->printNode();
 
 
             //must deallocate the block 
@@ -527,9 +508,6 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
 
             //if the right has less than the minimum number of keys, merge with the right 
             if (right->currentKeySize<=minkeys && right->currentKeySize+current->currentKeySize <= current->maxKeySize){
-
-            std::cout<<"merging with right"<<std::endl;
-
             //transfer all the keys to the current node
             int i=0;
             for(int k=current->currentKeySize;k<current->maxKeySize;k++){
@@ -586,7 +564,7 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
 
 
 
-    std::cout<<"DONE REMOVING~~~~~~~~"<<std::endl<<std::endl;
+
     height = findHeight(rootNode);
     std::cout<<"Content of Parent Node:"<<std::endl;
     this->rootNode->printNode();
@@ -596,7 +574,7 @@ void BPTree::remove(int key, int &nodesDeleted, int &nodesUpdated, int &height, 
     std::cout<<"here: " << AddressDeleted.blockAddress <<std::endl;
     disk.deallocate(AddressDeleted, disk.getBlockSize());
     return;
-}}
+}
 
 
 //helper function to update parent all the way to the top 

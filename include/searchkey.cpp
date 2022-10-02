@@ -115,6 +115,7 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
                 // std::cout<<"Currently looking at key: " << record->numVotes <<std::endl;
                 // std::cout<<"Currently looking at tConst: " << record->tconst <<std::endl;
                 if(record->numVotes>highKey||blockCount>5){
+
                     //end function once numVotes is higher than upper bound or blockCount more than 5
                     // std::cout<<"Breaking at key:  "<<record->numVotes<<std::endl;
                     end = true;
@@ -149,6 +150,9 @@ int * BPTree::searchRange(int lowKey,int highKey,MemoryPool &disk){
             
 
             result[0] = indexNodesAcccessed;
+            if(blockCount>5){
+                blockCount = 5;
+            }
             result[1] = blockCount;
             std::cout<<"\nSummarised Information: " << std::endl;
             std::cout<<"total number of records accessed: " << recordCount  <<std::endl;

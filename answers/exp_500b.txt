@@ -24,25 +24,25 @@ height of B+ Tree is: 4
 
 Content Of Root Node:
 **********************
-Node's Disk address: 0x7f3dc8623668
+Node's Disk address: 0x7fb8705fa668
 currentKeySize :1
 currentPointerSize :2
 node type :InternalNode
 max Key Size: 38
 keyArray: [8650,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc8623280,0x7f3dc8623474,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+PointerArray: [0x7fb8705fa280,0x7fb8705fa474,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
 **********************
 
 
 Content of First Child Of Root Node
 **********************
-Node's Disk address: 0x7f3dc8623280
+Node's Disk address: 0x7fb8705fa280
 currentKeySize :19
 currentPointerSize :20
 node type :InternalNode
 max Key Size: 38
 keyArray: [385,765,1145,1525,1905,2285,2665,3045,3427,3811,4202,4595,5005,5429,5874,6356,6866,7419,7985,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc855ff74,0x7f3dc8565370,0x7f3dc856a578,0x7f3dc856f780,0x7f3dc8574988,0x7f3dc8579b90,0x7f3dc857ed98,0x7f3dc8583fa0,0x7f3dc85891a8,0x7f3dc858e3b0,0x7f3dc85935b8,0x7f3dc85987c0,0x7f3dc859d9c8,0x7f3dc85a2bd0,0x7f3dc85a7dd8,0x7f3dc85acfe0,0x7f3dc85b21e8,0x7f3dc85b73f0,0x7f3dc85bc5f8,0x7f3dc85c1800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+PointerArray: [0x7fb870536f74,0x7fb87053c370,0x7fb870541578,0x7fb870546780,0x7fb87054b988,0x7fb870550b90,0x7fb870555d98,0x7fb87055afa0,0x7fb8705601a8,0x7fb8705653b0,0x7fb87056a5b8,0x7fb87056f7c0,0x7fb8705749c8,0x7fb870579bd0,0x7fb87057edd8,0x7fb870583fe0,0x7fb8705891e8,0x7fb87058e3f0,0x7fb8705935f8,0x7fb870598800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
 **********************
 
 
@@ -54,596 +54,596 @@ Searching~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ********************Index Node Content********************
 index root Node accessed: 
 **********************
-Node's Disk address: 0x7f3dc8623668
+Node's Disk address: 0x7fb8705fa668
 currentKeySize :1
 currentPointerSize :2
 node type :InternalNode
 max Key Size: 38
 keyArray: [8650,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc8623280,0x7f3dc8623474,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+PointerArray: [0x7fb8705fa280,0x7fb8705fa474,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
 **********************
 2nd index block accessed:
 **********************
-Node's Disk address: 0x7f3dc8623280
+Node's Disk address: 0x7fb8705fa280
 currentKeySize :19
 currentPointerSize :20
 node type :InternalNode
 max Key Size: 38
 keyArray: [385,765,1145,1525,1905,2285,2665,3045,3427,3811,4202,4595,5005,5429,5874,6356,6866,7419,7985,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc855ff74,0x7f3dc8565370,0x7f3dc856a578,0x7f3dc856f780,0x7f3dc8574988,0x7f3dc8579b90,0x7f3dc857ed98,0x7f3dc8583fa0,0x7f3dc85891a8,0x7f3dc858e3b0,0x7f3dc85935b8,0x7f3dc85987c0,0x7f3dc859d9c8,0x7f3dc85a2bd0,0x7f3dc85a7dd8,0x7f3dc85acfe0,0x7f3dc85b21e8,0x7f3dc85b73f0,0x7f3dc85bc5f8,0x7f3dc85c1800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+PointerArray: [0x7fb870536f74,0x7fb87053c370,0x7fb870541578,0x7fb870546780,0x7fb87054b988,0x7fb870550b90,0x7fb870555d98,0x7fb87055afa0,0x7fb8705601a8,0x7fb8705653b0,0x7fb87056a5b8,0x7fb87056f7c0,0x7fb8705749c8,0x7fb870579bd0,0x7fb87057edd8,0x7fb870583fe0,0x7fb8705891e8,0x7fb87058e3f0,0x7fb8705935f8,0x7fb870598800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
 **********************
 3nd index block accessed:
 **********************
-Node's Disk address: 0x7f3dc8565370
+Node's Disk address: 0x7fb87053c370
 currentKeySize :19
 currentPointerSize :20
 node type :InternalNode
 max Key Size: 38
 keyArray: [404,423,442,461,480,499,518,537,556,575,594,613,632,651,670,689,708,727,746,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc855b53c,0x7f3dc855b924,0x7f3dc855bd0c,0x7f3dc855c0f4,0x7f3dc855c4dc,0x7f3dc855c8c4,0x7f3dc855ccac,0x7f3dc855d094,0x7f3dc855d47c,0x7f3dc855d864,0x7f3dc855dc4c,0x7f3dc855e034,0x7f3dc855e41c,0x7f3dc855e804,0x7f3dc855ebec,0x7f3dc855efd4,0x7f3dc855f3bc,0x7f3dc855f7a4,0x7f3dc855fb8c,0x7f3dc8560550,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+PointerArray: [0x7fb87053253c,0x7fb870532924,0x7fb870532d0c,0x7fb8705330f4,0x7fb8705334dc,0x7fb8705338c4,0x7fb870533cac,0x7fb870534094,0x7fb87053447c,0x7fb870534864,0x7fb870534c4c,0x7fb870535034,0x7fb87053541c,0x7fb870535804,0x7fb870535bec,0x7fb870535fd4,0x7fb8705363bc,0x7fb8705367a4,0x7fb870536b8c,0x7fb870537550,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
 **********************
 4nd index block accessed:
 **********************
-Node's Disk address: 0x7f3dc855ccac
+Node's Disk address: 0x7fb870533cac
 currentKeySize :19
 currentPointerSize :20
 node type :LEAF
 max Key Size: 38
 keyArray: [499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc83997f8,0x7f3dc839a054,0x7f3dc839a8ec,0x7f3dc839b120,0x7f3dc839ba58,0x7f3dc839c2a0,0x7f3dc839ca70,0x7f3dc839d204,0x7f3dc839da60,0x7f3dc839e3e8,0x7f3dc839eba4,0x7f3dc839f428,0x7f3dc839fbf8,0x7f3dc83a04e0,0x7f3dc83a0d14,0x7f3dc83a1458,0x7f3dc83a1da4,0x7f3dc83a25b0,0x7f3dc83a2e34,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x7f3dc855d094,]
+PointerArray: [0x7fb8703707f8,0x7fb870371054,0x7fb8703718ec,0x7fb870372120,0x7fb870372a58,0x7fb8703732a0,0x7fb870373a70,0x7fb870374204,0x7fb870374a60,0x7fb8703753e8,0x7fb870375ba4,0x7fb870376428,0x7fb870376bf8,0x7fb8703774e0,0x7fb870377d14,0x7fb870378458,0x7fb870378da4,0x7fb8703795b0,0x7fb870379e34,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x7fb870534094,]
 **********************
 
 
 
 
-All records found within first 5 data blocks: 0x7f3dc839a054
-********************Record Content 1 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+All records found within first 5 data blocks: 0x7fb870371054
+********************Record Content 1 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.1
 tconst for current record: tt0082841
-********************Record Content 2 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 2 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 4.1
 tconst for current record: tt1727519
-********************Record Content 3 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 3 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.5
 tconst for current record: tt6038946
-********************Record Content 4 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 4 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8
 tconst for current record: tt4392820
-********************Record Content 5 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 5 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.1
 tconst for current record: tt0082275
-********************Record Content 6 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 6 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8
 tconst for current record: tt4627488
-********************Record Content 7 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 7 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.4
 tconst for current record: tt1632756
-********************Record Content 8 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 8 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.8
 tconst for current record: tt1857596
-********************Record Content 9 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 9 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.7
 tconst for current record: tt1640740
-********************Record Content 10 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 10 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.3
 tconst for current record: tt1684558
-********************Record Content 11 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 11 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.1
 tconst for current record: tt0720140
-********************Record Content 12 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 12 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 4.6
 tconst for current record: tt0119415
-********************Record Content 13 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 13 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.8
 tconst for current record: tt3916858
-********************Record Content 14 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 14 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.1
 tconst for current record: tt3440780
-********************Record Content 15 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 15 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.3
 tconst for current record: tt0218000
-********************Record Content 16 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 16 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.3
 tconst for current record: tt3263598
-********************Record Content 17 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 17 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 9.2
 tconst for current record: tt8044824
-********************Record Content 18 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 18 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.7
 tconst for current record: tt0588114
-********************Record Content 19 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 19 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.1
 tconst for current record: tt6985094
-********************Record Content 20 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 20 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.4
 tconst for current record: tt11691696
-********************Record Content 21 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 21 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 9.1
 tconst for current record: tt0514442
-********************Record Content 22 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 22 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.2
 tconst for current record: tt4713652
-********************Record Content 23 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 23 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 4.6
 tconst for current record: tt6318954
-********************Record Content 24 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 24 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6
 tconst for current record: tt1340802
-********************Record Content 25 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 25 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.2
 tconst for current record: tt0647512
-********************Record Content 26 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 26 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.2
 tconst for current record: tt7431738
-********************Record Content 27 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 27 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.1
 tconst for current record: tt0289115
-********************Record Content 28 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 28 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.7
 tconst for current record: tt9614612
-********************Record Content 29 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 29 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.1
 tconst for current record: tt7517336
-********************Record Content 30 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 30 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.6
 tconst for current record: tt0716912
-********************Record Content 31 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 31 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.1
 tconst for current record: tt0163456
-********************Record Content 32 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 32 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.2
 tconst for current record: tt0640308
-********************Record Content 33 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 33 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.7
 tconst for current record: tt0052815
-********************Record Content 34 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 34 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 4.7
 tconst for current record: tt0062345
-********************Record Content 35 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 35 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.9
 tconst for current record: tt4247300
-********************Record Content 36 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 36 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.4
 tconst for current record: tt4038966
-********************Record Content 37 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 37 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8
 tconst for current record: tt0640298
-********************Record Content 38 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 38 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.6
 tconst for current record: tt0588214
-********************Record Content 39 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 39 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.1
 tconst for current record: tt0517623
-********************Record Content 40 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 40 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.4
 tconst for current record: tt0327546
-********************Record Content 41 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 41 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.4
 tconst for current record: tt7860116
-********************Record Content 42 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 42 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.9
 tconst for current record: tt1371697
-********************Record Content 43 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 43 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 3.7
 tconst for current record: tt0054298
-********************Record Content 44 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 44 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.3
 tconst for current record: tt0582480
-********************Record Content 45 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 45 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.5
 tconst for current record: tt0398451
-********************Record Content 46 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 46 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.3
 tconst for current record: tt0100811
-********************Record Content 47 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 47 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.5
 tconst for current record: tt0327085
-********************Record Content 48 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 48 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.4
 tconst for current record: tt1535989
-********************Record Content 49 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 49 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 3.6
 tconst for current record: tt3231390
-********************Record Content 50 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 50 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.5
 tconst for current record: tt7689514
-********************Record Content 51 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 51 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.7
 tconst for current record: tt4897608
-********************Record Content 52 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 52 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.5
 tconst for current record: tt1515736
-********************Record Content 53 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 53 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.9
 tconst for current record: tt4493298
-********************Record Content 54 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 54 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.5
 tconst for current record: tt1365490
-********************Record Content 55 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 55 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.8
 tconst for current record: tt7457714
-********************Record Content 56 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 56 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7
 tconst for current record: tt0013674
-********************Record Content 57 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 57 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.2
 tconst for current record: tt6232560
-********************Record Content 58 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 58 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.6
 tconst for current record: tt2813064
-********************Record Content 59 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 59 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.1
 tconst for current record: tt0558715
-********************Record Content 60 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 60 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.5
 tconst for current record: tt1648683
-********************Record Content 61 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 61 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.1
 tconst for current record: tt9680914
-********************Record Content 62 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 62 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.2
 tconst for current record: tt1711021
-********************Record Content 63 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 63 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.6
 tconst for current record: tt2662228
-********************Record Content 64 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 64 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 2.9
 tconst for current record: tt0314564
-********************Record Content 65 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 65 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.1
 tconst for current record: tt0051500
-********************Record Content 66 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 66 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.2
 tconst for current record: tt0588187
-********************Record Content 67 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 67 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6
 tconst for current record: tt8960572
-********************Record Content 68 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 68 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 9
 tconst for current record: tt9895050
-********************Record Content 69 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 69 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.7
 tconst for current record: tt0184456
-********************Record Content 70 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 70 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6
 tconst for current record: tt0099259
-********************Record Content 71 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 71 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.5
 tconst for current record: tt0041956
-********************Record Content 72 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 72 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.2
 tconst for current record: tt3203366
-********************Record Content 73 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 73 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.7
 tconst for current record: tt2247719
-********************Record Content 74 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 74 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.7
 tconst for current record: tt9454484
-********************Record Content 75 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 75 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.8
 tconst for current record: tt0024561
-********************Record Content 76 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 76 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.3
 tconst for current record: tt2764038
-********************Record Content 77 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 77 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6
 tconst for current record: tt3683072
-********************Record Content 78 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 78 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.6
 tconst for current record: tt1421383
-********************Record Content 79 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 79 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.8
 tconst for current record: tt0069064
-********************Record Content 80 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 80 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 4.8
 tconst for current record: tt0106600
-********************Record Content 81 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 81 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.6
 tconst for current record: tt0807689
-********************Record Content 82 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 82 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.1
 tconst for current record: tt0629708
-********************Record Content 83 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 83 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.1
 tconst for current record: tt0070783
-********************Record Content 84 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 84 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.1
 tconst for current record: tt0214362
-********************Record Content 85 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 85 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.8
 tconst for current record: tt2040651
-********************Record Content 86 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 86 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.9
 tconst for current record: tt1571100
-********************Record Content 87 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 87 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 3.8
 tconst for current record: tt0090356
-********************Record Content 88 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 88 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.3
 tconst for current record: tt3276280
-********************Record Content 89 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 89 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.5
 tconst for current record: tt0424365
-********************Record Content 90 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 90 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.3
 tconst for current record: tt0047434
-********************Record Content 91 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 91 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.7
 tconst for current record: tt0028277
-********************Record Content 92 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 92 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.4
 tconst for current record: tt2236257
-********************Record Content 93 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 93 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 4.6
 tconst for current record: tt4680568
-********************Record Content 94 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 94 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7.3
 tconst for current record: tt0047361
-********************Record Content 95 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 95 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.1
 tconst for current record: tt1261908
-********************Record Content 96 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 96 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8
 tconst for current record: tt6222376
-********************Record Content 97 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 97 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.9
 tconst for current record: tt1376451
-********************Record Content 98 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 98 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 3.9
 tconst for current record: tt0450955
-********************Record Content 99 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 99 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.5
 tconst for current record: tt3398808
-********************Record Content 100 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 100 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 7
 tconst for current record: tt0085198
-********************Record Content 101 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 101 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 4.5
 tconst for current record: tt0120462
-********************Record Content 102 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 102 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 2.3
 tconst for current record: tt3592904
-********************Record Content 103 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 103 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.9
 tconst for current record: tt0303487
-********************Record Content 104 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 104 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 6.6
 tconst for current record: tt1592534
-********************Record Content 105 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 105 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.1
 tconst for current record: tt0588139
-********************Record Content 106 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 106 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.1
 tconst for current record: tt3127434
-********************Record Content 107 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 107 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 4.5
 tconst for current record: tt7008310
-********************Record Content 108 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 108 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 8.1
 tconst for current record: tt2365211
-********************Record Content 109 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 109 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 5.6
 tconst for current record: tt6054370
-********************Record Content 110 at address: 0x7f3dc839a054 ********************
-Record address in disk: 0x7f3dc839a054
+********************Record Content 110 at address: 0x7fb870371054 ********************
+Record address in disk: 0x7fb870371054
 NumVotes for current record: 500
 Average Rating for current record: 4.3
 tconst for current record: tt0149695
@@ -665,656 +665,656 @@ Searching~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ********************Index Node Content********************
 index root Node accessed: 
 **********************
-Node's Disk address: 0x7f3dc8623668
+Node's Disk address: 0x7fb8705fa668
 currentKeySize :1
 currentPointerSize :2
 node type :InternalNode
 max Key Size: 38
 keyArray: [8650,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc8623280,0x7f3dc8623474,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+PointerArray: [0x7fb8705fa280,0x7fb8705fa474,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
 **********************
 2nd index block accessed:
 **********************
-Node's Disk address: 0x7f3dc8623474
+Node's Disk address: 0x7fb8705fa474
 currentKeySize :26
 currentPointerSize :27
 node type :InternalNode
 max Key Size: 38
 keyArray: [9276,9998,10811,11729,12685,13738,14976,16426,17937,19659,21616,23934,26851,30246,33812,38357,43416,49838,57181,67581,80192,96442,117031,149235,198248,281245,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc85c6a08,0x7f3dc85cbc10,0x7f3dc85d0e18,0x7f3dc85d6020,0x7f3dc85db228,0x7f3dc85e0430,0x7f3dc85e5638,0x7f3dc85ea840,0x7f3dc85efa48,0x7f3dc85f4c50,0x7f3dc85f9e58,0x7f3dc85ff060,0x7f3dc8604268,0x7f3dc8609470,0x7f3dc860e678,0x7f3dc8613880,0x7f3dc8618a88,0x7f3dc861dc90,0x7f3dc8622e98,0x7f3dc862867c,0x7f3dc862d884,0x7f3dc8632a8c,0x7f3dc8637c94,0x7f3dc863ce9c,0x7f3dc86420a4,0x7f3dc86472ac,0x7f3dc86474a0,0,0,0,0,0,0,0,0,0,0,0,0,]
+PointerArray: [0x7fb87059da08,0x7fb8705a2c10,0x7fb8705a7e18,0x7fb8705ad020,0x7fb8705b2228,0x7fb8705b7430,0x7fb8705bc638,0x7fb8705c1840,0x7fb8705c6a48,0x7fb8705cbc50,0x7fb8705d0e58,0x7fb8705d6060,0x7fb8705db268,0x7fb8705e0470,0x7fb8705e5678,0x7fb8705ea880,0x7fb8705efa88,0x7fb8705f4c90,0x7fb8705f9e98,0x7fb8705ff67c,0x7fb870604884,0x7fb870609a8c,0x7fb87060ec94,0x7fb870613e9c,0x7fb8706190a4,0x7fb87061e2ac,0x7fb87061e4a0,0,0,0,0,0,0,0,0,0,0,0,0,]
 **********************
 3nd index block accessed:
 **********************
-Node's Disk address: 0x7f3dc8609470
+Node's Disk address: 0x7fb8705e0470
 currentKeySize :19
 currentPointerSize :20
 node type :InternalNode
 max Key Size: 38
 keyArray: [26994,27115,27222,27409,27535,27718,27942,28087,28252,28454,28597,28796,28962,29167,29317,29585,29743,29880,30041,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc85ff830,0x7f3dc85ffc18,0x7f3dc8600000,0x7f3dc86003e8,0x7f3dc86007d0,0x7f3dc8600bb8,0x7f3dc8600fa0,0x7f3dc8601388,0x7f3dc8601770,0x7f3dc8601b58,0x7f3dc8601f40,0x7f3dc8602328,0x7f3dc8602710,0x7f3dc8602af8,0x7f3dc8602ee0,0x7f3dc86032c8,0x7f3dc86036b0,0x7f3dc8603a98,0x7f3dc8603e80,0x7f3dc8604650,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+PointerArray: [0x7fb8705d6830,0x7fb8705d6c18,0x7fb8705d7000,0x7fb8705d73e8,0x7fb8705d77d0,0x7fb8705d7bb8,0x7fb8705d7fa0,0x7fb8705d8388,0x7fb8705d8770,0x7fb8705d8b58,0x7fb8705d8f40,0x7fb8705d9328,0x7fb8705d9710,0x7fb8705d9af8,0x7fb8705d9ee0,0x7fb8705da2c8,0x7fb8705da6b0,0x7fb8705daa98,0x7fb8705dae80,0x7fb8705db650,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
 **********************
 4nd index block accessed:
 **********************
-Node's Disk address: 0x7f3dc8603e80
+Node's Disk address: 0x7fb8705dae80
 currentKeySize :19
 currentPointerSize :20
 node type :LEAF
 max Key Size: 38
 keyArray: [29880,29882,29900,29910,29919,29949,29954,29956,29959,29962,29974,29975,29978,29982,29988,29996,30022,30034,30037,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc853c3f8,0x7f3dc853c40c,0x7f3dc853c420,0x7f3dc853c434,0x7f3dc853c448,0x7f3dc853c45c,0x7f3dc853c470,0x7f3dc853c484,0x7f3dc853c4ac,0x7f3dc853c4c0,0x7f3dc853c4d4,0x7f3dc853c4e8,0x7f3dc853c510,0x7f3dc853c524,0x7f3dc853c538,0x7f3dc853c54c,0x7f3dc853c560,0x7f3dc853c574,0x7f3dc853c588,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x7f3dc8604650,]
+PointerArray: [0x7fb8705133f8,0x7fb87051340c,0x7fb870513420,0x7fb870513434,0x7fb870513448,0x7fb87051345c,0x7fb870513470,0x7fb870513484,0x7fb8705134ac,0x7fb8705134c0,0x7fb8705134d4,0x7fb8705134e8,0x7fb870513510,0x7fb870513524,0x7fb870513538,0x7fb87051354c,0x7fb870513560,0x7fb870513574,0x7fb870513588,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x7fb8705db650,]
 **********************
 
 
 
 
-All records found within first 5 data blocks: 0x7f3dc853c560
-********************Record Content 1 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+All records found within first 5 data blocks: 0x7fb870513560
+********************Record Content 1 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30022
 Average Rating for current record: 7.7
 tconst for current record: tt0054167
-********************Record Content 2 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 2 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30034
 Average Rating for current record: 7.9
 tconst for current record: tt0026778
-********************Record Content 3 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 3 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30037
 Average Rating for current record: 5.6
 tconst for current record: tt0091828
-********************Record Content 4 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 4 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30041
 Average Rating for current record: 6.8
 tconst for current record: tt3361792
-********************Record Content 5 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 5 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30049
 Average Rating for current record: 6.2
 tconst for current record: tt1456941
-********************Record Content 6 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 6 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30053
 Average Rating for current record: 6.3
 tconst for current record: tt0110443
-********************Record Content 7 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 7 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30056
 Average Rating for current record: 5.1
 tconst for current record: tt0105629
-********************Record Content 8 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 8 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30078
 Average Rating for current record: 5
 tconst for current record: tt0257516
-********************Record Content 9 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 9 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30078
 Average Rating for current record: 6.7
 tconst for current record: tt0489664
-********************Record Content 10 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 10 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30081
 Average Rating for current record: 8.7
 tconst for current record: tt2303687
-********************Record Content 11 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 11 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30085
 Average Rating for current record: 7.5
 tconst for current record: tt2027128
-********************Record Content 12 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 12 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30090
 Average Rating for current record: 7.4
 tconst for current record: tt0078718
-********************Record Content 13 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 13 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30136
 Average Rating for current record: 6.5
 tconst for current record: tt0857265
-********************Record Content 14 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 14 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30144
 Average Rating for current record: 6.7
 tconst for current record: tt1435513
-********************Record Content 15 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 15 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30149
 Average Rating for current record: 8.1
 tconst for current record: tt2712740
-********************Record Content 16 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 16 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30158
 Average Rating for current record: 6
 tconst for current record: tt0268397
-********************Record Content 17 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 17 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30158
 Average Rating for current record: 7.5
 tconst for current record: tt0108211
-********************Record Content 18 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 18 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30168
 Average Rating for current record: 6
 tconst for current record: tt9053874
-********************Record Content 19 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 19 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30175
 Average Rating for current record: 7.5
 tconst for current record: tt8758202
-********************Record Content 20 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 20 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30177
 Average Rating for current record: 6.6
 tconst for current record: tt0082533
-********************Record Content 21 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 21 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30195
 Average Rating for current record: 7.2
 tconst for current record: tt1741256
-********************Record Content 22 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 22 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30206
 Average Rating for current record: 7.5
 tconst for current record: tt3139086
-********************Record Content 23 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 23 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30221
 Average Rating for current record: 7.4
 tconst for current record: tt0082089
-********************Record Content 24 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 24 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30240
 Average Rating for current record: 4.9
 tconst for current record: tt0113253
-********************Record Content 25 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 25 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30246
 Average Rating for current record: 8.1
 tconst for current record: tt0056111
-********************Record Content 26 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 26 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30247
 Average Rating for current record: 7.4
 tconst for current record: tt4396630
-********************Record Content 27 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 27 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30248
 Average Rating for current record: 6.8
 tconst for current record: tt7668518
-********************Record Content 28 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 28 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30254
 Average Rating for current record: 7.8
 tconst for current record: tt0037382
-********************Record Content 29 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 29 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30259
 Average Rating for current record: 7.4
 tconst for current record: tt0204993
-********************Record Content 30 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 30 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30262
 Average Rating for current record: 7.2
 tconst for current record: tt0377091
-********************Record Content 31 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 31 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30275
 Average Rating for current record: 5.9
 tconst for current record: tt0417001
-********************Record Content 32 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 32 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30319
 Average Rating for current record: 7.4
 tconst for current record: tt1174730
-********************Record Content 33 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 33 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30326
 Average Rating for current record: 7.2
 tconst for current record: tt3385524
-********************Record Content 34 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 34 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30333
 Average Rating for current record: 7.8
 tconst for current record: tt0880502
-********************Record Content 35 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 35 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30341
 Average Rating for current record: 2.9
 tconst for current record: tt0105643
-********************Record Content 36 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 36 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30354
 Average Rating for current record: 7.2
 tconst for current record: tt0439662
-********************Record Content 37 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 37 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30361
 Average Rating for current record: 7.2
 tconst for current record: tt1629757
-********************Record Content 38 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 38 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30370
 Average Rating for current record: 7.3
 tconst for current record: tt1094249
-********************Record Content 39 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 39 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30376
 Average Rating for current record: 7
 tconst for current record: tt0482088
-********************Record Content 40 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 40 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30391
 Average Rating for current record: 7.5
 tconst for current record: tt0408777
-********************Record Content 41 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 41 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30395
 Average Rating for current record: 7.4
 tconst for current record: tt1672723
-********************Record Content 42 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 42 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30402
 Average Rating for current record: 8.3
 tconst for current record: tt0059026
-********************Record Content 43 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 43 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30418
 Average Rating for current record: 8.4
 tconst for current record: tt4283054
-********************Record Content 44 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 44 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30423
 Average Rating for current record: 7.6
 tconst for current record: tt0485601
-********************Record Content 45 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 45 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30431
 Average Rating for current record: 7.1
 tconst for current record: tt3544082
-********************Record Content 46 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 46 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30446
 Average Rating for current record: 4.8
 tconst for current record: tt0108308
-********************Record Content 47 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 47 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30453
 Average Rating for current record: 5.8
 tconst for current record: tt8201170
-********************Record Content 48 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 48 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30456
 Average Rating for current record: 5.6
 tconst for current record: tt1500491
-********************Record Content 49 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 49 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30457
 Average Rating for current record: 6.1
 tconst for current record: tt0090887
-********************Record Content 50 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 50 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30458
 Average Rating for current record: 8
 tconst for current record: tt0092593
-********************Record Content 51 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 51 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30462
 Average Rating for current record: 6.5
 tconst for current record: tt0100994
-********************Record Content 52 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 52 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30468
 Average Rating for current record: 7.9
 tconst for current record: tt0088526
-********************Record Content 53 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 53 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30492
 Average Rating for current record: 6.4
 tconst for current record: tt0105121
-********************Record Content 54 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 54 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30516
 Average Rating for current record: 7.7
 tconst for current record: tt0060665
-********************Record Content 55 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 55 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30522
 Average Rating for current record: 5.7
 tconst for current record: tt0899106
-********************Record Content 56 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 56 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30530
 Average Rating for current record: 7
 tconst for current record: tt0845046
-********************Record Content 57 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 57 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30540
 Average Rating for current record: 6.3
 tconst for current record: tt0098749
-********************Record Content 58 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 58 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30547
 Average Rating for current record: 4
 tconst for current record: tt0479968
-********************Record Content 59 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 59 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30548
 Average Rating for current record: 6.7
 tconst for current record: tt2294677
-********************Record Content 60 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 60 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30550
 Average Rating for current record: 7.4
 tconst for current record: tt1668191
-********************Record Content 61 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 61 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30552
 Average Rating for current record: 8.1
 tconst for current record: tt0043338
-********************Record Content 62 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 62 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30554
 Average Rating for current record: 8.6
 tconst for current record: tt1641384
-********************Record Content 63 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 63 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30569
 Average Rating for current record: 8.1
 tconst for current record: tt0083946
-********************Record Content 64 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 64 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30569
 Average Rating for current record: 6.5
 tconst for current record: tt5691670
-********************Record Content 65 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 65 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30571
 Average Rating for current record: 7
 tconst for current record: tt0096694
-********************Record Content 66 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 66 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30576
 Average Rating for current record: 6.4
 tconst for current record: tt0088814
-********************Record Content 67 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 67 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30578
 Average Rating for current record: 4.6
 tconst for current record: tt0116654
-********************Record Content 68 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 68 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30585
 Average Rating for current record: 5.3
 tconst for current record: tt1588398
-********************Record Content 69 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 69 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30605
 Average Rating for current record: 8.7
 tconst for current record: tt4131606
-********************Record Content 70 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 70 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30608
 Average Rating for current record: 6.4
 tconst for current record: tt0458413
-********************Record Content 71 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 71 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30611
 Average Rating for current record: 7.7
 tconst for current record: tt3398268
-********************Record Content 72 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 72 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30619
 Average Rating for current record: 5.6
 tconst for current record: tt0192614
-********************Record Content 73 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 73 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30620
 Average Rating for current record: 5.6
 tconst for current record: tt3247714
-********************Record Content 74 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 74 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30621
 Average Rating for current record: 6.8
 tconst for current record: tt0380599
-********************Record Content 75 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 75 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30639
 Average Rating for current record: 4.3
 tconst for current record: tt1615918
-********************Record Content 76 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 76 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30658
 Average Rating for current record: 8.6
 tconst for current record: tt0053488
-********************Record Content 77 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 77 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30658
 Average Rating for current record: 6.1
 tconst for current record: tt1372686
-********************Record Content 78 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 78 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30661
 Average Rating for current record: 5.4
 tconst for current record: tt2088003
-********************Record Content 79 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 79 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30669
 Average Rating for current record: 6
 tconst for current record: tt0093148
-********************Record Content 80 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 80 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30672
 Average Rating for current record: 6.5
 tconst for current record: tt0110527
-********************Record Content 81 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 81 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30673
 Average Rating for current record: 8.9
 tconst for current record: tt0802999
-********************Record Content 82 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 82 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30674
 Average Rating for current record: 6.4
 tconst for current record: tt0378947
-********************Record Content 83 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 83 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30677
 Average Rating for current record: 7.3
 tconst for current record: tt0086687
-********************Record Content 84 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 84 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30693
 Average Rating for current record: 7.2
 tconst for current record: tt3735246
-********************Record Content 85 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 85 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30697
 Average Rating for current record: 6.4
 tconst for current record: tt1971352
-********************Record Content 86 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 86 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30699
 Average Rating for current record: 7.7
 tconst for current record: tt2213054
-********************Record Content 87 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 87 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30705
 Average Rating for current record: 7.4
 tconst for current record: tt0090390
-********************Record Content 88 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 88 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30714
 Average Rating for current record: 7.4
 tconst for current record: tt1567448
-********************Record Content 89 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 89 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30715
 Average Rating for current record: 6.4
 tconst for current record: tt0419843
-********************Record Content 90 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 90 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30726
 Average Rating for current record: 9.3
 tconst for current record: tt6769208
-********************Record Content 91 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 91 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30737
 Average Rating for current record: 6.5
 tconst for current record: tt3986820
-********************Record Content 92 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 92 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30755
 Average Rating for current record: 6.6
 tconst for current record: tt2555736
-********************Record Content 93 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 93 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30755
 Average Rating for current record: 5.2
 tconst for current record: tt4535650
-********************Record Content 94 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 94 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30766
 Average Rating for current record: 6
 tconst for current record: tt0379865
-********************Record Content 95 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 95 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30766
 Average Rating for current record: 7
 tconst for current record: tt4669986
-********************Record Content 96 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 96 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30769
 Average Rating for current record: 7.2
 tconst for current record: tt0045810
-********************Record Content 97 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 97 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30770
 Average Rating for current record: 7.8
 tconst for current record: tt0104361
-********************Record Content 98 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 98 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30775
 Average Rating for current record: 7.4
 tconst for current record: tt3698408
-********************Record Content 99 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 99 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30778
 Average Rating for current record: 8.3
 tconst for current record: tt6317068
-********************Record Content 100 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 100 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30778
 Average Rating for current record: 5.4
 tconst for current record: tt1411704
-********************Record Content 101 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 101 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30788
 Average Rating for current record: 6.7
 tconst for current record: tt0102526
-********************Record Content 102 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 102 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30797
 Average Rating for current record: 8
 tconst for current record: tt7826376
-********************Record Content 103 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 103 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30797
 Average Rating for current record: 7.6
 tconst for current record: tt1127715
-********************Record Content 104 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 104 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30800
 Average Rating for current record: 6.7
 tconst for current record: tt0092494
-********************Record Content 105 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 105 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30816
 Average Rating for current record: 6.6
 tconst for current record: tt1462900
-********************Record Content 106 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 106 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30818
 Average Rating for current record: 6.7
 tconst for current record: tt0346631
-********************Record Content 107 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 107 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30822
 Average Rating for current record: 5.6
 tconst for current record: tt0814335
-********************Record Content 108 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 108 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30833
 Average Rating for current record: 5.8
 tconst for current record: tt0078723
-********************Record Content 109 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 109 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30837
 Average Rating for current record: 5.4
 tconst for current record: tt4126476
-********************Record Content 110 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 110 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30851
 Average Rating for current record: 8
 tconst for current record: tt5116302
-********************Record Content 111 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 111 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30863
 Average Rating for current record: 6.3
 tconst for current record: tt6902676
-********************Record Content 112 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 112 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30865
 Average Rating for current record: 7.6
 tconst for current record: tt0073582
-********************Record Content 113 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 113 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30871
 Average Rating for current record: 6.1
 tconst for current record: tt6259380
-********************Record Content 114 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 114 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30880
 Average Rating for current record: 8.3
 tconst for current record: tt2388725
-********************Record Content 115 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 115 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30882
 Average Rating for current record: 6.8
 tconst for current record: tt5816682
-********************Record Content 116 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 116 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30883
 Average Rating for current record: 7.7
 tconst for current record: tt0063374
-********************Record Content 117 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 117 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30888
 Average Rating for current record: 6.7
 tconst for current record: tt0082509
-********************Record Content 118 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 118 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30902
 Average Rating for current record: 7.1
 tconst for current record: tt0115639
-********************Record Content 119 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 119 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30904
 Average Rating for current record: 7.5
 tconst for current record: tt0093818
-********************Record Content 120 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 120 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30927
 Average Rating for current record: 6.7
 tconst for current record: tt2084989
-********************Record Content 121 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 121 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30928
 Average Rating for current record: 3.5
 tconst for current record: tt0424774
-********************Record Content 122 at address: 0x7f3dc853c560 ********************
-Record address in disk: 0x7f3dc853c560
+********************Record Content 122 at address: 0x7fb870513560 ********************
+Record address in disk: 0x7fb870513560
 NumVotes for current record: 30940
 Average Rating for current record: 7.7
 tconst for current record: tt0098844
@@ -1323,101 +1323,38 @@ Summarised Information:
 total number of records accessed: 122
 Average avgRating of the records: 6.82623
 Number of index blocks accesses  : 4
-Number of data blocks accesses   : 6
+Number of data blocks accesses   : 5
 
 
 -------------------------------------Experiment 5---------------------------------------------
 height of B+ Tree is: 4
 
-REMOVING~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-**********************
-Node's Disk address: 0x7f3dc8563c00
-currentKeySize :19
-currentPointerSize :20
-node type :LEAF
-max Key Size: 38
-keyArray: [1012,1013,1014,1015,1016,1017,1018,1019,1020,1021,1022,1023,1024,1025,1026,1027,1028,1029,1030,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc8441160,0x7f3dc8441444,0x7f3dc8441764,0x7f3dc8441aac,0x7f3dc8441e58,0x7f3dc8442164,0x7f3dc8442448,0x7f3dc8442768,0x7f3dc8442a10,0x7f3dc8442ca4,0x7f3dc8443014,0x7f3dc844330c,0x7f3dc84435a0,0x7f3dc8443758,0x7f3dc8443a3c,0x7f3dc8443d70,0x7f3dc844402c,0x7f3dc84442c0,0x7f3dc8444554,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x7f3dc8563fe8,]
-**********************
-**********************
-Node's Disk address: 0x7f3dc8563818
-currentKeySize :18
-currentPointerSize :19
-node type :LEAF
-max Key Size: 38
-keyArray: [993,994,995,996,997,998,999,1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1011,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc843d768,0x7f3dc843d934,0x7f3dc843db8c,0x7f3dc843de70,0x7f3dc843e1cc,0x7f3dc843e4c4,0x7f3dc843e820,0x7f3dc843ef78,0x7f3dc843f220,0x7f3dc843f504,0x7f3dc843f84c,0x7f3dc843fbf8,0x7f3dc843fe64,0x7f3dc84401ac,0x7f3dc84404a4,0x7f3dc8440774,0x7f3dc8440aa8,0x7f3dc8440e54,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x7f3dc8563c00,]
-**********************
-merging with left
-after transferring to left
-after updating parent
-**********************
-Node's Disk address: 0x7f3dc856f780
-currentKeySize :19
-currentPointerSize :20
-node type :InternalNode
-max Key Size: 38
-keyArray: [1164,1183,1202,1221,1240,1259,1278,1297,1316,1335,1354,1373,1392,1411,1430,1449,1468,1487,1506,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc8565b40,0x7f3dc8565f28,0x7f3dc8566310,0x7f3dc85666f8,0x7f3dc8566ae0,0x7f3dc8566ec8,0x7f3dc85672b0,0x7f3dc8567698,0x7f3dc8567a80,0x7f3dc8567e68,0x7f3dc8568250,0x7f3dc8568638,0x7f3dc8568a20,0x7f3dc8568e08,0x7f3dc85691f0,0x7f3dc85695d8,0x7f3dc85699c0,0x7f3dc8569da8,0x7f3dc856a190,0x7f3dc856a960,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-**********************
-**********************
-Node's Disk address: 0x7f3dc856a578
-currentKeySize :18
-currentPointerSize :19
-node type :InternalNode
-max Key Size: 38
-keyArray: [784,803,822,841,860,879,898,917,936,955,974,1012,1031,1050,1069,1088,1107,1126,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc8560938,0x7f3dc8560d20,0x7f3dc8561108,0x7f3dc85614f0,0x7f3dc85618d8,0x7f3dc8561cc0,0x7f3dc85620a8,0x7f3dc8562490,0x7f3dc8562878,0x7f3dc8562c60,0x7f3dc8563048,0x7f3dc8563430,0x7f3dc8563c00,0x7f3dc8563fe8,0x7f3dc85643d0,0x7f3dc85647b8,0x7f3dc8564ba0,0x7f3dc8564f88,0x7f3dc8565758,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-**********************
-merging with left
-after transferring to left
-after updating parent
-**********************
-Node's Disk address: 0x7f3dc8623474
-currentKeySize :26
-currentPointerSize :27
-node type :InternalNode
-max Key Size: 38
-keyArray: [9276,9998,10811,11729,12685,13738,14976,16426,17937,19659,21616,23934,26851,30246,33812,38357,43416,49838,57181,67581,80192,96442,117031,149235,198248,281245,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc85c6a08,0x7f3dc85cbc10,0x7f3dc85d0e18,0x7f3dc85d6020,0x7f3dc85db228,0x7f3dc85e0430,0x7f3dc85e5638,0x7f3dc85ea840,0x7f3dc85efa48,0x7f3dc85f4c50,0x7f3dc85f9e58,0x7f3dc85ff060,0x7f3dc8604268,0x7f3dc8609470,0x7f3dc860e678,0x7f3dc8613880,0x7f3dc8618a88,0x7f3dc861dc90,0x7f3dc8622e98,0x7f3dc862867c,0x7f3dc862d884,0x7f3dc8632a8c,0x7f3dc8637c94,0x7f3dc863ce9c,0x7f3dc86420a4,0x7f3dc86472ac,0x7f3dc86474a0,0,0,0,0,0,0,0,0,0,0,0,0,]
-**********************
-**********************
-Node's Disk address: 0x7f3dc8623280
-currentKeySize :18
-currentPointerSize :19
-node type :InternalNode
-max Key Size: 38
-keyArray: [385,1145,1525,1905,2285,2665,3045,3427,3811,4202,4595,5005,5429,5874,6356,6866,7419,7985,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc855ff74,0x7f3dc8565370,0x7f3dc856f780,0x7f3dc8574988,0x7f3dc8579b90,0x7f3dc857ed98,0x7f3dc8583fa0,0x7f3dc85891a8,0x7f3dc858e3b0,0x7f3dc85935b8,0x7f3dc85987c0,0x7f3dc859d9c8,0x7f3dc85a2bd0,0x7f3dc85a7dd8,0x7f3dc85acfe0,0x7f3dc85b21e8,0x7f3dc85b73f0,0x7f3dc85bc5f8,0x7f3dc85c1800,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-**********************
-Borrowing from right
-DONE REMOVING~~~~~~~~
-
 height of B+ Tree is: 4
 Content of Parent Node:
 **********************
-Node's Disk address: 0x7f3dc8623668
+Node's Disk address: 0x7fb8705fa668
 currentKeySize :1
 currentPointerSize :2
 node type :InternalNode
 max Key Size: 38
-keyArray: [8650,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc8623280,0x7f3dc8623474,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+keyArray: [9276,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+PointerArray: [0x7fb8705fa280,0x7fb8705fa474,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
 **********************
 Concent of Child Node:
 **********************
-Node's Disk address: 0x7f3dc8623280
+Node's Disk address: 0x7fb8705fa280
 currentKeySize :19
 currentPointerSize :20
 node type :InternalNode
 max Key Size: 38
-keyArray: [385,1145,1525,1905,2285,2665,3045,3427,3811,4202,4595,5005,5429,5874,6356,6866,7419,7985,9276,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
-PointerArray: [0x7f3dc855ff74,0x7f3dc8565370,0x7f3dc856f780,0x7f3dc8574988,0x7f3dc8579b90,0x7f3dc857ed98,0x7f3dc8583fa0,0x7f3dc85891a8,0x7f3dc858e3b0,0x7f3dc85935b8,0x7f3dc85987c0,0x7f3dc859d9c8,0x7f3dc85a2bd0,0x7f3dc85a7dd8,0x7f3dc85acfe0,0x7f3dc85b21e8,0x7f3dc85b73f0,0x7f3dc85bc5f8,0x7f3dc85c1800,0x7f3dc85c6a08,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+keyArray: [385,765,1126,1525,1905,2285,2665,3045,3427,3811,4202,4595,5005,5429,5874,6356,6866,7419,7985,9276,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
+PointerArray: [0x7fb870536f74,0x7fb87053c370,0x7fb870546780,0x7fb870546780,0x7fb87054b988,0x7fb870550b90,0x7fb870555d98,0x7fb87055afa0,0x7fb8705601a8,0x7fb8705653b0,0x7fb87056a5b8,0x7fb87056f7c0,0x7fb8705749c8,0x7fb870579bd0,0x7fb87057edd8,0x7fb870583fe0,0x7fb8705891e8,0x7fb87058e3f0,0x7fb8705935f8,0x7fb870598800,0x7fb87059da08,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
 **********************
-here: 0x7f3dc843ea8c
+here: 0x7fb870415a8c
 Deleting those movies with the attribute 'numVotes' equal to 1000-----------------------
 No. of times that a node is deleted (or two nodes are merged): 2
-No. of nodes in updated B+ Tree                              : 7
+No. of nodes in updated B+ Tree                              : 5
 Height of updated B+ tree                                    : 4
 
 
+--------------------------------------End--------------------------------------------------
