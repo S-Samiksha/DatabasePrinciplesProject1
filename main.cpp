@@ -221,7 +221,7 @@ int main()
     //   - the average of “averageRating’s” of the records that are returned;
     // // */
     std::cout << "-------------------------------------Experiment 4---------------------------------------------" << std::endl;
-    std::cout << "Resetting block access before carrying on with the experiement" << std::endl;
+    std::cout << "Resetting block access before carrying on with the experiment" << std::endl;
 
     std::cout << "Retrieving those movies with the attributes 'numVotes' from 30K to 40K" << std::endl;
     std::cout << std::endl;
