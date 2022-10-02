@@ -1,6 +1,6 @@
 #!/bin/bash
 
 g++ -o main include/*.cpp main.cpp 
-./main.exe 
+./main.exe
 
 exec bash

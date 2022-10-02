@@ -1,9 +1,9 @@
 CZ4031 Database Principles Project 1
 
-(PLEASE USE THE MASTER BRANCH)
+(PLEASE USE THE Main BRANCH)
 
-Team A: Charles, Alphaeus, Kevin (Experiment 1 and 2 try getting it to work)
-Team B: Sam, Pheng Kai (Experiment 3(sort of done) and 4 and 5)
+Team A: Charles, Alphaeus, Kevin (Experiment 1 and 2 and 3)
+Team B: Sam, Pheng Kai (Experiment 3 and 4 and 5)
 
 Documentation
 
